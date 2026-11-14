@@ -137,6 +137,20 @@ const FACILITY_TRENDS: FacilityFlightTrend[] = [
     csmActionRequired: 'Capture testimonial for Nadia Rahman and the group insurer.',
     lastMissionDate: 'Today, 04:15 AM',
     contactPerson: 'Stefan Roy'
+  },
+  {
+    id: 'kestrel_north_gate',
+    facilityName: 'Kestrel Estates (North Gate Dock - Account K)',
+    account: 'K',
+    assignedDocks: 1,
+    last7DaysSorties: 0,
+    prev7DaysSorties: 0,
+    velocityPct: -100.0,
+    status: 'critical_halt',
+    detectedReason: 'Surprise account drop! Dock is installed with power & network, but 0 sorties flown. Installer disappeared, no certified pilot on site, and property insurance undeclared.',
+    csmActionRequired: 'Immediate field engineering flight commissioning and enrollment of 2 estate staff in certified pilot course ($4,000) before first Monday board vote.',
+    lastMissionDate: 'Zero sorties recorded (Awaiting Go-Live)',
+    contactPerson: 'Dana Whitfield (Estate Manager) / Graham Okafor'
   }
 ];
 

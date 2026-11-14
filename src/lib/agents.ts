@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Autonomous AI Agent Engine for FlytBase CSM
  * Implements agentic workflows: Telemetry Watchdog, Stakeholder Liaison, and Revenue Expansion.
  */
@@ -77,6 +77,26 @@ export class AutonomousCSMAgentNetwork {
       }
     }
 
+    // Account K: Surprise Drop - 1 Dock Paid, 0 Flying
+    if (account.id === 'K') {
+      insights.push({
+        agentName: 'Watchdog-Telemetry-Agent',
+        role: 'Fleet IoT & Commissioning Diagnostics',
+        accountId: 'K',
+        type: 'urgent_intervention',
+        headline: 'Commissioning Stall: 1 Dock Paid & Installed with Zero Flights (Installer Missing)',
+        reasoning: 'Kestrel Estates paid $14,000 for a North Gate DiaB unit. Telemetry confirms electrical power and ethernet connectivity are nominal, but zero test flights or autonomous missions were ever conducted. The third-party installer abandoned the site without conducting certification flights.',
+        evidenceCited: ['k_not_commissioned_tbw', 'k_installer_gone_tbw', 'K_install_note_tbw'],
+        autonomousProposal: {
+          actionTitle: 'Field Engineering Commissioning & Test Flight Standby',
+          targetStakeholder: 'Dana Whitfield (Estate Manager)',
+          deadline: 'Immediate (Within 48 Hours)',
+          draftContent: `Dana, FlytBase engineering has initiated a remote systems audit on your North Gate dock. Power and network connectivity are 100% nominal. We are dispatching a certified field technician to perform the mandatory initial test flight and hand over live flight controls.`,
+        },
+        confidence: 96,
+      });
+    }
+
     return insights;
   }
 
@@ -129,6 +149,25 @@ export class AutonomousCSMAgentNetwork {
       });
     }
 
+    if (account.id === 'K') {
+      insights.push({
+        agentName: 'Stakeholder-Dynamics-Agent',
+        role: 'Residents Board & Insurance Compliance Liaison',
+        accountId: 'K',
+        type: 'churn_risk',
+        headline: 'Residents Board Threatens Defunding over Idle Equipment & Insurance Lapse',
+        reasoning: 'Graham Okafor (Residents Board Chair) reported resident backlash over paying for an idle drone that never flies. Concurrently, insurance broker Lucy Pratt confirmed property insurance requires an unmanned aerial equipment rider before flight. Flying without declaration voids coverage; failing to fly risks budget cancellation at Monday board meeting.',
+        evidenceCited: ['k_board_doubts_tbw', 'k_insurer_not_told_tbw', 'K_insurance_schedule_tbw'],
+        autonomousProposal: {
+          actionTitle: 'Board Presentation Packet & Insurance Declaration Rider',
+          targetStakeholder: 'Graham Okafor (Board Chair) & Lucy Pratt (Broker)',
+          deadline: 'Before First Monday Board Vote',
+          draftContent: `Graham and Dana, we have compiled the North Gate Security Flight Schedule demonstrating perimeter intrusion reduction for Monday's residents board meeting, along with the completed CAA Aerial Equipment Insurance Rider for Lucy Pratt.`,
+        },
+        confidence: 95,
+      });
+    }
+
     return insights;
   }
 
@@ -153,6 +192,25 @@ export class AutonomousCSMAgentNetwork {
           targetStakeholder: 'Hannah Doyle (Alliance Procurement Lead)',
           deadline: 'Day 8 (Prior to Spec Lock)',
           draftContent: `Hannah, in review of the upcoming 300-dock framework, FlytBase has structured a centralized remote operations model allowing 1 remote pilot in command to supervise up to 10 automated docks, cutting projected alliance staffing costs by 65% compared to conventional manual deployments.`,
+        },
+        confidence: 91,
+      });
+    }
+
+    if (account.id === 'K') {
+      insights.push({
+        agentName: 'Expansion-Synthesis-Agent',
+        role: 'Services Monetization & South Gate Expansion Lead',
+        accountId: 'K',
+        type: 'expansion_opportunity',
+        headline: 'Pilot Training Package ($4k) + South Gate Dock Expansion ($14k)',
+        reasoning: 'Dana Whitfield assumed the system flew autonomously without certified operators. Enrolling 2 estate grounds staff in FlytBase Academy pilot training unlocks immediate legal operation ($4,000 ARR). Once North Gate night patrols prove successful, Dana is eager to deploy a matching South Gate unit ($14,000 ARR).',
+        evidenceCited: ['k_no_pilot_tbw', 'k_south_wish_tbw', 'k_training_tbw'],
+        autonomousProposal: {
+          actionTitle: 'Academy Pilot Certification & South Gate Site Survey Proposal',
+          targetStakeholder: 'Dana Whitfield & Graham Okafor',
+          deadline: 'Day 5',
+          draftContent: `Dana, we have reserved two seats for your grounds team in our Certified DiaB Remote Pilot course ($4,000), which satisfies CAA requirements. We have also drafted a complimentary RF line-of-sight assessment for the South Entrance expansion.`,
         },
         confidence: 91,
       });

@@ -98,6 +98,17 @@ export const Header: React.FC<HeaderProps> = ({
           >
             Aldermoor (14 Docks)
           </button>
+          <button
+            onClick={() => onSelectAccount('K')}
+            className={`px-3 py-1 rounded-md transition text-xs font-medium flex items-center gap-1.5 ${
+              selectedAccount === 'K'
+                ? isDark ? 'bg-white text-black font-semibold' : 'bg-white text-black font-semibold shadow-sm'
+                : isDark ? 'text-amber-400 hover:text-white' : 'text-amber-800 hover:text-black'
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+            <span className="font-bold">Kestrel Estates (Live Drop!)</span>
+          </button>
         </div>
 
         {/* Right Actions */}

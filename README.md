@@ -7,7 +7,7 @@
 [![Vercel Ready](https://img.shields.io/badge/Deployment-Vercel%20Zero--Config-black?style=for-the-badge&logo=vercel)](https://vercel.com/)
 [![Data Grounding](https://img.shields.io/badge/MCP-100%25%20Live%20Grounding-emerald?style=for-the-badge)](https://modelcontextprotocol.io/)
 
-> **Questathon 2026: Account Quest** — 30 In-Game Days, Two Enterprise Accounts, $588,000 Guaranteed ARR Under Management.
+> **Questathon 2026: Account Quest** — 30 In-Game Days, Three Enterprise Accounts (**Eastern Counties Police**, **Aldermoor Industrial**, and Surprise Live Drop **Kestrel Estates**), $602,000 Guaranteed ARR Under Management.
 > Purpose-built for Customer Success Managers (CSMs) and Executive Leadership overseeing autonomous **Drone-in-a-Box (DiaB)** operations.
 
 ---
@@ -16,13 +16,14 @@
 
 In enterprise drone operations, customer success is not merely answering support tickets—it is **protecting recurring revenue, defending operational credibility, and proving clear economic ROI**. 
 
-When an industrial customer considers churn, they don't submit an angry cancellation form: **they quietly stop flying drones**. When an enterprise champion departs, the procurement department freezes expansion tenders. 
+When an industrial customer considers churn, they don't submit an angry cancellation form: **they quietly stop flying drones**. When an enterprise champion departs, the procurement department freezes expansion tenders. And when a surprise residential client drops in with an idle dock and missing installer, the CSM must intervene before residents revolt at the monthly board meeting.
 
 The **FlytBase CSM Command Center** gives Customer Success Managers a unified, high-contrast operational cockpit that fuses:
-1. **Live MCP Protocol Data** from upstream simulated enterprise deployments.
+1. **Live MCP Protocol Data** from upstream simulated enterprise deployments across Accounts A, B, and K.
 2. **Autonomous AI Swarm Agents** that monitor fleet telemetry, predict churn, and draft tactical outreach.
-3. **Audit-Grade Financial Receipts** ($588,000 signed ARR backed by legal PO numbers and contract clauses).
-4. **Hardware vs. Relationship Separation of Concerns**: Clear boundary between what the CSM solves (commercial trust, client doubt, competitor alternatives) vs. what the Solution Engineer solves (battery degradation, dock roof motor resistance, RTK satellite acquisition).
+3. **Live Twilio Voice Call & Zero-Key WhatsApp Gateway**: Real outbound phone calls and instant WhatsApp click-to-chat links without API keys!
+4. **Audit-Grade Financial Receipts** ($588,000 baseline ARR + $14,000 Kestrel Estates backed by legal PO numbers and contract specifications).
+5. **Hardware vs. Relationship Separation of Concerns**: Clear boundary between what the CSM solves (commercial trust, client doubt, competitor alternatives) vs. what the Solution Engineer solves (battery degradation, dock roof motor resistance, RTK satellite acquisition).
 
 ---
 
@@ -199,29 +200,29 @@ To connect external live services, provide the following credentials in `.env.lo
   3. Click **"Get API key"** -> **"Create API key in new project"**.
   4. Paste into `.env.local`: `GEMINI_API_KEY=your_key_here`.
 
-### 2. WhatsApp Business API / Twilio (Customer Check-in Agent)
-- **Environment Variables:** `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_WHATSAPP_NUMBER`
-- **Purpose:** Sends proactive WhatsApp check-in messages to officers and facility managers.
-- **How to Get It:**
-  1. Sign up at [Twilio](https://www.twilio.com/) or Meta for Developers.
-  2. Navigate to **Messaging** -> **Try WhatsApp** in the Twilio Console.
-  3. Activate your WhatsApp Sandbox or link your approved Meta Business Manager WhatsApp number.
-  4. Copy Account SID and Auth Token to `.env.local`.
+### 2. Live Twilio Voice Call & SMS Gateway (Integrated & Active)
+- **Environment Variables:**
+  ```env
+  TWILIO_ACCOUNT_SID=ACad2febb745cbcbc6d3c2bedec1a67fea
+  TWILIO_AUTH_TOKEN=394c12b633dd6b92e6dafd05aa7e915a
+  TWILIO_FROM_PHONE=+17372508034
+  TWILIO_TO_PHONE=+919881898129
+  ```
+- **Capability:** Dispatches real outbound telephone calls via `/api/twilio/call` using Twilio's REST API and connects directly to `+919881898129` from `+17372508034`.
+- **Verified Status:** Twilio Account Status `active` (SID: `ACad2febb745cbcbc6d3c2bedec1a67fea`).
 
-### 3. FlytCloud Telemetry API (Live Drone Fleet Feeds)
+### 3. Zero-Key Testing: Universal WhatsApp Click-to-Chat (wa.me)
+- **No API Key Required!**
+- The platform generates direct universal WhatsApp links (`https://wa.me/919881898129?text=...`) for instant evaluation testing.
+- Click **"Open in WhatsApp (Zero-Key Test)"** inside the Customer Check-in Agent to instantly launch a pre-drafted check-in message on WhatsApp Web or mobile without configuring Meta Developer accounts or sandbox approvals!
+
+### 4. FlytCloud Telemetry API (Live Drone Fleet Feeds)
 - **Environment Variables:** `FLYTCLOUD_API_ENDPOINT`, `FLYTCLOUD_API_KEY`
 - **Purpose:** Streams live battery thermals, RTK satellite count, and dock canopy status directly into the Solution Engineering watchdog.
-- **How to Get It:**
-  1. Log into your [FlytBase FlytCloud Dashboard](https://flytbase.com/).
-  2. Go to **Settings** -> **Developer APIs** -> **Create API Key**.
-  3. Set permissions to `telemetry:read`, `docks:read`, `missions:read`.
 
-### 4. Tomorrow.io / OpenWeather API (Weather & Micro-Climate Guard)
+### 5. Tomorrow.io / OpenWeather API (Weather & Micro-Climate Guard)
 - **Environment Variable:** `WEATHER_API_KEY`
 - **Purpose:** Automatically correlates sortie drop-offs with adverse weather (e.g. gusts >12 m/s or sub-zero icing) to prevent false churn warnings.
-- **How to Get It:**
-  1. Sign up at [Tomorrow.io Weather API](https://www.tomorrow.io/weather-api/).
-  2. Generate a free API key from the developer console.
 
 ---
 
@@ -244,10 +245,14 @@ git push origin main
 
 ### Step 3: Configure Environment Variables in Vercel
 In the **Environment Variables** panel, add:
-- `AQ_TOKEN` = `your_questathon_token`
+- `AQ_TOKEN` = `aq1.e3cb46a1-70ed-4e53-9f97-04fc4aa2d0c9.xP3saziBrRyaJFPD3KGWNvhE20SSLTTV`
 - `MCP_URL` = `https://questathon.aihackerscollective.com/api/public/mcp`
 - `API_URL` = `https://questathon.aihackerscollective.com/api/public/v1`
-- `GEMINI_API_KEY` = `your_gemini_api_key`
+- `GEMINI_API_KEY` = `AQ.Ab8RN6KdWFJ7dtmijKiAj2zKuB_yYa_8KTScMsKCk7k21TW2IQ`
+- `TWILIO_ACCOUNT_SID` = `ACad2febb745cbcbc6d3c2bedec1a67fea`
+- `TWILIO_AUTH_TOKEN` = `394c12b633dd6b92e6dafd05aa7e915a`
+- `TWILIO_FROM_PHONE` = `+17372508034`
+- `TWILIO_TO_PHONE` = `+919881898129`
 
 ### Step 4: Click "Deploy"
 Vercel will build the project in ~45 seconds. Any subsequent commit pushed to `main` via `git push` will automatically trigger a production re-deployment.

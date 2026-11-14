@@ -402,9 +402,229 @@ export const initialCRMData: CRMStoreData = {
           keyTakeaways: ['14 installed units across 15 plants', '3 docks silent between 2-29 Nov', 'High night-time utility at Plant 7']
         }
       ]
+    },
+    K: {
+      id: 'K',
+      name: 'Kestrel Estates (Surprise Account Drop)',
+      badge: 'Residential Community & Private Asset Security',
+      business: 'Private gated residential estate with 1 autonomous drone dock installed at north entrance, currently 0 flying. Waiting on go-live.',
+      sold: '1 FlytBase DiaB North Entrance Unit paid & installed.',
+      whyItMatters: 'Surprise account drop! 1 paid dock that has never flown because the installer vanished, no certified pilot is on site, and property insurance has not been notified. Residents board meeting is on the first Monday!',
+      handoverNote: "Handover context: Dana Whitfield is excited but assumed the system flies itself without a certified pilot. The local installer vanished and will not answer calls. Insurer Lucy Pratt warns the dock is undeclared. Graham Okafor (Residents Board) doubts why they paid for an idle drone.",
+      contractValue: 14000,
+      expansionPotential: 28000,
+      healthScore: 35,
+      people: [
+        {
+          id: 'k_dana_tbw',
+          name: 'Dana Whitfield',
+          role: 'Estate Manager (Operational Champion)',
+          account: 'K',
+          band: 'warm',
+          trustScore: 65,
+          about: 'Excited about drone security. Wants night patrols of the two estate entrances. Assumed system was fully autonomous without a pilot on site.',
+          isChampion: true,
+          isUser: true,
+          keyConcerns: 'Installer disappeared after testing power/network; no flight commissioning done; needs certified operators.'
+        },
+        {
+          id: 'k_graham_tbw',
+          name: 'Graham Okafor',
+          role: 'Chair, Residents Board (Economic Buyer & Gatekeeper)',
+          account: 'K',
+          band: 'neutral',
+          trustScore: 45,
+          about: 'Controls budget votes. Any spend beyond original purchase needs a vote of the residents board (first Monday of each month). Notes residents doubt why they paid for an idle drone.',
+          isPayer: true,
+          isDecisionMaker: true,
+          isBlocker: true,
+          keyConcerns: 'Demands proof of flight utility before authorizing security budget renewal.'
+        },
+        {
+          id: 'k_lucy_tbw',
+          name: 'Lucy Pratt',
+          role: 'Property Insurance Broker (Compliance Blocker)',
+          account: 'K',
+          band: 'neutral',
+          trustScore: 50,
+          about: 'Property insurance policy requires new aerial equipment to be declared before flight operations. Dock is currently undeclared.',
+          isBlocker: true,
+          keyConcerns: 'Flying without declaration voids property and liability coverage.'
+        }
+      ],
+      deals: [
+        {
+          id: 'k_golive_tbw',
+          title: 'North Entrance Dock Night Patrol Go-Live & Commissioning',
+          account: 'K',
+          stage: 'qualified',
+          value: 14000,
+          verifiedValue: 14000,
+          isVerified: true,
+          confidenceScore: 70,
+          citations: ['K_install_note_tbw', 'K_insurance_schedule_tbw', 'k_not_commissioned_tbw'],
+          deciderId: 'k_graham_tbw',
+          payerId: 'k_graham_tbw',
+          blockerId: 'k_lucy_tbw',
+          blockerReason: 'Nobody can fly it: no certified pilot, never commissioned, and insurer has not been told.',
+          unlockCondition: 'Submit insurance declaration rider and schedule pilot training course.',
+          targetDate: 'Before First Monday Board Vote',
+          renewalWindowEnd: 'First Monday Meeting'
+        },
+        {
+          id: 'k_training_tbw',
+          title: 'Pilot Certification Course for Two Estate Staff',
+          account: 'K',
+          stage: 'identified',
+          value: 4000,
+          verifiedValue: 4000,
+          isVerified: true,
+          confidenceScore: 85,
+          citations: ['k_no_pilot_tbw', 'k_training_tbw'],
+          deciderId: 'k_dana_tbw',
+          payerId: 'k_graham_tbw',
+          blockerId: 'k_graham_tbw',
+          blockerReason: 'Requires board approval for professional services add-on.',
+          unlockCondition: 'Package training into overall go-live certification packet.',
+          targetDate: 'Day 5'
+        },
+        {
+          id: 'k_south_tbw',
+          title: 'Second DiaB Dock for South Entrance Night Patrol',
+          account: 'K',
+          stage: 'identified',
+          value: 14000,
+          verifiedValue: 0,
+          isVerified: false,
+          confidenceScore: 30,
+          citations: ['k_south_wish_tbw', 'k_south_unassessed_tbw'],
+          deciderId: 'k_graham_tbw',
+          payerId: 'k_graham_tbw',
+          blockerId: 'k_dana_tbw',
+          blockerReason: 'South entrance was raised at install but never assessed for RF coverage or line-of-sight.',
+          unlockCondition: 'Complete North Gate go-live successfully and conduct South Gate RF survey.',
+          targetDate: 'Post Go-Live'
+        }
+      ],
+      actions: [
+        {
+          id: 'act_k_1',
+          rank: 1,
+          title: 'Deliver North Entrance Go-Live Plan & Insurance Declaration to Dana Whitfield & Lucy Pratt',
+          account: 'K',
+          dealId: 'k_golive_tbw',
+          owner: 'CSM (You) + Compliance Lead',
+          deadline: 'Immediate (Before Board Vote)',
+          businessReason: 'Residents board meets on the first Monday to vote on security budget. If dock is still idle and uninsured, residents will vote to cancel.',
+          expectedOutcome: 'Insurance rider issued by Lucy Pratt; go-live roadmap presented to Dana Whitfield.',
+          evidenceNeeded: ['K_insurance_schedule_tbw', 'k_insurer_not_told_tbw'],
+          status: 'pending'
+        },
+        {
+          id: 'act_k_2',
+          rank: 2,
+          title: 'Enroll 2 Estate Staff in FlytBase Certified Drone Pilot Training Course ($4,000)',
+          account: 'K',
+          dealId: 'k_training_tbw',
+          owner: 'CSM (You) + Training Academy Lead',
+          deadline: 'Day 5',
+          businessReason: 'No estate employee holds a pilot certificate. Dana assumed the system flew autonomously without certified operators.',
+          expectedOutcome: 'Two estate personnel certified to legally operate the drone in accordance with CAA regulations.',
+          evidenceNeeded: ['k_no_pilot_tbw', 'k_training_tbw'],
+          status: 'pending'
+        },
+        {
+          id: 'act_k_3',
+          rank: 3,
+          title: 'Present Night Entrance Patrol ROI to Graham Okafor & Residents Board',
+          account: 'K',
+          dealId: 'k_golive_tbw',
+          owner: 'CSM (You)',
+          deadline: 'First Monday Meeting',
+          businessReason: 'Graham warned that residents already complain about paying for an idle drone. Need to demonstrate entrance intrusion prevention.',
+          expectedOutcome: 'Residents board votes to renew security funding and clears path for South Gate dock expansion.',
+          evidenceNeeded: ['k_board_doubts_tbw', 'k_board_pays_tbw'],
+          status: 'pending'
+        }
+      ],
+      risks: [
+        {
+          id: 'risk_k_1',
+          title: 'Residents Board Budget Rejection for Idle Drone',
+          account: 'K',
+          severity: 'critical',
+          category: 'contract_stalemate',
+          deadlineDate: 'First Monday Board Meeting',
+          daysRemaining: 7,
+          consequence: 'Residents vote to defund security drone program and demand refund for un-commissioned dock.',
+          mitigationPlan: 'Present immediate night patrol go-live schedule and pilot certification confirmation at board meeting.',
+          owner: 'CSM (You)'
+        },
+        {
+          id: 'risk_k_2',
+          title: 'Uninsured Aerial Operations Compliance Breach',
+          account: 'K',
+          severity: 'critical',
+          category: 'technical_blocker',
+          deadlineDate: 'Before First Sortie',
+          daysRemaining: 3,
+          consequence: 'Flying drone without notifying insurer voids estate property insurance and violates FlytBase operating terms.',
+          mitigationPlan: 'File formal aerial equipment declaration with Lucy Pratt before test flight.',
+          owner: 'Compliance Lead'
+        }
+      ],
+      blindSpots: [
+        {
+          id: 'blind_k_1',
+          account: 'K',
+          question: 'Why did the local installer leave without conducting a test flight or commissioning the dock?',
+          whyItMatters: 'Could indicate unrecorded electrical or network faults at the North Gate installation.',
+          whoCouldAnswer: 'Dana Whitfield (Estate Manager) or Installer Handover Note (K_install_note_tbw)',
+          potentialImpact: 'Hidden hardware failure could delay go-live past board meeting.',
+          suggestedAsk: 'Review installer note K_install_note_tbw and dispatch certified FlytBase field engineer for inspection.'
+        },
+        {
+          id: 'blind_k_2',
+          account: 'K',
+          question: 'What specific security incidents happened at the North and South entrances that motivated the purchase?',
+          whyItMatters: 'Dana wants entrance night patrols; aligning flight paths directly to past intrusion points ensures resident approval.',
+          whoCouldAnswer: 'Dana Whitfield or Graham Okafor',
+          potentialImpact: 'Ensures drone patrol missions solve the residents exact security pain point.',
+          suggestedAsk: 'Ask Dana for incident log of unauthorized vehicle entries at north gate over past 6 months.'
+        }
+      ],
+      paperwork: [
+        {
+          id: 'K_install_note_tbw',
+          account: 'K',
+          title: 'Installer Handover & Commissioning Note (North Entrance)',
+          path: 'drops/K/files/K_install_note_tbw',
+          type: 'Installation Report',
+          summary: 'Confirms electrical power and ethernet network tested at north gate. Test flight deferred due to absence of certified pilot on site. South gate identified but unassessed.',
+          keyTakeaways: ['Power and network nominal at north gate', 'No test flight conducted (no pilot on site)', 'Installer departed without completing commissioning', 'South gate unassessed']
+        },
+        {
+          id: 'K_insurance_schedule_tbw',
+          account: 'K',
+          title: 'Property Insurance Policy Schedule (Aerial Equipment Rider)',
+          path: 'drops/K/files/K_insurance_schedule_tbw',
+          type: 'Insurance Policy Rider',
+          summary: 'Extract of commercial property policy. Explicitly mandates formal declaration of any unmanned aerial systems prior to flight operations.',
+          keyTakeaways: ['Mandatory aerial equipment rider requirement', 'Dock is currently undeclared', 'Failure to declare voids third-party liability coverage']
+        }
+      ]
     }
   },
   signals: [
+    {
+      id: 'kestrel_drop',
+      account: 'K',
+      dated: '2026-11-14',
+      title: 'Kestrel Estates: Surprise Account Drop - 1 Dock Paid, 0 Flying',
+      summary: 'Surprise account assigned! 1 North Entrance dock installed and paid ($14,000), but 0 flights logged. Installer vanished, no certified pilot on site, and property insurance has not been notified. Residents board meeting is on the first Monday.',
+      impactLevel: 'high',
+      read: false
+    },
     {
       id: 'champion_leaves',
       account: 'A',

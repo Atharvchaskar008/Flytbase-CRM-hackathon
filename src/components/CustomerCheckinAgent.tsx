@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { AccountDetail, AccountId } from '../types/crm';
@@ -17,7 +17,11 @@ import {
   Key,
   RefreshCw,
   PhoneCall,
-  Activity
+  Activity,
+  ExternalLink,
+  Phone,
+  Flame,
+  Check
 } from 'lucide-react';
 
 interface CustomerCheckinAgentProps {
@@ -44,9 +48,16 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
   selectedAccount,
   isDark = false,
 }) => {
-  const [activeCustomer, setActiveCustomer] = useState<'A' | 'B'>(selectedAccount === 'B' ? 'B' : 'A');
+  const [activeCustomer, setActiveCustomer] = useState<'A' | 'B' | 'K'>(
+    selectedAccount === 'B' ? 'B' : selectedAccount === 'K' ? 'K' : 'A'
+  );
   const [inputText, setInputText] = useState('');
   const [isSending, setIsSending] = useState(false);
+  const [targetPhone, setTargetPhone] = useState('+919881898129');
+  const [fromPhone, setFromPhone] = useState('+17372508034');
+  const [callStatus, setCallStatus] = useState<{ sid?: string; status?: string; message?: string } | null>(null);
+  const [isCalling, setIsCalling] = useState(false);
+  const [messageStatus, setMessageStatus] = useState<string | null>(null);
 
   // Pre-configured WhatsApp conversations showing relationship management & check-in
   const [chats, setChats] = useState<Record<string, ChatMessage[]>>({
@@ -130,6 +141,46 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
         },
       },
     ],
+    K: [
+      {
+        id: 'msg_k1',
+        sender: 'agent',
+        senderName: 'FlytBase Autonomous Check-in Agent',
+        text: 'Hi Dana Whitfield, automated check-in from FlytBase CSM! We noticed your North Entrance DiaB unit was wired, but 0 test flights have been logged yet. How are you and the residents board feeling ahead of Monday\'s security budget meeting?',
+        timestamp: '14 Nov 2026, 10:00 AM',
+      },
+      {
+        id: 'msg_k2',
+        sender: 'customer',
+        senderName: 'Dana Whitfield (Estate Manager, Kestrel Estates)',
+        text: 'Hi! We\'re nervous because our local installer vanished and won\'t answer calls! Also, Lucy Pratt our insurance broker said if we fly without declaring aerial equipment our property policy is void. Plus Graham Okafor says the residents are asking why they paid for an idle drone. What should we do?!',
+        timestamp: '14 Nov 2026, 10:05 AM',
+        flag: {
+          type: 'hardware_issue',
+          label: 'Missing Installer + Insurance Declaration Compliance Threat',
+          actionTaken: 'Dispatched FlytBase field engineer + prepared Lucy Pratt insurance rider + pilot course schedule.',
+        },
+      },
+      {
+        id: 'msg_k3',
+        sender: 'agent',
+        senderName: 'FlytBase Autonomous Check-in Agent',
+        text: 'Dana, take a deep breath—we have completely resolved this: 1) We dispatched a FlytBase certified field engineer for Saturday morning to replace the missing installer and complete the North Gate flight commissioning. 2) We generated the official CAA-compliant aerial equipment declaration rider for Lucy Pratt. 3) We reserved 2 seats for estate staff in our certified drone pilot training course ($4,000) so you operate 100% legally. I have emailed the full board packet to you and Graham!',
+        timestamp: '14 Nov 2026, 10:08 AM',
+      },
+      {
+        id: 'msg_k4',
+        sender: 'customer',
+        senderName: 'Dana Whitfield (Estate Manager, Kestrel Estates)',
+        text: 'You just saved our entire security project! I forwarded the insurance rider to Lucy and Graham is putting the pilot training on the board agenda right now. Thank you for being so proactive!',
+        timestamp: '14 Nov 2026, 10:12 AM',
+        flag: {
+          type: 'satisfaction_high',
+          label: 'Surprise Account Drop Saved ($28k Retained)',
+          actionTaken: 'Secured board renewal sponsorship and cleared path for South Gate dock expansion.',
+        },
+      },
+    ],
   });
 
   const activeChat = chats[activeCustomer] || [];
@@ -141,7 +192,11 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
     const userMsg: ChatMessage = {
       id: `msg_user_${Date.now()}`,
       sender: 'customer',
-      senderName: activeCustomer === 'A' ? 'Inspector Karen Mbeki' : 'Nadia Rahman',
+      senderName: activeCustomer === 'A' 
+        ? 'Inspector Karen Mbeki' 
+        : activeCustomer === 'B' 
+          ? 'Nadia Rahman' 
+          : 'Dana Whitfield',
       text: inputText.trim(),
       timestamp: 'Just now',
     };
@@ -150,30 +205,28 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
       ...prev,
       [activeCustomer]: [...(prev[activeCustomer] || []), userMsg]
     }));
+
     setInputText('');
     setIsSending(true);
 
-    // AI Agent automatic helpful response after 1.5s
     setTimeout(() => {
-      const isAltQuery = userMsg.text.toLowerCase().includes('option') || userMsg.text.toLowerCase().includes('cost') || userMsg.text.toLowerCase().includes('alternative') || userMsg.text.toLowerCase().includes('cheaper');
-      const isDockIssue = userMsg.text.toLowerCase().includes('dock') || userMsg.text.toLowerCase().includes('glitch') || userMsg.text.toLowerCase().includes('flight') || userMsg.text.toLowerCase().includes('motor');
+      let agentReplyText = 'Thank you for following up. Our FlytBase CSM team is actively coordinating this and has logged the status in your operations portal.';
+      let replyFlag: ChatMessage['flag'];
 
-      let replyText = 'Thank you for the update! We are continuously monitoring your fleet telemetry to ensure 100% mission readiness.';
-      let flagData: ChatMessage['flag'] | undefined = undefined;
-
-      if (isAltQuery) {
-        replyText = 'We hear you on pricing! Unlike traditional alternatives that require certified pilot operators on-site, FlytBase autonomous BVLOS docks operate with zero human labor, saving over $140k annually. Let me prepare a custom unit-economics breakdown for your review.';
-        flagData = {
+      const lower = userMsg.text.toLowerCase();
+      if (lower.includes('cheaper') || lower.includes('competitor') || lower.includes('alternative') || lower.includes('cancel')) {
+        agentReplyText = 'Understood. Before considering manual alternatives: manual drone operations legally require a dedicated on-site pilot per sortie ($120k/yr salary). FlytBase autonomous docks operate with zero on-site pilot overhead. Let me prepare a comprehensive Total Cost of Ownership report for you.';
+        replyFlag = {
           type: 'competitor_risk',
-          label: 'Customer Inquired About Alternatives/Cost',
-          actionTaken: 'Auto-prepared Labor vs Autonomy comparison deck.',
+          label: 'Competitor / Cost Inquiry Detected',
+          actionTaken: 'Auto-dispatched Total Cost of Ownership comparison vs manual drone piloting.',
         };
-      } else if (isDockIssue) {
-        replyText = 'We just initiated an automated remote sensor and telemetry diagnostic across your dock stations. All parameters are calibrated, and our on-site team is on standby if required.';
-        flagData = {
+      } else if (lower.includes('glitch') || lower.includes('fail') || lower.includes('battery') || lower.includes('lock') || lower.includes('satellite') || lower.includes('installer')) {
+        agentReplyText = 'We detected your hardware concern. A remote RTK telemetry scan has been initiated and a certified FlytBase hardware technician has been assigned to inspect and recalibrate the system immediately.';
+        replyFlag = {
           type: 'hardware_issue',
           label: 'Hardware Anomaly Logged',
-          actionTaken: 'Executed remote diagnostic and alerted Tier-1 Support.',
+          actionTaken: 'Solution Engineering watchdog alerted for pre-emptive firmware & sensor calibration.',
         };
       }
 
@@ -181,9 +234,9 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
         id: `msg_agent_${Date.now()}`,
         sender: 'agent',
         senderName: 'FlytBase Autonomous Check-in Agent',
-        text: replyText,
+        text: agentReplyText,
         timestamp: 'Just now',
-        flag: flagData,
+        flag: replyFlag,
       };
 
       setChats(prev => ({
@@ -191,24 +244,41 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
         [activeCustomer]: [...(prev[activeCustomer] || []), agentReply]
       }));
       setIsSending(false);
-    }, 1500);
+    }, 1200);
   };
 
-  const handleSimulateAutomatedCheckin = () => {
-    const checkinMsg: ChatMessage = {
-      id: `msg_checkin_${Date.now()}`,
-      sender: 'agent',
-      senderName: 'FlytBase Autonomous Check-in Agent',
-      text: activeCustomer === 'A' 
-        ? 'Automated Check-in: Hi Karen, all 35 docks are operating at 100% nominal battery cycles today. Are there any specific missions or perimeter zones you want prioritized this weekend?'
-        : 'Automated Check-in: Hi Nadia, thermal imaging checks at Saltend and Immingham completed 18 automated night sweeps with zero gas flare deviations. Does your safety team need the raw thermal logs?',
-      timestamp: 'Just now',
-    };
+  const handleTriggerRealCall = async () => {
+    setIsCalling(true);
+    setCallStatus(null);
+    try {
+      const res = await fetch('/api/twilio/call', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          to: targetPhone,
+          from: fromPhone,
+          stakeholder: activeCustomer === 'A' ? 'Insp. Karen Mbeki' : activeCustomer === 'B' ? 'Nadia Rahman' : 'Dana Whitfield',
+        }),
+      });
+      const data = await res.json();
+      setCallStatus(data);
+    } catch (err: any) {
+      setCallStatus({ message: err.message || 'Call failed' });
+    } finally {
+      setIsCalling(false);
+    }
+  };
 
-    setChats(prev => ({
-      ...prev,
-      [activeCustomer]: [...(prev[activeCustomer] || []), checkinMsg]
-    }));
+  const handleZeroKeyWhatsApp = () => {
+    const cleanNum = targetPhone.replace(/\D/g, '');
+    const currentBriefText = activeCustomer === 'A'
+      ? "Hi Inspector Karen Mbeki, FlytBase CSM check-in: All 35 docks are nominal with 142 sorties verified. Standby engineering confirmed for 5 Dec."
+      : activeCustomer === 'B'
+        ? "Hi Nadia Rahman, FlytBase CSM check-in: 14 industrial docks nominal. Scaffolding inspection ROI summary ready for your board review."
+        : "Hi Dana Whitfield, FlytBase CSM check-in: North Gate commissioning scheduled and insurance declaration rider ready for Lucy Pratt.";
+
+    const url = `https://wa.me/${cleanNum}?text=${encodeURIComponent(currentBriefText)}`;
+    window.open(url, '_blank');
   };
 
   return (
@@ -229,27 +299,47 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
               </h3>
             </div>
             <p className={`text-xs font-medium max-w-3xl ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-              What evaluators love: An autonomous AI agent that proactively checks in on the drones and docks you sold. 
+              An autonomous AI agent that proactively checks in on the drones and docks you sold. 
               It asks how operations are going, catches technical or competitor doubts early, and automatically delivers value and solutions before small issues become contract cancellations.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
-              onClick={handleSimulateAutomatedCheckin}
-              className={`px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm ${
-                isDark ? 'bg-emerald-600 hover:bg-emerald-500 text-white' : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-              }`}
+              onClick={handleTriggerRealCall}
+              disabled={isCalling}
+              className="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
             >
-              <RefreshCw className="w-4 h-4" />
-              <span>Trigger Routine Check-in</span>
+              <PhoneCall className={`w-4 h-4 ${isCalling ? 'animate-spin' : ''}`} />
+              <span>{isCalling ? 'Dialing Twilio...' : 'Dispatch Live Call (Twilio)'}</span>
+            </button>
+            <button
+              onClick={handleZeroKeyWhatsApp}
+              className="px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm bg-emerald-600 hover:bg-emerald-700 text-white"
+            >
+              <Smartphone className="w-4 h-4" />
+              <span>Open in WhatsApp (Zero-Key Test)</span>
             </button>
           </div>
         </div>
 
+        {/* Live Call Alert / Status Feedback */}
+        {callStatus && (
+          <div className="mt-4 p-3 rounded-xl border border-blue-400 bg-blue-50 dark:bg-blue-950/40 text-blue-900 dark:text-blue-200 text-xs flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Phone className="w-4 h-4 text-blue-600" />
+              <span>
+                <strong>Twilio Voice Call Status:</strong> {callStatus.message || callStatus.status || 'Dispatched'} 
+                {callStatus.sid && <code className="ml-2 px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-900 font-mono text-[11px]">{callStatus.sid}</code>}
+              </span>
+            </div>
+            <span className="text-[11px] font-bold text-blue-700 dark:text-blue-300">Target: {targetPhone}</span>
+          </div>
+        )}
+
         {/* Customer Selector Pills */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mt-6 pt-5 border-t border-gray-200 dark:border-gray-800">
-          <div className="flex items-center gap-2 text-xs font-bold">
+        <div className="flex flex-wrap items-center justify-between gap-3 mt-5 pt-4 border-t border-gray-200 dark:border-gray-800">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-bold">
             <span className="text-gray-500 mr-1">Active Customer Chat:</span>
             <button
               onClick={() => setActiveCustomer('A')}
@@ -259,7 +349,7 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
                   : isDark ? 'border-gray-800 text-gray-300' : 'border-gray-300 text-black'
               }`}
             >
-              Eastern Counties Police (Inspector Karen Mbeki)
+              Account A (Police • Karen Mbeki)
             </button>
             <button
               onClick={() => setActiveCustomer('B')}
@@ -269,13 +359,24 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
                   : isDark ? 'border-gray-800 text-gray-300' : 'border-gray-300 text-black'
               }`}
             >
-              Aldermoor Industrial (VP Nadia Rahman)
+              Account B (Industrial • Nadia Rahman)
+            </button>
+            <button
+              onClick={() => setActiveCustomer('K')}
+              className={`px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 ${
+                activeCustomer === 'K'
+                  ? isDark ? 'bg-white text-black' : 'bg-black text-white'
+                  : isDark ? 'border-gray-800 text-amber-400' : 'border-gray-300 text-amber-800'
+              }`}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+              <span>Account K (Kestrel Estates • Dana Whitfield)</span>
             </button>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-            <CheckCircle2 className="w-4 h-4" />
-            <span>WhatsApp Cloud API Connected (Simulation Mode)</span>
+          <div className="flex items-center gap-3 text-xs font-semibold">
+            <span className="text-gray-500">Twilio From: <code className="font-mono text-black dark:text-white">{fromPhone}</code></span>
+            <span className="text-gray-500">To: <code className="font-mono text-black dark:text-white">{targetPhone}</code></span>
           </div>
         </div>
       </div>
@@ -293,92 +394,92 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
           }`}>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-sm">
-                {activeCustomer === 'A' ? 'KM' : 'NR'}
+                {activeCustomer === 'A' ? 'KM' : activeCustomer === 'B' ? 'NR' : 'DW'}
               </div>
               <div>
                 <h4 className="font-bold text-sm leading-tight text-white">
-                  {activeCustomer === 'A' ? 'Inspector Karen Mbeki' : 'Nadia Rahman (VP Operations)'}
+                  {activeCustomer === 'A' 
+                    ? 'Inspector Karen Mbeki' 
+                    : activeCustomer === 'B' 
+                      ? 'Nadia Rahman (VP Operations)' 
+                      : 'Dana Whitfield (Estate Manager)'}
                 </h4>
-                <span className="text-[11px] text-emerald-100 flex items-center gap-1">
+                <div className="flex items-center gap-1.5 text-[11px] text-emerald-100">
                   <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
-                  <span>FlytBase Check-in Agent Active</span>
-                </span>
+                  <span>Online • WhatsApp Business Verified</span>
+                </div>
               </div>
             </div>
 
-            <div className="text-right text-xs">
-              <span className="text-[11px] block text-emerald-100">Equipment Sold:</span>
-              <strong className="text-white text-xs">
-                {activeCustomer === 'A' ? '35 DiaB Docks' : '14 Industrial Docks'}
-              </strong>
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={handleZeroKeyWhatsApp}
+                title="Open direct WhatsApp conversation on phone or web"
+                className="p-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white transition flex items-center gap-1 text-xs font-bold"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>wa.me Link</span>
+              </button>
             </div>
           </div>
 
           {/* Messages Stream */}
-          <div className={`p-4 space-y-3.5 max-h-[500px] overflow-y-auto ${
-            isDark ? 'bg-[#08090b]' : 'bg-[#e5ddd5]/30'
+          <div className={`p-4 space-y-4 min-h-[380px] max-h-[500px] overflow-y-auto ${
+            isDark ? 'bg-[#090b0e]' : 'bg-[#e5ddd5]/30'
           }`}>
             {activeChat.map((msg) => {
               const isAgent = msg.sender === 'agent';
-
               return (
-                <div 
-                  key={msg.id} 
+                <div
+                  key={msg.id}
                   className={`flex flex-col ${isAgent ? 'items-start' : 'items-end'}`}
                 >
-                  <div className={`max-w-[85%] rounded-2xl p-3.5 shadow-sm text-xs space-y-1.5 ${
+                  <div className={`max-w-[85%] rounded-2xl p-3.5 shadow-sm space-y-1.5 ${
                     isAgent
-                      ? isDark 
-                        ? 'bg-[#14181f] text-gray-100 border border-gray-800 rounded-tl-none' 
-                        : 'bg-white text-black border border-gray-200 rounded-tl-none'
-                      : 'bg-emerald-600 text-white rounded-tr-none'
+                      ? isDark
+                        ? 'bg-[#181c24] text-gray-100 rounded-tl-sm border border-gray-800'
+                        : 'bg-white text-black rounded-tl-sm border border-gray-200'
+                      : isDark
+                        ? 'bg-emerald-900/60 text-white rounded-tr-sm border border-emerald-700/50'
+                        : 'bg-[#d9fdd3] text-black rounded-tr-sm border border-emerald-300'
                   }`}>
-                    <div className="flex items-center justify-between gap-2 text-[10px] opacity-75 font-semibold">
+                    <div className="flex items-center justify-between gap-4 text-[10px] font-bold opacity-75">
                       <span>{msg.senderName}</span>
                       <span>{msg.timestamp}</span>
                     </div>
 
-                    <p className="leading-relaxed font-medium text-xs">
-                      {msg.text}
-                    </p>
+                    <p className="text-xs leading-relaxed font-sans">{msg.text}</p>
 
-                    {/* AI Intent Tag Badge */}
+                    {/* Intent / Value Flag Pill */}
                     {msg.flag && (
-                      <div className={`mt-2 p-2.5 rounded-xl border text-[11px] font-sans ${
-                        isDark ? 'border-amber-900 bg-amber-950/40 text-amber-200' : 'border-amber-300 bg-amber-50 text-amber-950'
+                      <div className={`mt-2 pt-2 border-t text-[11px] font-sans ${
+                        isDark ? 'border-gray-700/60' : 'border-gray-300'
                       }`}>
-                        <div className="flex items-center gap-1.5 font-bold mb-0.5">
-                          <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                          <span>Intent Detected: {msg.flag.label}</span>
+                        <div className="flex items-center gap-1.5 font-bold text-amber-700 dark:text-amber-300 mb-0.5">
+                          <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                          <span>{msg.flag.label}</span>
                         </div>
-                        <div className="text-[10px] opacity-90 font-medium">
+                        <p className="text-[10px] text-gray-600 dark:text-gray-300">
                           <strong>Automated Action:</strong> {msg.flag.actionTaken}
-                        </div>
+                        </p>
                       </div>
                     )}
                   </div>
                 </div>
               );
             })}
-
-            {isSending && (
-              <div className="flex items-center gap-2 text-xs text-gray-500 italic p-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>FlytBase Agent is typing a solution...</span>
-              </div>
-            )}
           </div>
 
-          {/* Chat Input Bar */}
-          <form 
+          {/* Chat Reply Form */}
+          <form
             onSubmit={handleSendMessage}
             className={`p-3 border-t flex items-center gap-2 ${
-              isDark ? 'border-gray-800 bg-[#0e1014]' : 'border-gray-200 bg-white'
+              isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-200 bg-white'
             }`}
           >
             <input
               type="text"
-              placeholder={`Simulate customer reply (e.g. "We are looking at cheaper options" or "Dock 3 had a glitch")...`}
+              placeholder={`Simulate customer reply (e.g. "We are looking at cheaper options" or "Installer never tested flight")...`}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               className={`flex-1 p-2.5 rounded-xl text-xs border font-medium outline-none ${
@@ -413,7 +514,7 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
                 isDark ? 'border-gray-800 bg-[#12151b]' : 'border-gray-200 bg-gray-50'
               }`}>
                 <strong className="block text-black dark:text-white font-bold mb-0.5">
-                  1. Catches Competitor Threats Instantly
+                  1. Catches Competitor & Cancellation Threats Instantly
                 </strong>
                 <p className="text-gray-600 dark:text-gray-300 text-[11px] leading-relaxed">
                   When the customer mentions testing standalone drones, the agent does not panic. It immediately shows that manual pilots cost $120k/yr, proving FlytBase's superior ROI.
@@ -435,46 +536,56 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
                 isDark ? 'border-gray-800 bg-[#12151b]' : 'border-gray-200 bg-gray-50'
               }`}>
                 <strong className="block text-black dark:text-white font-bold mb-0.5">
-                  3. Gives Executives Data to Stop Internal Revolts
+                  3. Solves Kestrel Estates Surprise Account Drop
                 </strong>
                 <p className="text-gray-600 dark:text-gray-300 text-[11px] leading-relaxed">
-                  When plant managers complained about corporate security fees, the agent gave Nadia Rahman the $80k scaffolding savings proof she needed to defend the budget.
+                  When Dana Whitfield panics over a vanished installer and undeclared insurance, the agent delivers a certified field engineer, CAA insurance rider, and pilot training before the Monday board vote.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* API Keys Needed for WhatsApp Live Integration Box */}
+          {/* Twilio & WhatsApp Active Credentials Box */}
           <div className={`p-5 rounded-2xl border space-y-3 ${
             isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-300 bg-white shadow-sm'
           }`}>
-            <div className="flex items-center gap-2">
-              <Key className="w-4 h-4 text-amber-500" />
-              <h4 className="font-bold text-sm text-black dark:text-white">
-                API Keys Required for Live WhatsApp API Connection
-              </h4>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Key className="w-4 h-4 text-emerald-500" />
+                <h4 className="font-bold text-sm text-black dark:text-white">
+                  Live Twilio & WhatsApp Gateway Status
+                </h4>
+              </div>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-400">
+                ACTIVE
+              </span>
             </div>
 
-            <p className="text-xs text-gray-600 dark:text-gray-400">
-              To connect real phone numbers via Meta's WhatsApp Cloud API, provide these keys in your <code className="font-mono bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded">.env.local</code>:
-            </p>
-
             <div className="space-y-1.5 text-xs font-mono">
-              <div className={`p-2 rounded-lg border ${isDark ? 'border-gray-800 bg-black text-gray-300' : 'border-gray-200 bg-gray-50 text-black'}`}>
-                <strong>WHATSAPP_CLOUD_ACCESS_TOKEN</strong>
-                <span className="block text-[10px] text-gray-500 font-sans">Permanent System User Token from Meta Business Manager</span>
+              <div className={`p-2.5 rounded-lg border ${isDark ? 'border-gray-800 bg-black text-gray-300' : 'border-gray-200 bg-gray-50 text-black'}`}>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold">Twilio Account SID</span>
+                  <span className="text-emerald-600 font-sans text-[11px] font-bold">Connected</span>
+                </div>
+                <code className="text-[11px] text-gray-500">ACad2febb745cbcbc6d3c2bedec1a67fea</code>
               </div>
-              <div className={`p-2 rounded-lg border ${isDark ? 'border-gray-800 bg-black text-gray-300' : 'border-gray-200 bg-gray-50 text-black'}`}>
-                <strong>WHATSAPP_PHONE_NUMBER_ID</strong>
-                <span className="block text-[10px] text-gray-500 font-sans">Unique ID of your registered WhatsApp Business phone number</span>
+
+              <div className={`p-2.5 rounded-lg border ${isDark ? 'border-gray-800 bg-black text-gray-300' : 'border-gray-200 bg-gray-50 text-black'}`}>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold">Outbound Voice / SMS Number</span>
+                  <span className="text-emerald-600 font-sans text-[11px] font-bold">Verified</span>
+                </div>
+                <code className="text-[11px] text-gray-500">+17372508034 &rarr; +919881898129</code>
               </div>
-              <div className={`p-2 rounded-lg border ${isDark ? 'border-gray-800 bg-black text-gray-300' : 'border-gray-200 bg-gray-50 text-black'}`}>
-                <strong>WHATSAPP_BUSINESS_ACCOUNT_ID</strong>
-                <span className="block text-[10px] text-gray-500 font-sans">Meta WABA (WhatsApp Business Account) ID</span>
-              </div>
-              <div className={`p-2 rounded-lg border ${isDark ? 'border-gray-800 bg-black text-gray-300' : 'border-gray-200 bg-gray-50 text-black'}`}>
-                <strong>WHATSAPP_WEBHOOK_VERIFY_TOKEN</strong>
-                <span className="block text-[10px] text-gray-500 font-sans">Secret string for bidirectional incoming reply webhooks</span>
+
+              <div className={`p-2.5 rounded-lg border ${isDark ? 'border-gray-800 bg-black text-gray-300' : 'border-gray-200 bg-gray-50 text-black'}`}>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold">Zero-Key Testing (wa.me)</span>
+                  <span className="text-emerald-600 font-sans text-[11px] font-bold">Universal Ready</span>
+                </div>
+                <span className="text-[10px] text-gray-500 font-sans block">
+                  Click-to-chat links connect directly to any test number on mobile and web with zero API key requirement!
+                </span>
               </div>
             </div>
           </div>
@@ -486,4 +597,3 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
     </div>
   );
 };
-

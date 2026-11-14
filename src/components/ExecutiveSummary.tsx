@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import { AccountDetail, AccountId } from '../types/crm';
@@ -35,17 +35,21 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
   });
 
   if (selectedAccount === 'ALL') {
-    totalDocks = 49;
+    totalDocks = 50;
     activeDocks = 27;
-    silentDocks = 3;
+    silentDocks = 4;
   } else if (selectedAccount === 'A') {
     totalDocks = 35;
     activeDocks = 14;
     silentDocks = 0;
-  } else {
+  } else if (selectedAccount === 'B') {
     totalDocks = 14;
     activeDocks = 11;
     silentDocks = 3;
+  } else {
+    totalDocks = 1;
+    activeDocks = 0;
+    silentDocks = 1;
   }
 
   const healthScore = selectedAccount === 'ALL' ? 68 : accounts[selectedAccount]?.healthScore || 50;

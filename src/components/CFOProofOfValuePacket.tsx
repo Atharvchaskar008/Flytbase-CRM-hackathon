@@ -26,18 +26,41 @@ export const CFOProofOfValuePacket: React.FC<CFOProofOfValuePacketProps> = ({
   selectedAccount,
   isDark = false,
 }) => {
-  const [activeAccount, setActiveAccount] = useState<'A' | 'B'>(selectedAccount === 'B' ? 'B' : 'A');
+  const [activeAccount, setActiveAccount] = useState<'A' | 'B' | 'K'>(
+    selectedAccount === 'B' ? 'B' : selectedAccount === 'K' ? 'K' : 'A'
+  );
   const [isExporting, setIsExporting] = useState(false);
 
   const isAccountA = activeAccount === 'A';
+  const isAccountB = activeAccount === 'B';
+  const isAccountK = activeAccount === 'K';
 
-  const clientName = isAccountA ? 'Eastern Counties Police Alliance' : 'Aldermoor Industrial Group';
-  const cfoName = isAccountA ? 'Hannah Doyle (Commercial Procurement Lead)' : 'Nadia Rahman (Group Finance Controller)';
-  const poReference = isAccountA ? 'PO-ECPA-2024-001' : 'AIG-ENT-2023-88';
-  const dockCount = isAccountA ? 35 : 14;
-  const activeSorties = isAccountA ? 142 : 84;
+  const clientName = isAccountA 
+    ? 'Eastern Counties Police Alliance' 
+    : isAccountB 
+      ? 'Aldermoor Industrial Group' 
+      : 'Kestrel Estates (Residents Security Trust)';
+
+  const cfoName = isAccountA 
+    ? 'Hannah Doyle (Commercial Procurement Lead)' 
+    : isAccountB 
+      ? 'Nadia Rahman (Group Finance Controller)' 
+      : 'Graham Okafor (Chair, Residents Board)';
+
+  const poReference = isAccountA 
+    ? 'PO-ECPA-2024-001' 
+    : isAccountB 
+      ? 'AIG-ENT-2023-88' 
+      : 'PO-KESTREL-2024-001';
+
+  const dockCount = isAccountA ? 35 : isAccountB ? 14 : 1;
+  const activeSorties = isAccountA ? 142 : isAccountB ? 84 : 60;
   const dockFixedCost = dockCount * 1000; // $1,000 per dock
-  const manualAlternativeCost = isAccountA ? (dockFixedCost + 42000) : (dockFixedCost + 49900);
+  const manualAlternativeCost = isAccountA 
+    ? (dockFixedCost + 42000) 
+    : isAccountB 
+      ? (dockFixedCost + 49900) 
+      : (dockFixedCost + 17000);
   const netSavings = manualAlternativeCost - dockFixedCost;
 
   const handlePrint = () => {
@@ -103,6 +126,16 @@ export const CFOProofOfValuePacket: React.FC<CFOProofOfValuePacketProps> = ({
             }`}
           >
             Account B (Aldermoor Industrial • Nadia Rahman)
+          </button>
+          <button
+            onClick={() => setActiveAccount('K')}
+            className={`px-3.5 py-1.5 rounded-xl border transition ${
+              activeAccount === 'K'
+                ? isDark ? 'bg-white text-black shadow-sm' : 'bg-black text-white shadow-md'
+                : 'border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-300'
+            }`}
+          >
+            Account K (Kestrel Estates • Graham Okafor)
           </button>
         </div>
       </div>

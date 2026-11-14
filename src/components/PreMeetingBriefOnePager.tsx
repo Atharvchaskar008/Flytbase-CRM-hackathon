@@ -29,7 +29,7 @@ interface StakeholderQuickBrief {
   name: string;
   role: string;
   account: AccountId;
-  temperature: 'Guarded' | 'Ally' | 'Skeptic' | 'Neutral' | 'Hostile';
+  temperature: 'Guarded' | 'Ally' | 'Skeptic' | 'Neutral' | 'Hostile' | 'Warm';
   temperatureScore: number;
   lastComplaint: string;
   theWinWeGaveThem: string;
@@ -123,6 +123,34 @@ const STAKEHOLDER_BRIEFS: StakeholderQuickBrief[] = [
     goldenOpeningLine: '"Stefan, we brought the 3 idle docks back to full flight readiness so you can demonstrate 100% plant uptime to Nadia."',
     targetClosingCommitment: 'Win plant consensus to unlock Plant 15 expansion in Q2.',
     urgency: 'Routine'
+  },
+  {
+    id: 'dana_whitfield',
+    name: 'Dana Whitfield',
+    role: 'Estate Manager, Kestrel Estates',
+    account: 'K',
+    temperature: 'Warm',
+    temperatureScore: 65,
+    lastComplaint: 'Local installer disappeared after wiring power; dock has never flown and no certified pilot is on site.',
+    theWinWeGaveThem: 'Hardware, power, and high-speed network successfully installed and connected at North Entrance gate.',
+    phraseToAvoid: 'DO NOT SAY: "You violated CAA regulations by installing a drone dock without certified staff."',
+    goldenOpeningLine: '"Hi Dana, we are stepping in directly to replace the missing installer with a certified flight commissioning team and fast-track pilot training before Monday\'s board vote."',
+    targetClosingCommitment: 'Secure her signoff on the pilot training course enrollment ($4,000) and insurance declaration submission.',
+    urgency: 'Immediate (Next 60 Mins)'
+  },
+  {
+    id: 'graham_okafor',
+    name: 'Graham Okafor',
+    role: 'Chair, Residents Board, Kestrel Estates',
+    account: 'K',
+    temperature: 'Skeptic',
+    temperatureScore: 45,
+    lastComplaint: 'Residents are revolting about paying for an idle drone that has never flown a single night patrol.',
+    theWinWeGaveThem: 'Automated 24/7 North Gate perimeter surveillance will replace $18,000/mo in manned security guard night shifts.',
+    phraseToAvoid: 'DO NOT SAY: "The residents need to be patient while we look for an installer."',
+    goldenOpeningLine: '"Hello Graham, here is our certified flight deployment roadmap to have live night patrols actively protecting the north gate before your Monday board vote."',
+    targetClosingCommitment: 'Secure board approval to maintain the estate security drone budget and approve pilot training certification.',
+    urgency: 'High'
   }
 ];
 
@@ -191,7 +219,7 @@ export const PreMeetingBriefOnePager: React.FC<PreMeetingBriefOnePagerProps> = (
                 <span className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
                   brief.temperature === 'Guarded'
                     ? 'bg-rose-100 text-rose-950 border border-rose-300'
-                    : brief.temperature === 'Ally'
+                    : brief.temperature === 'Ally' || brief.temperature === 'Warm'
                     ? 'bg-emerald-100 text-emerald-950 border border-emerald-300'
                     : 'bg-gray-200 text-black'
                 }`}>
@@ -230,7 +258,7 @@ export const PreMeetingBriefOnePager: React.FC<PreMeetingBriefOnePagerProps> = (
               <span className={`text-base font-bold flex items-center justify-end gap-1.5 ${
                 activeBrief.temperature === 'Guarded'
                   ? 'text-rose-600 dark:text-rose-400'
-                  : activeBrief.temperature === 'Ally'
+                  : activeBrief.temperature === 'Ally' || activeBrief.temperature === 'Warm'
                   ? 'text-emerald-600 dark:text-emerald-400'
                   : 'text-amber-600 dark:text-amber-400'
               }`}>
