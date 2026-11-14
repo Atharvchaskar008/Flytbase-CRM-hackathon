@@ -1,8 +1,22 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { AccountDetail, AccountId } from '../types/crm';
-import { ShieldCheck, TrendingUp, Radio, AlertTriangle, Users, PieChart, BarChart3, Activity } from 'lucide-react';
+import { 
+  ShieldCheck, 
+  TrendingUp, 
+  Radio, 
+  AlertTriangle, 
+  Users, 
+  PieChart as PieIcon, 
+  BarChart3, 
+  Activity,
+  CheckCircle2,
+  Clock,
+  ArrowUpRight,
+  Sparkles,
+  Info
+} from 'lucide-react';
 
 interface AnalyticsInfographicsProps {
   accounts: Record<AccountId, AccountDetail>;
@@ -15,6 +29,9 @@ export const AnalyticsInfographics: React.FC<AnalyticsInfographicsProps> = ({
   selectedAccount,
   isDark = false,
 }) => {
+  const [activeChartTab, setActiveChartTab] = useState<'all' | 'revenue' | 'fleet' | 'matrix'>('all');
+  const [hoveredSlice, setHoveredSlice] = useState<string | null>(null);
+
   const currentAccounts = selectedAccount === 'ALL' 
     ? Object.values(accounts) 
     : [accounts[selectedAccount]].filter(Boolean);
@@ -33,277 +50,480 @@ export const AnalyticsInfographics: React.FC<AnalyticsInfographicsProps> = ({
     });
   });
 
-  const totalValue = verifiedARR + pipelineARR;
-  const verifiedPct = Math.round((verifiedARR / (totalValue || 1)) * 100);
+  const totalRevenueScope = verifiedARR + pipelineARR;
+  const verifiedPct = Math.round((verifiedARR / (totalRevenueScope || 1)) * 100);
   const pipelinePct = 100 - verifiedPct;
 
   const flyingPct = Math.round((flyingDocks / totalDocks) * 100);
   const standbyPct = Math.round((standbyDocks / totalDocks) * 100);
-  const silentPct = Math.round((silentDocks / totalDocks) * 100);
+  const silentPct = 100 - flyingPct - standbyPct;
 
-  // Stakeholder counts
-  const allPeople = currentAccounts.flatMap(a => a.people);
-  const decidersCount = allPeople.filter(p => p.isDecisionMaker).length;
-  const championsCount = allPeople.filter(p => p.isChampion).length;
-  const blockersCount = allPeople.filter(p => p.isBlocker).length;
-  const usersCount = allPeople.filter(p => p.isUser).length;
+  // Donut calculations for Revenue
+  // Circumference = 2 * Math.PI * 45 = 282.74
+  const revCircumference = 282.74;
+  const verifiedDash = (verifiedPct / 100) * revCircumference;
+  const pipelineDash = (pipelinePct / 100) * revCircumference;
+
+  // Donut calculations for Fleet
+  // Circumference = 282.74
+  const fleetFlyingDash = (flyingPct / 100) * revCircumference;
+  const fleetStandbyDash = (standbyPct / 100) * revCircumference;
+  const fleetSilentDash = (silentPct / 100) * revCircumference;
 
   return (
     <div className="space-y-6 font-sans">
       
-      {/* Top Banner */}
-      <div className={`p-5 rounded-2xl border ${
-        isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-200 bg-gray-50/80 shadow-sm'
+      {/* Top Banner & Visual Filters */}
+      <div className={`p-6 rounded-2xl border ${
+        isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-300 bg-white shadow-sm'
       }`}>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <BarChart3 className="w-5 h-5 text-blue-500" />
-              <h3 className={`text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                Visual Infographics & Fleet Intelligence
+              <div className="p-2 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                <PieIcon className="w-5 h-5" />
+              </div>
+              <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-black'}`}>
+                Visual Infographics & Pie Chart Analytics
               </h3>
             </div>
-            <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              High-level comparative charts of verified ARR, robotics fleet distribution, stakeholder alignment, and risk velocity.
+            <p className={`text-xs font-semibold ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>
+              High-contrast visual representations of financial audits, robotic dock telemetry, and stakeholder alignment.
             </p>
           </div>
-          <div className="flex items-center gap-2 text-xs font-medium">
-            <span className={`px-3 py-1 rounded-full border ${
-              isDark ? 'border-gray-800 bg-black text-gray-300' : 'border-gray-200 bg-white text-gray-700 shadow-sm'
-            }`}>
-              Portfolio Scope: {selectedAccount === 'ALL' ? 'Eastern Police + Aldermoor' : selectedAccount === 'A' ? 'Eastern Counties Police' : 'Aldermoor Industrial'}
-            </span>
+
+          <div className="flex items-center gap-1.5 bg-gray-100 dark:bg-black p-1.5 rounded-xl border border-gray-300 dark:border-gray-800 text-xs font-bold">
+            <button
+              onClick={() => setActiveChartTab('all')}
+              className={`px-3 py-1.5 rounded-lg transition ${
+                activeChartTab === 'all'
+                  ? isDark ? 'bg-white text-black shadow-sm' : 'bg-black text-white shadow-md'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white'
+              }`}
+            >
+              All Infographics
+            </button>
+            <button
+              onClick={() => setActiveChartTab('revenue')}
+              className={`px-3 py-1.5 rounded-lg transition ${
+                activeChartTab === 'revenue'
+                  ? isDark ? 'bg-white text-black shadow-sm' : 'bg-black text-white shadow-md'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white'
+              }`}
+            >
+              Revenue Donut
+            </button>
+            <button
+              onClick={() => setActiveChartTab('fleet')}
+              className={`px-3 py-1.5 rounded-lg transition ${
+                activeChartTab === 'fleet'
+                  ? isDark ? 'bg-white text-black shadow-sm' : 'bg-black text-white shadow-md'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white'
+              }`}
+            >
+              Fleet Donut
+            </button>
+            <button
+              onClick={() => setActiveChartTab('matrix')}
+              className={`px-3 py-1.5 rounded-lg transition ${
+                activeChartTab === 'matrix'
+                  ? isDark ? 'bg-white text-black shadow-sm' : 'bg-black text-white shadow-md'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white'
+              }`}
+            >
+              Power Matrix
+            </button>
           </div>
         </div>
       </div>
 
       {/* Grid of Infographics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        {/* Infographic 1: Verified vs Speculative ARR */}
-        <div className={`p-6 rounded-2xl border space-y-4 ${
-          isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-200 bg-white shadow-sm'
-        }`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-500" />
-              <h4 className="font-bold text-base">Revenue Audit Ratio</h4>
-            </div>
-            <span className="text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400">
-              {verifiedPct}% Verified
-            </span>
-          </div>
-
-          <div className="space-y-2">
-            {/* Visual Bar */}
-            <div className="w-full h-4 rounded-full overflow-hidden flex bg-gray-100 dark:bg-gray-800">
-              <div 
-                className="h-full bg-emerald-500 transition-all duration-500" 
-                style={{ width: `${verifiedPct}%` }}
-                title={`Verified ARR: £${verifiedARR.toLocaleString()}`}
-              />
-              <div 
-                className="h-full bg-blue-500 transition-all duration-500" 
-                style={{ width: `${pipelinePct}%` }}
-                title={`Speculative Pipeline: £${pipelineARR.toLocaleString()}`}
-              />
-            </div>
-
-            <div className="flex items-center justify-between text-xs pt-2">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                <span className={isDark ? 'text-gray-300' : 'text-gray-700'}>
-                  Signed Contract ARR: <strong>£{(verifiedARR / 1000).toFixed(0)}k</strong>
+        {/* INFOGRAPHIC 1: Interactive SVG Revenue Donut Chart */}
+        {(activeChartTab === 'all' || activeChartTab === 'revenue') && (
+          <div className={`p-6 rounded-2xl border flex flex-col justify-between space-y-6 ${
+            isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-300 bg-white shadow-sm'
+          }`}>
+            <div>
+              <div className="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-800">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-emerald-600" />
+                  <div>
+                    <h4 className="font-bold text-base text-black dark:text-white">
+                      Revenue Composition Pie Chart
+                    </h4>
+                    <span className="text-[11px] font-semibold text-gray-500">
+                      Signed Baseline vs Speculative Pipeline
+                    </span>
+                  </div>
+                </div>
+                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-400">
+                  {verifiedPct}% Legally Signed
                 </span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                <span className={isDark ? 'text-gray-300' : 'text-gray-700'}>
-                  Tender Upsell: <strong>£{(pipelineARR / 1000).toFixed(0)}k</strong>
+
+              {/* Chart + Center Visual */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-8 py-6">
+                {/* SVG Donut */}
+                <div className="relative w-48 h-48 shrink-0 flex items-center justify-center">
+                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
+                    {/* Background Ring */}
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="45"
+                      fill="transparent"
+                      stroke={isDark ? '#1f2937' : '#e5e7eb'}
+                      strokeWidth="16"
+                    />
+
+                    {/* Speculative Slice (Amber) */}
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="45"
+                      fill="transparent"
+                      stroke="#f59e0b"
+                      strokeWidth="16"
+                      strokeDasharray={`${pipelineDash} ${revCircumference}`}
+                      strokeDashoffset="0"
+                      className="transition-all duration-700 ease-out cursor-pointer hover:opacity-80"
+                      onMouseEnter={() => setHoveredSlice('pipeline')}
+                      onMouseLeave={() => setHoveredSlice(null)}
+                    />
+
+                    {/* Verified Signed Slice (Emerald) */}
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="45"
+                      fill="transparent"
+                      stroke="#10b981"
+                      strokeWidth="16"
+                      strokeDasharray={`${verifiedDash} ${revCircumference}`}
+                      strokeDashoffset={`-${pipelineDash}`}
+                      className="transition-all duration-700 ease-out cursor-pointer hover:opacity-80"
+                      onMouseEnter={() => setHoveredSlice('verified')}
+                      onMouseLeave={() => setHoveredSlice(null)}
+                    />
+                  </svg>
+
+                  {/* Donut Center Display */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+                    <span className="text-2xl font-mono font-bold text-black dark:text-white">
+                      {hoveredSlice === 'pipeline' ? `£${(pipelineARR / 1000).toFixed(0)}k` : `£${(verifiedARR / 1000).toFixed(0)}k`}
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500">
+                      {hoveredSlice === 'pipeline' ? 'Speculative' : 'Verified ARR'}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Pie Chart Legend */}
+                <div className="space-y-3 text-xs w-full sm:w-auto">
+                  <div 
+                    className={`p-3 rounded-xl border transition ${
+                      hoveredSlice === 'verified'
+                        ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30'
+                        : isDark ? 'border-gray-800 bg-[#12151b]' : 'border-gray-200 bg-gray-50'
+                    }`}
+                    onMouseEnter={() => setHoveredSlice('verified')}
+                    onMouseLeave={() => setHoveredSlice(null)}
+                  >
+                    <div className="flex items-center justify-between gap-3 font-bold text-black dark:text-white">
+                      <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded-full bg-emerald-500 shrink-0" />
+                        <span>Signed Baseline ARR ({verifiedPct}%)</span>
+                      </div>
+                      <span className="font-mono text-emerald-700 dark:text-emerald-400">
+                        £{verifiedARR.toLocaleString()}
+                      </span>
+                    </div>
+                    <span className="text-[11px] text-gray-600 dark:text-gray-400 mt-1 block">
+                      Backed by PO-ECPA-2024-001 & AIG-ENT-2023-88.
+                    </span>
+                  </div>
+
+                  <div 
+                    className={`p-3 rounded-xl border transition ${
+                      hoveredSlice === 'pipeline'
+                        ? 'border-amber-500 bg-amber-50 dark:bg-amber-950/30'
+                        : isDark ? 'border-gray-800 bg-[#12151b]' : 'border-gray-200 bg-gray-50'
+                    }`}
+                    onMouseEnter={() => setHoveredSlice('pipeline')}
+                    onMouseLeave={() => setHoveredSlice(null)}
+                  >
+                    <div className="flex items-center justify-between gap-3 font-bold text-black dark:text-white">
+                      <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded-full bg-amber-500 shrink-0" />
+                        <span>Speculative Tender ({pipelinePct}%)</span>
+                      </div>
+                      <span className="font-mono text-amber-700 dark:text-amber-400">
+                        £{pipelineARR.toLocaleString()}
+                      </span>
+                    </div>
+                    <span className="text-[11px] text-gray-600 dark:text-gray-400 mt-1 block">
+                      300-dock framework requires operating model submission.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Audit Rule Footnote */}
+            <div className="p-3.5 rounded-xl bg-gray-100 dark:bg-black border border-gray-300 dark:border-gray-800 text-xs font-semibold text-gray-800 dark:text-gray-300 flex items-start gap-2">
+              <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+              <span>
+                <strong>CFO Audit Standard:</strong> Only signed purchase orders with confirmed SLA clauses are recognized as baseline revenue. Speculative upsells remain strictly separated.
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* INFOGRAPHIC 2: Interactive SVG Fleet Telemetry Donut Chart */}
+        {(activeChartTab === 'all' || activeChartTab === 'fleet') && (
+          <div className={`p-6 rounded-2xl border flex flex-col justify-between space-y-6 ${
+            isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-300 bg-white shadow-sm'
+          }`}>
+            <div>
+              <div className="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-800">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-blue-600" />
+                  <div>
+                    <h4 className="font-bold text-base text-black dark:text-white">
+                      Robotic Fleet Operational Status
+                    </h4>
+                    <span className="text-[11px] font-semibold text-gray-500">
+                      49 Physical Drone-in-a-Box Stations
+                    </span>
+                  </div>
+                </div>
+                <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-blue-100 text-blue-950 border border-blue-400">
+                  93.8% Overall Health
                 </span>
               </div>
-            </div>
-          </div>
 
-          <p className={`text-xs leading-relaxed pt-2 border-t border-gray-100 dark:border-gray-800 ${
-            isDark ? 'text-gray-400' : 'text-gray-500'
-          }`}>
-            CFO Audit Rule: Only signed purchase orders with confirmed SLA clauses count as baseline revenue. Speculative upsell requires submitting unit-economics models.
-          </p>
-        </div>
+              {/* Chart + Center Visual */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-8 py-6">
+                {/* SVG Donut */}
+                <div className="relative w-48 h-48 shrink-0 flex items-center justify-center">
+                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="45"
+                      fill="transparent"
+                      stroke={isDark ? '#1f2937' : '#e5e7eb'}
+                      strokeWidth="16"
+                    />
 
-        {/* Infographic 2: Fleet Telemetry Distribution */}
-        <div className={`p-6 rounded-2xl border space-y-4 ${
-          isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-200 bg-white shadow-sm'
-        }`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Radio className="w-4 h-4 text-indigo-500" />
-              <h4 className="font-bold text-base">Robotic Fleet Status</h4>
-            </div>
-            <span className="text-xs font-mono font-semibold text-gray-500">
-              {totalDocks} Total FlytBase Units
-            </span>
-          </div>
+                    {/* Silent Docks (Rose) */}
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="45"
+                      fill="transparent"
+                      stroke="#f43f5e"
+                      strokeWidth="16"
+                      strokeDasharray={`${fleetSilentDash} ${revCircumference}`}
+                      strokeDashoffset="0"
+                      className="transition-all duration-700 ease-out cursor-pointer hover:opacity-80"
+                    />
 
-          <div className="space-y-2">
-            {/* Visual Bar */}
-            <div className="w-full h-4 rounded-full overflow-hidden flex bg-gray-100 dark:bg-gray-800">
-              <div 
-                className="h-full bg-emerald-500 transition-all duration-500" 
-                style={{ width: `${flyingPct}%` }}
-                title={`Flying Docks: ${flyingDocks}`}
-              />
-              <div 
-                className="h-full bg-amber-400 transition-all duration-500" 
-                style={{ width: `${standbyPct}%` }}
-                title={`Standby: ${standbyDocks}`}
-              />
-              <div 
-                className="h-full bg-red-500 transition-all duration-500" 
-                style={{ width: `${silentPct}%` }}
-                title={`Silent Fault: ${silentDocks}`}
-              />
-            </div>
+                    {/* Standby Docks (Purple) */}
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="45"
+                      fill="transparent"
+                      stroke="#8b5cf6"
+                      strokeWidth="16"
+                      strokeDasharray={`${fleetStandbyDash} ${revCircumference}`}
+                      strokeDashoffset={`-${fleetSilentDash}`}
+                      className="transition-all duration-700 ease-out cursor-pointer hover:opacity-80"
+                    />
 
-            <div className="grid grid-cols-3 gap-2 text-xs pt-2 text-center">
-              <div className={`p-2 rounded-lg border ${isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-100 bg-gray-50'}`}>
-                <div className="text-emerald-500 font-bold font-mono text-sm">{flyingDocks}</div>
-                <div className="text-[11px] text-gray-500">Active BVLOS</div>
+                    {/* Flying Docks (Blue) */}
+                    <circle
+                      cx="60"
+                      cy="60"
+                      r="45"
+                      fill="transparent"
+                      stroke="#3b82f6"
+                      strokeWidth="16"
+                      strokeDasharray={`${fleetFlyingDash} ${revCircumference}`}
+                      strokeDashoffset={`-${fleetSilentDash + fleetStandbyDash}`}
+                      className="transition-all duration-700 ease-out cursor-pointer hover:opacity-80"
+                    />
+                  </svg>
+
+                  {/* Donut Center Display */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+                    <span className="text-2xl font-mono font-bold text-black dark:text-white">
+                      {totalDocks}
+                    </span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500">
+                      Total Docks
+                    </span>
+                  </div>
+                </div>
+
+                {/* Fleet Legend */}
+                <div className="space-y-2.5 text-xs w-full sm:w-auto">
+                  <div className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12151b] flex items-center justify-between gap-4 font-bold text-black dark:text-white">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-blue-500 shrink-0" />
+                      <span>Actively Flying ({flyingPct}%)</span>
+                    </div>
+                    <span className="font-mono text-blue-600 dark:text-blue-400">{flyingDocks} Docks</span>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#12151b] flex items-center justify-between gap-4 font-bold text-black dark:text-white">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-purple-500 shrink-0" />
+                      <span>Emergency Standby ({standbyPct}%)</span>
+                    </div>
+                    <span className="font-mono text-purple-600 dark:text-purple-400">{standbyDocks} Docks</span>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl border border-rose-300 dark:border-rose-900 bg-rose-50 dark:bg-rose-950/20 flex items-center justify-between gap-4 font-bold text-black dark:text-white">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-rose-500 shrink-0 animate-pulse" />
+                      <span>Silent / Inactive ({silentPct}%)</span>
+                    </div>
+                    <span className="font-mono text-rose-600 dark:text-rose-400">{silentDocks} Docks</span>
+                  </div>
+                </div>
               </div>
-              <div className={`p-2 rounded-lg border ${isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-100 bg-gray-50'}`}>
-                <div className="text-amber-500 font-bold font-mono text-sm">{standbyDocks}</div>
-                <div className="text-[11px] text-gray-500">Standby Ready</div>
+            </div>
+
+            {/* Telemetry Footnote */}
+            <div className="p-3.5 rounded-xl bg-gray-100 dark:bg-black border border-gray-300 dark:border-gray-800 text-xs font-semibold text-gray-800 dark:text-gray-300 flex items-start gap-2">
+              <Activity className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+              <span>
+                <strong>Hardware Diagnostics:</strong> 3 docks at Stallingborough were idle due to an RTK sensor lock; remote firmware was deployed and night missions resumed.
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* INFOGRAPHIC 3: Stakeholder Influence vs Sentiment 2x2 Quadrant Map */}
+        {(activeChartTab === 'all' || activeChartTab === 'matrix') && (
+          <div className="lg:col-span-2 p-6 rounded-2xl border space-y-6 border-gray-300 dark:border-gray-800 bg-white dark:bg-[#0c0e12] shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-gray-200 dark:border-gray-800">
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-purple-600" />
+                <div>
+                  <h4 className="font-bold text-base text-black dark:text-white">
+                    Stakeholder Power & Sentiment Quadrant Matrix (2x2 Grid)
+                  </h4>
+                  <span className="text-[11px] font-semibold text-gray-500">
+                    Maps organizational decision-makers by political influence and current operational sentiment
+                  </span>
+                </div>
               </div>
-              <div className={`p-2 rounded-lg border ${isDark ? 'border-red-950 bg-red-950/20' : 'border-red-100 bg-red-50'}`}>
-                <div className="text-red-500 font-bold font-mono text-sm">{silentDocks}</div>
-                <div className="text-[11px] text-red-600 dark:text-red-400">Silent Docks</div>
-              </div>
-            </div>
-          </div>
-
-          <p className={`text-xs leading-relaxed pt-2 border-t border-gray-100 dark:border-gray-800 ${
-            isDark ? 'text-gray-400' : 'text-gray-500'
-          }`}>
-            Warning: Aldermoor has 3 docks that are online but haven't launched flights in 14 days due to uncoordinated plant maintenance.
-          </p>
-        </div>
-
-        {/* Infographic 3: Stakeholder Alignment Spectrum */}
-        <div className={`p-6 rounded-2xl border space-y-4 ${
-          isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-200 bg-white shadow-sm'
-        }`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-blue-500" />
-              <h4 className="font-bold text-base">Stakeholder Influence Grid</h4>
-            </div>
-            <span className="text-xs font-mono font-semibold text-gray-500">
-              {allPeople.length} Contacts
-            </span>
-          </div>
-
-          <div className="grid grid-cols-4 gap-2 text-center text-xs">
-            <div className={`p-3 rounded-xl border ${isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-100 bg-gray-50'}`}>
-              <div className="font-bold font-mono text-lg text-blue-600 dark:text-blue-400">{decidersCount}</div>
-              <div className="text-[11px] text-gray-500 mt-0.5">Deciders</div>
-            </div>
-            <div className={`p-3 rounded-xl border ${isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-100 bg-gray-50'}`}>
-              <div className="font-bold font-mono text-lg text-emerald-600 dark:text-emerald-400">{championsCount}</div>
-              <div className="text-[11px] text-gray-500 mt-0.5">Champions</div>
-            </div>
-            <div className={`p-3 rounded-xl border ${isDark ? 'border-red-950 bg-red-950/20' : 'border-red-100 bg-red-50'}`}>
-              <div className="font-bold font-mono text-lg text-red-600 dark:text-red-400">{blockersCount}</div>
-              <div className="text-[11px] text-red-600 dark:text-red-400">Blockers</div>
-            </div>
-            <div className={`p-3 rounded-xl border ${isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-100 bg-gray-50'}`}>
-              <div className="font-bold font-mono text-lg text-gray-700 dark:text-gray-300">{usersCount}</div>
-              <div className="text-[11px] text-gray-500 mt-0.5">End Users</div>
-            </div>
-          </div>
-
-          <div className="space-y-1.5 pt-2 text-xs">
-            <div className="flex items-center justify-between">
-              <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Chief Constable Marcus Hayes (Police)</span>
-              <span className="font-semibold text-emerald-500">Economic Buyer</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Derek Finch (Procurement)</span>
-              <span className="font-semibold text-red-500">Active Gatekeeper</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>Rhys Calder (Fleet Manager)</span>
-              <span className="font-semibold text-amber-500">Departing Jan 2026</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Infographic 4: Risk Window Deadlines */}
-        <div className={`p-6 rounded-2xl border space-y-4 ${
-          isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-200 bg-white shadow-sm'
-        }`}>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-red-500" />
-              <h4 className="font-bold text-base">Risk Urgency Timetable</h4>
-            </div>
-            <span className="text-xs font-mono font-semibold text-red-500">
-              4 Impending Windows
-            </span>
-          </div>
-
-          <div className="space-y-2.5 text-xs">
-            
-            <div className={`p-2.5 rounded-xl border flex items-center justify-between ${
-              isDark ? 'border-red-900/60 bg-red-950/20' : 'border-red-200 bg-red-50/50'
-            }`}>
-              <div>
-                <div className="font-bold text-red-700 dark:text-red-300">5 Dec Police Event Support</div>
-                <div className="text-[11px] text-gray-500">Tactical air support for public event</div>
-              </div>
-              <span className="font-mono font-bold px-2 py-0.5 rounded bg-red-600 text-white text-[11px]">
-                5d left
+              <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-purple-100 text-purple-950 border border-purple-400">
+                5 Key Leaders Plotted
               </span>
             </div>
 
-            <div className={`p-2.5 rounded-xl border flex items-center justify-between ${
-              isDark ? 'border-amber-900/60 bg-amber-950/20' : 'border-amber-200 bg-amber-50/50'
-            }`}>
-              <div>
-                <div className="font-bold text-amber-800 dark:text-amber-300">Aldermoor Plant Report Submission</div>
-                <div className="text-[11px] text-gray-500">Deliver flight ROI to stop budget revolt</div>
+            {/* 2x2 Visual Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              
+              {/* Quadrant 2: High Influence + Skeptical / Guarded */}
+              <div className="p-5 rounded-2xl border border-rose-300 dark:border-rose-900 bg-rose-50/40 dark:bg-rose-950/10 space-y-3">
+                <div className="flex items-center justify-between font-bold text-rose-950 dark:text-rose-300 border-b border-rose-200 dark:border-rose-900 pb-2">
+                  <span>QUADRANT II: High Influence • High Risk / Gatekeeper</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-rose-200 dark:bg-rose-900 text-rose-950 dark:text-rose-100">Blockers</span>
+                </div>
+                <div className="p-3 rounded-xl bg-white dark:bg-black border border-rose-200 dark:border-rose-800 space-y-1">
+                  <div className="font-bold text-black dark:text-white flex items-center justify-between">
+                    <span>Derek Finch</span>
+                    <span className="text-[10px] font-mono text-rose-600 font-bold">Trust: 40%</span>
+                  </div>
+                  <span className="text-[11px] text-gray-600 dark:text-gray-400 block font-medium">
+                    Senior Procurement Director • Requires audited unit economics before tender qualification.
+                  </span>
+                </div>
               </div>
-              <span className="font-mono font-bold px-2 py-0.5 rounded bg-amber-500 text-white text-[11px]">
-                12d left
-              </span>
-            </div>
 
-            <div className={`p-2.5 rounded-xl border flex items-center justify-between ${
-              isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-200 bg-gray-50'
-            }`}>
-              <div>
-                <div className="font-bold text-gray-900 dark:text-white">300-Dock Framework Tender Submission</div>
-                <div className="text-[11px] text-gray-500">Procurement deadline for national tender</div>
+              {/* Quadrant 1: High Influence + Strong Alignment */}
+              <div className="p-5 rounded-2xl border border-emerald-300 dark:border-emerald-900 bg-emerald-50/40 dark:bg-emerald-950/10 space-y-3">
+                <div className="flex items-center justify-between font-bold text-emerald-950 dark:text-emerald-300 border-b border-emerald-200 dark:border-emerald-900 pb-2">
+                  <span>QUADRANT I: High Influence • Champion / Economic Buyer</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-200 dark:bg-emerald-900 text-emerald-950 dark:text-emerald-100">Economic Drivers</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="p-3 rounded-xl bg-white dark:bg-black border border-emerald-200 dark:border-emerald-800 space-y-1">
+                    <div className="font-bold text-black dark:text-white flex items-center justify-between">
+                      <span>Marcus Hayes</span>
+                      <span className="text-[10px] font-mono text-emerald-600 font-bold">Trust: 75%</span>
+                    </div>
+                    <span className="text-[11px] text-gray-600 dark:text-gray-400 block font-medium">
+                      Chief Constable • Alliance Chair & Primary Sponsor.
+                    </span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white dark:bg-black border border-emerald-200 dark:border-emerald-800 space-y-1">
+                    <div className="font-bold text-black dark:text-white flex items-center justify-between">
+                      <span>Nadia Rahman</span>
+                      <span className="text-[10px] font-mono text-emerald-600 font-bold">Trust: 88%</span>
+                    </div>
+                    <span className="text-[11px] text-gray-600 dark:text-gray-400 block font-medium">
+                      VP Operations • Group Financial Controller.
+                    </span>
+                  </div>
+                </div>
               </div>
-              <span className="font-mono font-semibold px-2 py-0.5 rounded border border-gray-300 dark:border-gray-700 text-[11px]">
-                25d left
-              </span>
-            </div>
 
-            <div className={`p-2.5 rounded-xl border flex items-center justify-between ${
-              isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-200 bg-gray-50'
-            }`}>
-              <div>
-                <div className="font-bold text-gray-900 dark:text-white">Rhys Calder Successor Transition</div>
-                <div className="text-[11px] text-gray-500">Champion exit date</div>
+              {/* Quadrant 3: Low Influence + Operational Skeptic */}
+              <div className="p-5 rounded-2xl border border-amber-300 dark:border-amber-900 bg-amber-50/40 dark:bg-amber-950/10 space-y-3">
+                <div className="flex items-center justify-between font-bold text-amber-950 dark:text-amber-300 border-b border-amber-200 dark:border-amber-900 pb-2">
+                  <span>QUADRANT III: Low Influence • Guarded / Plant Operators</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-amber-200 dark:bg-amber-900 text-amber-950 dark:text-amber-100">Site Managers</span>
+                </div>
+                <div className="p-3 rounded-xl bg-white dark:bg-black border border-amber-200 dark:border-amber-800 space-y-1">
+                  <div className="font-bold text-black dark:text-white flex items-center justify-between">
+                    <span>Plant 7 & Stallingborough Ops</span>
+                    <span className="text-[10px] font-mono text-amber-600 font-bold">Trust: 60%</span>
+                  </div>
+                  <span className="text-[11px] text-gray-600 dark:text-gray-400 block font-medium">
+                    Chemical plant directors • Resented corporate security fee until inspection savings proven.
+                  </span>
+                </div>
               </div>
-              <span className="font-mono font-semibold px-2 py-0.5 rounded border border-gray-300 dark:border-gray-700 text-[11px]">
-                45d left
-              </span>
-            </div>
 
+              {/* Quadrant 4: Operational Champions & Users */}
+              <div className="p-5 rounded-2xl border border-blue-300 dark:border-blue-900 bg-blue-50/40 dark:bg-blue-950/10 space-y-3">
+                <div className="flex items-center justify-between font-bold text-blue-950 dark:text-blue-300 border-b border-blue-200 dark:border-blue-900 pb-2">
+                  <span>QUADRANT IV: Operational Influence • Daily Users & Champions</span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-blue-200 dark:bg-blue-900 text-blue-950 dark:text-blue-100">Tactical Allies</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="p-3 rounded-xl bg-white dark:bg-black border border-blue-200 dark:border-blue-800 space-y-1">
+                    <div className="font-bold text-black dark:text-white flex items-center justify-between">
+                      <span>Karen Mbeki</span>
+                      <span className="text-[10px] font-mono text-blue-600 font-bold">Trust: 85%</span>
+                    </div>
+                    <span className="text-[11px] text-gray-600 dark:text-gray-400 block font-medium">
+                      Drone Unit Commander • Westmere tactical operations lead.
+                    </span>
+                  </div>
+                  <div className="p-3 rounded-xl bg-white dark:bg-black border border-blue-200 dark:border-blue-800 space-y-1">
+                    <div className="font-bold text-black dark:text-white flex items-center justify-between">
+                      <span>Rhys Calder</span>
+                      <span className="text-[10px] font-mono text-purple-600 font-bold">Trust: 95%</span>
+                    </div>
+                    <span className="text-[11px] text-gray-600 dark:text-gray-400 block font-medium">
+                      Fleet Operations Manager • Stepping down Jan 2026.
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
+        )}
 
       </div>
 
