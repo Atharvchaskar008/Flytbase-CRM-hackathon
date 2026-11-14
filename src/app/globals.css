@@ -3,35 +3,83 @@
 @tailwind utilities;
 
 :root {
-  --background: #090d16;
-  --foreground: #f1f5f9;
-  --card: #0f172a;
-  --card-foreground: #f8fafc;
-  --border: #1e293b;
+  --bg: #000000;
+  --panel: #0a0b0d;
+  --panel-border: #1e2227;
+  --text: #ffffff;
+  --muted: #889096;
+  --faint: #444950;
+  --line: #1c2025;
+  --pill-bg: #121519;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  min-height: 100vh;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom scrollbars */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 3px;
+  background: #252a31;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #363d47;
+}
+
+/* TamperSafe-style Monospace & Pill Utility */
+.font-mono-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.t-panel {
+  background-color: #08090b;
+  border: 1px solid #1c2026;
+  border-radius: 4px;
+}
+
+.t-panel:hover {
+  border-color: #2c323c;
+}
+
+.t-badge {
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  border: 1px solid #22262e;
+  background-color: #0d0f12;
+  color: #889096;
+}
+
+.t-badge-white {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  font-weight: 600;
+}
+
+.t-badge-alert {
+  border-color: #ffffff;
+  color: #ffffff;
+  background-color: #1a1a1a;
 }

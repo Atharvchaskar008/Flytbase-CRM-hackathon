@@ -2,15 +2,6 @@
 
 import React from 'react';
 import { AccountDetail, AccountId, AccountRisk } from '../types/crm';
-import { 
-  ShieldAlert, 
-  AlertTriangle, 
-  Clock, 
-  Flame, 
-  ShieldCheck, 
-  ArrowRight,
-  TrendingDown
-} from 'lucide-react';
 
 interface RiskRadarProps {
   accounts: Record<AccountId, AccountDetail>;
@@ -27,94 +18,66 @@ export const RiskRadar: React.FC<RiskRadarProps> = ({
 
   const allRisks: AccountRisk[] = currentAccounts.flatMap(a => a.risks);
 
-  const getSeverityBadge = (severity: AccountRisk['severity']) => {
-    switch (severity) {
-      case 'critical':
-        return (
-          <span className="flex items-center gap-1 text-[10px] font-mono uppercase bg-rose-950 text-rose-300 border border-rose-800 px-2 py-0.5 rounded font-bold">
-            <Flame className="w-3 h-3 text-rose-400" /> Critical Severity
-          </span>
-        );
-      case 'high':
-        return (
-          <span className="flex items-center gap-1 text-[10px] font-mono uppercase bg-amber-950 text-amber-300 border border-amber-800 px-2 py-0.5 rounded font-bold">
-            <AlertTriangle className="w-3 h-3 text-amber-400" /> High Risk
-          </span>
-        );
-      default:
-        return (
-          <span className="flex items-center gap-1 text-[10px] font-mono uppercase bg-slate-800 text-slate-300 border border-slate-700 px-2 py-0.5 rounded">
-            Moderate
-          </span>
-        );
-    }
-  };
-
   return (
-    <div className="space-y-6">
-      {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+    <div className="space-y-4 font-mono">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-[#1c2026] pb-2 text-xs">
         <div>
-          <div className="flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-rose-400" />
-            <h3 className="text-base font-bold text-white">Question 4: What is about to go wrong? (Risk Radar)</h3>
-          </div>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Impending window expirations, cooling stakeholders, and technical roadblocks before they become deal-breakers.
-          </p>
+          <span className="text-white font-bold tracking-wider uppercase">
+            Question 4 // What is about to go wrong?
+          </span>
+          <span className="text-[#666] ml-2">Risk Radar & Window Deadlines</span>
         </div>
-        <div className="text-xs font-mono bg-rose-950/60 text-rose-300 border border-rose-800/80 px-2.5 py-1 rounded">
-          {allRisks.filter(r => r.severity === 'critical').length} Urgent Threat Windows
-        </div>
+        <span className="text-[10px] text-[#888] uppercase">
+          {allRisks.filter(r => r.severity === 'critical').length} Critical Threats Active
+        </span>
       </div>
 
-      {/* Risks Grid */}
-      <div className="space-y-3">
+      {/* Dense Risk List */}
+      <div className="space-y-2">
         {allRisks.map((risk) => {
-          const acc = accounts[risk.account];
+          const isCritical = risk.severity === 'critical';
           return (
             <div
               key={risk.id}
-              className={`border rounded-xl p-4 transition space-y-3 ${
-                risk.severity === 'critical'
-                  ? 'bg-gradient-to-r from-slate-900 via-slate-900 to-rose-950/30 border-rose-600/60 shadow-lg'
-                  : 'bg-slate-900 border-slate-800'
+              className={`border p-3 rounded transition space-y-2 ${
+                isCritical
+                  ? 'border-[#3d4450] bg-[#0c0e12]'
+                  : 'border-[#1c2026] bg-[#07080a]'
               }`}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-white">{risk.title}</span>
-                  {getSeverityBadge(risk.severity)}
-                  {selectedAccount === 'ALL' && acc && (
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-sky-300 border border-slate-700">
-                      {acc.name.split(' ')[0]}
-                    </span>
-                  )}
+                  <span className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider ${
+                    isCritical ? 'bg-white text-black' : 'border border-[#333] text-[#888] bg-black'
+                  }`}>
+                    {risk.severity}
+                  </span>
+                  <span className="text-xs font-bold text-white">{risk.title}</span>
+                  <span className="text-[9px] uppercase px-1.5 py-0.2 rounded border border-[#222] text-[#777]">
+                    Acc {risk.account}
+                  </span>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <div className="text-xs font-mono text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2 py-0.5 rounded flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    <span>Cutoff: {risk.deadlineDate} ({risk.daysRemaining} days left)</span>
-                  </div>
+                <div className="text-[10px] text-white bg-[#15181f] border border-[#282d36] px-2 py-0.5 rounded">
+                  Cutoff: {risk.deadlineDate} ({risk.daysRemaining}d left)
                 </div>
               </div>
 
-              {/* Consequence of Inaction */}
-              <div className="bg-slate-950/60 border border-rose-950 rounded-lg p-3 text-xs">
-                <span className="text-rose-400 font-bold block mb-1 flex items-center gap-1">
-                  <TrendingDown className="w-3.5 h-3.5" /> Consequence if missed:
-                </span>
-                <p className="text-slate-300 leading-relaxed">{risk.consequence}</p>
+              {/* Consequence & Mitigation */}
+              <div className="grid md:grid-cols-2 gap-2 text-[11px] font-sans pt-1">
+                <div className="border-l border-[#333] pl-2 text-[#aaa]">
+                  <strong className="text-white font-mono text-[10px] uppercase block">Consequence:</strong>
+                  {risk.consequence}
+                </div>
+                <div className="border-l border-[#555] pl-2 text-[#ccc]">
+                  <strong className="text-white font-mono text-[10px] uppercase block">Mitigation:</strong>
+                  {risk.mitigationPlan}
+                </div>
               </div>
 
-              {/* Actionable Mitigation */}
-              <div className="pt-2 border-t border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
-                <div className="flex items-center gap-1.5 text-emerald-400">
-                  <ShieldCheck className="w-4 h-4 shrink-0" />
-                  <span><strong>Mitigation Action:</strong> {risk.mitigationPlan}</span>
-                </div>
-                <span className="text-[11px] text-slate-400 font-mono">Owner: {risk.owner}</span>
+              <div className="text-[9px] text-[#666] pt-1 border-t border-[#15181e] flex justify-end">
+                <span>Owner: {risk.owner}</span>
               </div>
             </div>
           );

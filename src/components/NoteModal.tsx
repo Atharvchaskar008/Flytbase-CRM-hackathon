@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { AccountId } from '../types/crm';
-import { X, Send, CheckCircle2 } from 'lucide-react';
+import { X, Check } from 'lucide-react';
 
 interface NoteModalProps {
   isOpen: boolean;
@@ -46,14 +46,14 @@ export const NoteModal: React.FC<NoteModalProps> = ({
 
       const data = await res.json();
       if (res.ok) {
-        setStatusMessage('Note saved locally and dispatched to upstream API.');
+        setStatusMessage('Recorded locally and dispatched upstream.');
         setTimeout(() => {
           onNoteAdded();
           onClose();
           setTitle('');
           setText('');
           setStatusMessage(null);
-        }, 1200);
+        }, 1000);
       } else {
         setStatusMessage(`Error: ${data.error}`);
       }
@@ -65,43 +65,43 @@ export const NoteModal: React.FC<NoteModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg p-6 shadow-2xl relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
+      <div className="bg-[#090a0d] border border-[#2a2f38] rounded w-full max-w-md p-5 shadow-2xl relative font-mono text-xs">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-200 transition"
+          className="absolute top-4 right-4 text-[#666] hover:text-white transition"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
 
-        <h3 className="text-base font-bold text-white mb-1">Write Note to CRM & Upstream API</h3>
-        <p className="text-xs text-slate-400 mb-4">
-          Recorded in your local store and forwarded upstream using <code className="text-sky-300">write_note</code>.
+        <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-1">Log Note // Action</h3>
+        <p className="text-[11px] text-[#777] mb-4">
+          Direct dispatch to Questathon <code className="text-white">write_note</code> tool.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Target Account</label>
+              <label className="block text-[10px] uppercase text-[#888] mb-1">Target Account</label>
               <select
                 value={account}
                 onChange={(e) => setAccount(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500"
+                className="w-full bg-black border border-[#222] rounded p-2 text-xs text-white focus:outline-none focus:border-white"
               >
-                <option value="A">Account A (Metro Police Alliance)</option>
-                <option value="B">Account B (Apex Industrial)</option>
+                <option value="A">Acc A (Eastern Counties)</option>
+                <option value="B">Acc B (Aldermoor)</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Category</label>
+              <label className="block text-[10px] uppercase text-[#888] mb-1">Category</label>
               <select
                 value={kind}
                 onChange={(e) => setKind(e.target.value as any)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500"
+                className="w-full bg-black border border-[#222] rounded p-2 text-xs text-white focus:outline-none focus:border-white"
               >
                 <option value="next_step">Next Step</option>
-                <option value="task">Action Item / Task</option>
+                <option value="task">Action Item</option>
                 <option value="risk">Risk Flag</option>
                 <option value="note">General Note</option>
               </select>
@@ -109,50 +109,49 @@ export const NoteModal: React.FC<NoteModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Title / Headline</label>
+            <label className="block text-[10px] uppercase text-[#888] mb-1">Headline</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. Discuss Dock 2 heating waiver with Neel"
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500"
+              placeholder="e.g. Confirm 5 Dec training schedule"
+              className="w-full bg-black border border-[#222] rounded p-2 text-xs text-white focus:outline-none focus:border-white"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Content / Observation</label>
+            <label className="block text-[10px] uppercase text-[#888] mb-1">Details</label>
             <textarea
-              rows={4}
+              rows={3}
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Provide concrete details, stakeholder quotes, or receipt citations..."
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500"
+              placeholder="Specify stakeholder, deadline, or citation..."
+              className="w-full bg-black border border-[#222] rounded p-2 text-xs text-white focus:outline-none focus:border-white"
               required
             />
           </div>
 
           {statusMessage && (
-            <div className="text-xs p-2.5 rounded bg-sky-950/60 border border-sky-800 text-sky-300 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-sky-400" />
+            <div className="text-[11px] p-2 rounded border border-[#333] bg-black text-white flex items-center gap-1.5">
+              <Check className="w-3.5 h-3.5 text-white" />
               <span>{statusMessage}</span>
             </div>
           )}
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-2 pt-2 border-t border-[#1a1c22]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
+              className="px-3 py-1.5 rounded text-[11px] uppercase border border-[#222] text-[#888] hover:text-white transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white transition disabled:opacity-50"
+              className="px-3 py-1.5 rounded text-[11px] uppercase bg-white text-black font-semibold hover:bg-[#e0e0e0] transition disabled:opacity-50"
             >
-              <Send className="w-3.5 h-3.5" />
-              <span>{isSubmitting ? 'Submitting...' : 'Save Note'}</span>
+              {isSubmitting ? 'Sending...' : 'Save Note'}
             </button>
           </div>
         </form>

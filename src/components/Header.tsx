@@ -2,15 +2,7 @@
 
 import React from 'react';
 import { AccountId } from '../types/crm';
-import { 
-  Building2, 
-  ShieldCheck, 
-  Activity, 
-  RefreshCw, 
-  PlusCircle, 
-  FileText,
-  Radio
-} from 'lucide-react';
+import { RefreshCw, Plus, FileText, CheckCircle2 } from 'lucide-react';
 
 interface HeaderProps {
   selectedAccount: AccountId | 'ALL';
@@ -34,87 +26,88 @@ export const Header: React.FC<HeaderProps> = ({
   signalsCount,
 }) => {
   return (
-    <header className="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40 px-4 py-3">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <header className="border-b border-[#1a1e24] bg-black sticky top-0 z-40 px-4 py-2.5">
+      <div className="max-w-[1400px] mx-auto flex flex-wrap items-center justify-between gap-3">
         
-        {/* Brand & Title */}
+        {/* Brand */}
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-lg bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 font-bold">
-            <Radio className="w-5 h-5 animate-pulse" />
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="font-semibold text-sm tracking-tight text-white font-mono uppercase">
+              FlytBase // CSM
+            </span>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-base tracking-wide text-white">FlytBase CSM</span>
-              <span className="text-[10px] uppercase font-mono tracking-wider bg-sky-950 text-sky-300 border border-sky-800/60 px-1.5 py-0.5 rounded">
-                DiaB Fleet Intel
-              </span>
-            </div>
-            <p className="text-xs text-slate-400">Account Quest • 30-Day Executive Playbook</p>
-          </div>
+          <span className="text-[11px] font-mono text-[#666] border-l border-[#222] pl-3 uppercase">
+            30D Fleet Command
+          </span>
         </div>
 
-        {/* Account Selector Tabs */}
-        <div className="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs font-medium">
+        {/* Account Segment Switcher (Monochrome TamperSafe style) */}
+        <div className="flex items-center border border-[#22262d] rounded bg-[#07080a] p-0.5 text-xs font-mono">
           <button
             onClick={() => onSelectAccount('ALL')}
-            className={`px-3 py-1.5 rounded-md transition ${
+            className={`px-3 py-1 rounded transition text-[11px] uppercase tracking-wider ${
               selectedAccount === 'ALL'
-                ? 'bg-sky-600 text-white shadow'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-black font-semibold'
+                : 'text-[#888] hover:text-white'
             }`}
           >
-            Portfolio Overview
+            Portfolio
           </button>
           <button
             onClick={() => onSelectAccount('A')}
-            className={`px-3 py-1.5 rounded-md transition flex items-center gap-1.5 ${
+            className={`px-3 py-1 rounded transition text-[11px] uppercase tracking-wider ${
               selectedAccount === 'A'
-                ? 'bg-sky-600 text-white shadow'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-black font-semibold'
+                : 'text-[#888] hover:text-white'
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            Acc A: Metro Police
+            A: Eastern Police
           </button>
           <button
             onClick={() => onSelectAccount('B')}
-            className={`px-3 py-1.5 rounded-md transition flex items-center gap-1.5 ${
+            className={`px-3 py-1 rounded transition text-[11px] uppercase tracking-wider ${
               selectedAccount === 'B'
-                ? 'bg-sky-600 text-white shadow'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-black font-semibold'
+                : 'text-[#888] hover:text-white'
             }`}
           >
-            <Building2 className="w-3.5 h-3.5" />
-            Acc B: Apex Mining
+            B: Aldermoor
           </button>
         </div>
 
-        {/* Actions & Sync Status */}
+        {/* Right Actions */}
         <div className="flex items-center gap-2">
+          {/* Status Pill */}
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded border border-[#1e232a] bg-[#0a0c0f] text-[10px] font-mono text-[#888]">
+            <CheckCircle2 className="w-3 h-3 text-white" />
+            <span>STREAM LIVE</span>
+          </div>
+
           <button
             onClick={onSync}
             disabled={isSyncing}
-            title={lastSyncMessage || 'Sync data with Questathon upstream'}
-            className="flex items-center gap-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-2.5 py-1.5 rounded-md transition disabled:opacity-50"
+            title={lastSyncMessage || 'Sync with Questathon API'}
+            className="flex items-center gap-1.5 text-xs font-mono bg-black hover:bg-[#111] text-white border border-[#22262d] px-2.5 py-1.5 rounded transition disabled:opacity-50"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin text-sky-400' : ''}`} />
-            <span>Sync</span>
+            <RefreshCw className={`w-3 h-3 ${isSyncing ? 'animate-spin' : ''}`} />
+            <span className="text-[11px] uppercase">Sync</span>
           </button>
 
           <button
             onClick={onOpenNoteModal}
-            className="flex items-center gap-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-md transition"
+            className="flex items-center gap-1 text-xs font-mono bg-black hover:bg-[#111] text-white border border-[#22262d] px-2.5 py-1.5 rounded transition"
           >
-            <PlusCircle className="w-3.5 h-3.5 text-sky-400" />
-            <span>Add Note</span>
+            <Plus className="w-3 h-3" />
+            <span className="text-[11px] uppercase">Note</span>
           </button>
 
           <button
             onClick={onOpenReportModal}
-            className="flex items-center gap-1.5 text-xs bg-sky-600 hover:bg-sky-500 text-white font-medium px-3 py-1.5 rounded-md transition shadow"
+            className="flex items-center gap-1.5 text-xs font-mono bg-white hover:bg-[#e0e0e0] text-black font-semibold px-3 py-1.5 rounded transition"
           >
-            <FileText className="w-3.5 h-3.5" />
-            <span>Monday Brief</span>
+            <FileText className="w-3 h-3 text-black" />
+            <span className="text-[11px] uppercase tracking-wider">Monday Brief</span>
           </button>
         </div>
 

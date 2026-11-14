@@ -14,18 +14,8 @@ import { LiveSignalsPanel } from '@/components/LiveSignalsPanel';
 import { NoteModal } from '@/components/NoteModal';
 import { MondayBriefModal } from '@/components/MondayBriefModal';
 import { initialCRMData } from '@/lib/mockData';
-import { 
-  Flame, 
-  DollarSign, 
-  Crown, 
-  ShieldAlert, 
-  HelpCircle, 
-  FileText,
-  MessageSquare,
-  Sparkles
-} from 'lucide-react';
 
-export default function CRMPage() {
+export default function DashboardPage() {
   const [data, setData] = useState<CRMStoreData>(initialCRMData);
   const [selectedAccount, setSelectedAccount] = useState<AccountId | 'ALL'>('ALL');
   const [activeTab, setActiveTab] = useState<'actions' | 'book' | 'power' | 'risks' | 'blindspots' | 'paperwork'>('actions');
@@ -38,7 +28,6 @@ export default function CRMPage() {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [noteDefaultText, setNoteDefaultText] = useState('');
 
-  // Initial Load
   const fetchData = async (sync = false) => {
     setIsSyncing(true);
     try {
@@ -67,13 +56,13 @@ export default function CRMPage() {
   };
 
   const handleDraftQuestion = (spot: BlindSpot) => {
-    setNoteDefaultText(`Action on Blind Spot: ${spot.question}\nTarget: ${spot.whoCouldAnswer}\nContext: ${spot.suggestedAsk}`);
+    setNoteDefaultText(`Blind Spot Action: ${spot.question} -> Ask: ${spot.whoCouldAnswer}`);
     setIsNoteModalOpen(true);
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col text-slate-100">
-      {/* Top Header */}
+    <div className="min-h-screen bg-black flex flex-col text-[#ededed] antialiased selection:bg-white selection:text-black">
+      {/* Header */}
       <Header
         selectedAccount={selectedAccount}
         onSelectAccount={setSelectedAccount}
@@ -88,92 +77,86 @@ export default function CRMPage() {
         signalsCount={data.signals.length}
       />
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+      {/* Main Dashboard (No landing page) */}
+      <main className="flex-1 max-w-[1400px] w-full mx-auto p-3 md:p-5 space-y-4">
         
-        {/* Executive Summary Cards */}
+        {/* Executive Metric Cards */}
         <ExecutiveSummary
           accounts={data.accounts}
           selectedAccount={selectedAccount}
         />
 
-        {/* Tab Navigation */}
-        <div className="flex border-b border-slate-800 overflow-x-auto gap-2 text-xs font-semibold">
+        {/* Minimal Monochrome Tab Bar */}
+        <div className="flex border-b border-[#1c2026] overflow-x-auto gap-1 text-xs font-mono uppercase tracking-wider">
           <button
             onClick={() => setActiveTab('actions')}
-            className={`flex items-center gap-2 py-3 px-3.5 border-b-2 transition whitespace-nowrap ${
+            className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'actions'
-                ? 'border-amber-500 text-amber-400 bg-amber-950/20'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-white text-white font-bold bg-[#0c0d10]'
+                : 'border-transparent text-[#777] hover:text-white'
             }`}
           >
-            <Flame className="w-4 h-4 text-amber-500" />
-            <span>1. Monday 9am List (Q3)</span>
+            1. Actions (Q3)
           </button>
 
           <button
             onClick={() => setActiveTab('book')}
-            className={`flex items-center gap-2 py-3 px-3.5 border-b-2 transition whitespace-nowrap ${
+            className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'book'
-                ? 'border-emerald-500 text-emerald-400 bg-emerald-950/20'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-white text-white font-bold bg-[#0c0d10]'
+                : 'border-transparent text-[#777] hover:text-white'
             }`}
           >
-            <DollarSign className="w-4 h-4 text-emerald-400" />
-            <span>2. Book with Receipts (Q1)</span>
+            2. Receipts (Q1)
           </button>
 
           <button
             onClick={() => setActiveTab('power')}
-            className={`flex items-center gap-2 py-3 px-3.5 border-b-2 transition whitespace-nowrap ${
+            className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'power'
-                ? 'border-purple-500 text-purple-400 bg-purple-950/20'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-white text-white font-bold bg-[#0c0d10]'
+                : 'border-transparent text-[#777] hover:text-white'
             }`}
           >
-            <Crown className="w-4 h-4 text-purple-400" />
-            <span>3. Power Map (Q2)</span>
+            3. Power Map (Q2)
           </button>
 
           <button
             onClick={() => setActiveTab('risks')}
-            className={`flex items-center gap-2 py-3 px-3.5 border-b-2 transition whitespace-nowrap ${
+            className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'risks'
-                ? 'border-rose-500 text-rose-400 bg-rose-950/20'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-white text-white font-bold bg-[#0c0d10]'
+                : 'border-transparent text-[#777] hover:text-white'
             }`}
           >
-            <ShieldAlert className="w-4 h-4 text-rose-400" />
-            <span>4. Risk Radar (Q4)</span>
+            4. Risk Radar (Q4)
           </button>
 
           <button
             onClick={() => setActiveTab('blindspots')}
-            className={`flex items-center gap-2 py-3 px-3.5 border-b-2 transition whitespace-nowrap ${
+            className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'blindspots'
-                ? 'border-purple-400 text-purple-300 bg-purple-950/20'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-white text-white font-bold bg-[#0c0d10]'
+                : 'border-transparent text-[#777] hover:text-white'
             }`}
           >
-            <HelpCircle className="w-4 h-4 text-purple-300" />
-            <span>5. Blind-Spot Finder (Q5)</span>
+            5. Blind Spots (Q5)
           </button>
 
           <button
             onClick={() => setActiveTab('paperwork')}
-            className={`flex items-center gap-2 py-3 px-3.5 border-b-2 transition whitespace-nowrap ${
+            className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'paperwork'
-                ? 'border-sky-500 text-sky-400 bg-sky-950/20'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-white text-white font-bold bg-[#0c0d10]'
+                : 'border-transparent text-[#777] hover:text-white'
             }`}
           >
-            <FileText className="w-4 h-4 text-sky-400" />
-            <span>Data Room / Citations</span>
+            Data Room
           </button>
         </div>
 
         {/* Dynamic Content Views */}
-        <div className="grid lg:grid-cols-4 gap-6">
+        <div className="grid lg:grid-cols-4 gap-4 items-start">
           <div className="lg:col-span-3">
             {activeTab === 'actions' && (
               <NextBestActions
@@ -223,41 +206,40 @@ export default function CRMPage() {
           </div>
 
           {/* Right Rail: Live Feed & Notes */}
-          <div className="space-y-4">
+          <div className="space-y-3 font-mono">
             <LiveSignalsPanel
               signals={data.signals}
               selectedAccount={selectedAccount}
             />
 
             {/* Notes & Activity Stream */}
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2.5">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-white uppercase tracking-wider">
-                  <MessageSquare className="w-3.5 h-3.5 text-sky-400" />
-                  <span>CSM Notes Log ({data.notes.length})</span>
-                </div>
+            <div className="border border-[#1c2026] bg-[#07080a] p-3 rounded space-y-2">
+              <div className="flex items-center justify-between border-b border-[#181a1f] pb-2 text-[11px]">
+                <span className="text-white font-bold uppercase tracking-wider">
+                  Notes Log ({data.notes.length})
+                </span>
                 <button
                   onClick={() => {
                     setNoteDefaultText('');
                     setIsNoteModalOpen(true);
                   }}
-                  className="text-[10px] text-sky-400 hover:text-sky-300 font-medium"
+                  className="text-[10px] text-white hover:underline uppercase"
                 >
                   + Add
                 </button>
               </div>
 
               {data.notes.length === 0 ? (
-                <p className="text-xs text-slate-500 py-2">No notes recorded yet.</p>
+                <p className="text-[11px] text-[#666] py-2">No notes recorded.</p>
               ) : (
-                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
                   {data.notes.map((n) => (
-                    <div key={n.id} className="bg-slate-950 p-2.5 rounded border border-slate-800 text-xs">
-                      <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-                        <span className="font-semibold text-slate-200">{n.title || n.kind}</span>
-                        <span className="font-mono text-sky-400">Acc {n.account}</span>
+                    <div key={n.id} className="bg-black p-2 rounded border border-[#1a1d24] text-[11px]">
+                      <div className="flex items-center justify-between text-[10px] text-[#666] mb-0.5">
+                        <span className="font-semibold text-white">{n.title || n.kind}</span>
+                        <span>Acc {n.account}</span>
                       </div>
-                      <p className="text-slate-300 text-[11px] leading-relaxed">{n.text}</p>
+                      <p className="text-[#999] font-sans text-xs">{n.text}</p>
                     </div>
                   ))}
                 </div>
@@ -268,7 +250,7 @@ export default function CRMPage() {
 
       </main>
 
-      {/* Note Creation Modal */}
+      {/* Note Modal */}
       <NoteModal
         isOpen={isNoteModalOpen}
         onClose={() => setIsNoteModalOpen(false)}
@@ -277,7 +259,7 @@ export default function CRMPage() {
         defaultText={noteDefaultText}
       />
 
-      {/* Monday Executive Brief Modal */}
+      {/* Monday Brief Modal */}
       <MondayBriefModal
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
@@ -285,8 +267,8 @@ export default function CRMPage() {
       />
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 py-4 px-6 text-center text-xs text-slate-500">
-        FlytBase Customer Success Intelligence System • Autonomous Drone-in-a-Box Operational CRM • Questathon 2026
+      <footer className="border-t border-[#16181d] py-3 px-6 text-center text-[10px] font-mono text-[#555] uppercase tracking-wider">
+        FLYTBASE // DiaB Customer Success System // Questathon 2026
       </footer>
     </div>
   );

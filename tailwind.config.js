@@ -8,21 +8,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        border: "var(--border)",
-        card: "var(--card)",
-        "card-foreground": "var(--card-foreground)",
-        primary: {
-          DEFAULT: "#0284c7",
-          foreground: "#ffffff",
-        },
-        slate: {
-          850: "#151f32",
-          900: "#0f172a",
-          950: "#080e1a",
-        }
+        bg: "#000000",
+        panel: "#090a0d",
+        "panel-border": "#1c2027",
+        line: "#191d22",
+        muted: "#889096",
+        faint: "#383e47",
+        surface: "#0e1014",
       },
+      fontFamily: {
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+      }
     },
   },
   plugins: [],

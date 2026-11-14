@@ -2,14 +2,6 @@
 
 import React from 'react';
 import { AccountDetail, AccountId } from '../types/crm';
-import { 
-  DollarSign, 
-  ShieldAlert, 
-  HelpCircle, 
-  TrendingUp, 
-  CheckCircle2, 
-  Layers
-} from 'lucide-react';
 
 interface ExecutiveSummaryProps {
   accounts: Record<AccountId, AccountDetail>;
@@ -24,151 +16,109 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
     ? Object.values(accounts) 
     : [accounts[selectedAccount]].filter(Boolean);
 
-  const totalContractVal = currentAccounts.reduce((acc, a) => acc + a.contractValue, 0);
-  const totalExpansionVal = currentAccounts.reduce((acc, a) => acc + a.expansionPotential, 0);
-  
-  // Calculate verified value
-  let verifiedVal = 0;
-  let citationsCount = 0;
-  let activeRisksCount = 0;
-  let blindSpotsCount = 0;
+  let verifiedARR = 0;
+  let totalPipeline = 0;
+  let totalDocks = 0;
+  let activeDocks = 0;
+  let silentDocks = 0;
+  let criticalRisks = 0;
 
   currentAccounts.forEach(acc => {
     acc.deals.forEach(d => {
-      verifiedVal += d.verifiedValue || 0;
-      citationsCount += d.citations.length;
+      verifiedARR += d.verifiedValue || 0;
+      totalPipeline += (d.value || 0);
     });
-    activeRisksCount += acc.risks.filter(r => r.severity === 'critical' || r.severity === 'high').length;
-    blindSpotsCount += acc.blindSpots.length;
+    criticalRisks += acc.risks.filter(r => r.severity === 'critical').length;
   });
 
-  const avgHealth = Math.round(
-    currentAccounts.reduce((acc, a) => acc + a.healthScore, 0) / (currentAccounts.length || 1)
-  );
+  if (selectedAccount === 'ALL') {
+    totalDocks = 49;
+    activeDocks = 27; // 14 Police + 13 Industrial
+    silentDocks = 3;  // 3 silent in Aldermoor
+  } else if (selectedAccount === 'A') {
+    totalDocks = 35;
+    activeDocks = 14;
+    silentDocks = 0;
+  } else {
+    totalDocks = 14;
+    activeDocks = 11;
+    silentDocks = 3;
+  }
 
   return (
-    <div className="space-y-4">
-      {/* Account Info Banner if single account selected */}
+    <div className="space-y-3">
+      {/* Mini banner if specific account selected */}
       {selectedAccount !== 'ALL' && accounts[selectedAccount] && (
-        <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row justify-between gap-4">
+        <div className="border border-[#1e2229] bg-[#07080a] p-3 rounded flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h2 className="text-lg font-bold text-white">{accounts[selectedAccount].name}</h2>
-              <span className="text-xs bg-slate-800 text-sky-400 border border-slate-700 px-2 py-0.5 rounded font-mono">
-                {accounts[selectedAccount].badge}
-              </span>
-            </div>
-            <p className="text-xs text-slate-300 max-w-2xl">{accounts[selectedAccount].business}</p>
-            <p className="text-xs text-slate-400 mt-1">
-              <span className="text-slate-300 font-semibold">Fleet Sold:</span> {accounts[selectedAccount].sold}
-            </p>
+            <span className="font-bold text-white uppercase tracking-wider">
+              {accounts[selectedAccount].name}
+            </span>
+            <span className="text-[#666] ml-2 font-normal">
+              — {accounts[selectedAccount].sold}
+            </span>
           </div>
-          {accounts[selectedAccount].handoverNote && (
-            <div className="bg-slate-950/80 border-l-2 border-amber-500 rounded p-3 text-xs text-slate-300 max-w-md">
-              <span className="text-amber-400 font-bold block mb-1">Handover Context:</span>
-              {accounts[selectedAccount].handoverNote}
-            </div>
-          )}
+          <div className="text-[#888] text-[11px]">
+            {accounts[selectedAccount].handoverNote}
+          </div>
         </div>
       )}
 
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+      {/* Monochrome Minimal Metrics Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-2 font-mono">
         
-        {/* Book Value Card */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-medium">Verifiable ARR</span>
-            <DollarSign className="w-4 h-4 text-emerald-400" />
+        {/* Verified ARR */}
+        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
+          <div className="text-[10px] text-[#777] uppercase tracking-wider">Verified ARR</div>
+          <div className="text-xl font-bold text-white mt-1">
+            ${(verifiedARR / 1000).toFixed(0)}k
           </div>
-          <div className="mt-2">
-            <span className="text-2xl font-black text-white font-mono">
-              ${(verifiedVal / 1000).toFixed(0)}k
-            </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
-              of ${( (totalContractVal + totalExpansionVal) / 1000).toFixed(0)}k total pipeline
-            </span>
-          </div>
-          <div className="mt-2 pt-2 border-t border-slate-800/80 flex items-center gap-1.5 text-[11px] text-emerald-400">
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            <span>{citationsCount} audit citations verified</span>
+          <div className="text-[10px] text-[#666] mt-0.5">
+            of ${(totalPipeline / 1000).toFixed(0)}k total pipeline
           </div>
         </div>
 
-        {/* Expansion Pipeline */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-medium">Expansion Upside</span>
-            <TrendingUp className="w-4 h-4 text-sky-400" />
+        {/* Fleet Deployment */}
+        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
+          <div className="text-[10px] text-[#777] uppercase tracking-wider">Fleet Status</div>
+          <div className="text-xl font-bold text-white mt-1">
+            {activeDocks} <span className="text-xs font-normal text-[#666]">/ {totalDocks} Flying</span>
           </div>
-          <div className="mt-2">
-            <span className="text-2xl font-black text-white font-mono">
-              ${(totalExpansionVal / 1000).toFixed(0)}k
-            </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
-              Qualified expansion deals
-            </span>
-          </div>
-          <div className="mt-2 pt-2 border-t border-slate-800/80 text-[11px] text-sky-400">
-            Subject to blocker removal
+          <div className="text-[10px] text-[#888] mt-0.5">
+            {silentDocks > 0 ? `${silentDocks} silent docks halted` : 'Zero critical faults'}
           </div>
         </div>
 
-        {/* Health Score */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-medium">Account Health</span>
-            <Layers className="w-4 h-4 text-amber-400" />
+        {/* Urgent Deadlines */}
+        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
+          <div className="text-[10px] text-[#777] uppercase tracking-wider">Active Threats</div>
+          <div className="text-xl font-bold text-white mt-1">
+            {criticalRisks} <span className="text-xs font-normal text-[#666]">Critical</span>
           </div>
-          <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-2xl font-black text-white font-mono">{avgHealth}/100</span>
-            <span className={`text-xs font-bold ${avgHealth >= 70 ? 'text-emerald-400' : 'text-amber-400'}`}>
-              {avgHealth >= 70 ? 'Stable' : 'At Risk'}
-            </span>
-          </div>
-          <div className="mt-2 w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-            <div 
-              className={`h-full ${avgHealth >= 70 ? 'bg-emerald-500' : 'bg-amber-500'}`} 
-              style={{ width: `${avgHealth}%` }}
-            />
+          <div className="text-[10px] text-[#888] mt-0.5">
+            5 Dec Event • Spec Lock
           </div>
         </div>
 
-        {/* Urgent Risks */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-medium">Critical Deadlines</span>
-            <ShieldAlert className="w-4 h-4 text-rose-400" />
+        {/* Stakeholder Trust */}
+        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
+          <div className="text-[10px] text-[#777] uppercase tracking-wider">Key Deciders</div>
+          <div className="text-xl font-bold text-white mt-1">
+            {currentAccounts.flatMap(a => a.people).length} <span className="text-xs font-normal text-[#666]">Mapped</span>
           </div>
-          <div className="mt-2">
-            <span className="text-2xl font-black text-rose-400 font-mono">
-              {activeRisksCount}
-            </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
-              Urgent timeline threats
-            </span>
-          </div>
-          <div className="mt-2 pt-2 border-t border-slate-800/80 text-[11px] text-rose-400 flex items-center gap-1">
-            <span>Requires Monday action</span>
+          <div className="text-[10px] text-[#888] mt-0.5">
+            1 Departing (Calder)
           </div>
         </div>
 
-        {/* Blind Spots */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-xs font-medium">Critical Unknowns</span>
-            <HelpCircle className="w-4 h-4 text-purple-400" />
+        {/* Portfolio Health */}
+        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
+          <div className="text-[10px] text-[#777] uppercase tracking-wider">Health Index</div>
+          <div className="text-xl font-bold text-white mt-1">
+            {Math.round(currentAccounts.reduce((s, a) => s + a.healthScore, 0) / currentAccounts.length)}%
           </div>
-          <div className="mt-2">
-            <span className="text-2xl font-black text-purple-300 font-mono">
-              {blindSpotsCount}
-            </span>
-            <span className="text-xs text-slate-400 block mt-0.5">
-              Unanswered dependencies
-            </span>
-          </div>
-          <div className="mt-2 pt-2 border-t border-slate-800/80 text-[11px] text-purple-400">
-            Questions logged for inquiry
+          <div className="text-[10px] text-[#888] mt-0.5">
+            Attention Required
           </div>
         </div>
 
