@@ -21,6 +21,7 @@ import { SharedNoteArena } from '@/components/SharedNoteArena';
 import { IntegrationsHub } from '@/components/IntegrationsHub';
 import { DealVault } from '@/components/DealVault';
 import { CustomerCheckinAgent } from '@/components/CustomerCheckinAgent';
+import { CallTranscriptFlags } from '@/components/CallTranscriptFlags';
 import { initialCRMData } from '@/lib/mockData';
 import { AutonomousCSMAgentNetwork, AgentInsight } from '@/lib/agents';
 import { 
@@ -40,14 +41,15 @@ import {
   Menu,
   X,
   BrainCircuit,
-  MessageSquare
+  MessageSquare,
+  PhoneCall
 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [data, setData] = useState<CRMStoreData>(initialCRMData);
   const [selectedAccount, setSelectedAccount] = useState<AccountId | 'ALL'>('ALL');
   const [activeTab, setActiveTab] = useState<
-    'actions' | 'book' | 'dealvault' | 'checkin' | 'power' | 'risks' | 'blindspots' | 'agents' | 'notes' | 'infographics' | 'paperwork' | 'integrations'
+    'actions' | 'book' | 'dealvault' | 'checkin' | 'transcripts' | 'power' | 'risks' | 'blindspots' | 'agents' | 'notes' | 'infographics' | 'paperwork' | 'integrations'
   >('actions');
   const [theme, setTheme] = useState<'light' | 'dark'>('light'); // Crisp white default!
   const [isSyncing, setIsSyncing] = useState(false);
@@ -162,14 +164,15 @@ export default function DashboardPage() {
     { id: 'book', label: '2. Contracts & Money', icon: ShieldCheck, desc: 'Guaranteed ARR' },
     { id: 'dealvault', label: '3. Deal Vault & Intelligence', icon: BrainCircuit, desc: 'Touchpoint memory & psych dossiers', badge: 'Elite' },
     { id: 'checkin', label: '4. WhatsApp Customer Check-in', icon: MessageSquare, desc: 'Proactive relationship agent', badge: 'Live AI' },
-    { id: 'power', label: '5. Who Makes Decisions', icon: Users, desc: 'Key stakeholders' },
-    { id: 'risks', label: '6. Problems & Deadlines', icon: AlertTriangle, desc: 'Risk countdowns' },
-    { id: 'blindspots', label: '7. Questions to Ask', icon: HelpCircle, desc: 'Unknown info' },
-    { id: 'agents', label: '8. AI Helpers (Calls & WhatsApp)', icon: Bot, desc: 'Smart swarm', badge: 'Active' },
-    { id: 'notes', label: '9. Shared Note Arena', icon: FileEdit, desc: 'Team whiteboard', badge: 'New' },
-    { id: 'infographics', label: '10. Visual Charts', icon: BarChart3, desc: 'Ratios & health' },
-    { id: 'paperwork', label: '11. Official Contract Papers', icon: FileText, desc: 'Data Room proofs' },
-    { id: 'integrations', label: '12. Integrations & Roadmap', icon: Sliders, desc: 'Telemetry & APIs' },
+    { id: 'transcripts', label: '5. Call Transcripts & Risk Flags', icon: PhoneCall, desc: 'MCP dialogue & competitor flags', badge: 'Flags' },
+    { id: 'power', label: '6. Who Makes Decisions', icon: Users, desc: 'Key stakeholders' },
+    { id: 'risks', label: '7. Problems & Deadlines', icon: AlertTriangle, desc: 'Risk countdowns' },
+    { id: 'blindspots', label: '8. Questions to Ask', icon: HelpCircle, desc: 'Unknown info' },
+    { id: 'agents', label: '9. AI Helpers (Calls & WhatsApp)', icon: Bot, desc: 'Smart swarm', badge: 'Active' },
+    { id: 'notes', label: '10. Shared Note Arena', icon: FileEdit, desc: 'Team whiteboard', badge: 'New' },
+    { id: 'infographics', label: '11. Visual Charts', icon: BarChart3, desc: 'Ratios & health' },
+    { id: 'paperwork', label: '12. Official Contract Papers', icon: FileText, desc: 'Data Room proofs' },
+    { id: 'integrations', label: '13. Integrations & Roadmap', icon: Sliders, desc: 'Telemetry & APIs' },
   ];
 
   return (
@@ -321,6 +324,13 @@ export default function DashboardPage() {
               {activeTab === 'checkin' && (
                 <CustomerCheckinAgent
                   accounts={data.accounts}
+                  selectedAccount={selectedAccount}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'transcripts' && (
+                <CallTranscriptFlags
                   selectedAccount={selectedAccount}
                   isDark={isDark}
                 />

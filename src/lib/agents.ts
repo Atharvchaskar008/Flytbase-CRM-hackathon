@@ -353,6 +353,101 @@ export const STAKEHOLDER_WEB_DOSSIERS: WebResearchDossier[] = [
       'Resents being cut out of strategic discussions before his January exit'
     ],
     recommendedTone: 'Collaborative, appreciative, and forward-looking. Reassure him that his legacy is being institutionalized at Chief Constable level.'
+  },
+  {
+    stakeholderId: 'hannah_doyle',
+    name: 'Hannah Doyle',
+    title: 'Alliance Commercial Procurement Lead',
+    organization: 'Eastern Counties Police Alliance',
+    account: 'A',
+    publicBio: 'Commercial gatekeeper controlling contract approvals and the 300-dock national framework tender. Neutral relationship. Demands mathematical cost models and procurement compliance before authorizing framework tenders.',
+    careerHistory: [
+      '2022-Present: Alliance Commercial Procurement Lead, Eastern Police Alliance',
+      '2017-2022: Public Sector Contracts Specialist, UK Police Commercial Organisation'
+    ],
+    publicStatements: [
+      {
+        source: 'Procurement Specification Notice (Minute 8)',
+        quote: 'The tender specification locks soon. Whatever is not in it by then is out.',
+        context: 'Mandatory deadline notice governing the 300-dock national framework tender.'
+      }
+    ],
+    psychologicalProfile: 'Analytical public procurement officer. Focuses on compliance, transparent unit cost, and risk mitigation.',
+    coreMotivations: [
+      'Audit-proof procurement documentation complying with UK Public Contracts Regulations',
+      'Securing a costed operating model showing exactly who flies 300 docks',
+      'Ensuring fixed, predictable £1,000/dock/month pricing with no hidden cloud charges'
+    ],
+    redFlagsAndSensitivities: [
+      'Will exclude FlytBase from the 300-dock tender if unit economics and pilot ratios are not provided before spec lock'
+    ],
+    recommendedTone: 'Methodical, audit-grounded, and mathematically clear.'
+  },
+  {
+    stakeholderId: 'stefan_roy',
+    name: 'Stefan Roy',
+    title: 'Group Head of Security',
+    organization: 'Aldermoor Industrial Group',
+    account: 'B',
+    publicBio: 'Corporate security lead who championed the 14-dock deployment across Aldermoor’s 15 industrial plants. Neutral relationship. Claims €1.2M annual savings, but faces mounting resistance from plant managers who pay for equipment they did not choose.',
+    careerHistory: [
+      '2021-Present: Group Head of Security, Aldermoor Industrial Group',
+      '2015-2021: Regional Security Specialist, European Petrochemical Infrastructure'
+    ],
+    publicStatements: [
+      {
+        source: 'Corporate Security Review (Minute 34)',
+        quote: 'Thirteen of fifteen plants are flying.',
+        context: 'Top-level deployment claim (Fact sr_roll_0).'
+      },
+      {
+        source: 'Executive Committee Briefing (Minute 43)',
+        quote: 'ROI is proven, about 1.2 million euros a year saved.',
+        context: 'Executive ROI claim (Fact sr_roi_0).'
+      },
+      {
+        source: 'Budget Allocation Meeting (Minute 45)',
+        quote: 'Plants pay a share of the security budget. Several managers resent paying for equipment they did not choose.',
+        context: 'Revealing the core internal revolt threatening contract renewal (Fact sr_plants_2).'
+      }
+    ],
+    psychologicalProfile: 'Corporate executive balancing central security mandates against internal facility pushback.',
+    coreMotivations: [
+      'Securing group-wide renewal for the 14 docks without budget cuts from plant managers',
+      'Bringing the 3 idle docks back into regular patrols'
+    ],
+    redFlagsAndSensitivities: [
+      'Declined the €160k expansion offer for Plant 15 because plant managers were already in revolt'
+    ],
+    recommendedTone: 'Consensus-building and evidence-driven. Provide site-specific inspection logs to help him defend the security chargeback.'
+  },
+  {
+    stakeholderId: 'beatriz_alonso',
+    name: 'Beatriz Alonso',
+    title: 'Plant Manager, Plant 7',
+    organization: 'Aldermoor Industrial Group',
+    account: 'B',
+    publicBio: 'Facility director at Plant 7. Direct operator responsible for hazardous plant perimeter security and safety compliance. Guarded relationship. Confirms docks are useful at night, but declined premature upsell offers due to unresolved downtime.',
+    careerHistory: [
+      '2020-Present: Plant Manager, Plant 7 (Stallingborough Chemical Refinery)',
+      '2014-2020: Senior Operations Engineer, Industrial Process Safety'
+    ],
+    publicStatements: [
+      {
+        source: 'Plant 7 Operations Shift Review (Minute 37)',
+        quote: "It's useful at night.",
+        context: 'Verified frontline utility for night perimeter intrusion patrols (Fact ba_use_0).'
+      }
+    ],
+    psychologicalProfile: 'P&L-responsible plant manager. Guarded against corporate overhead expenses. Will not pay extra for reliability that should be included in the baseline contract.',
+    coreMotivations: [
+      'Zero downtime on night-time intrusion patrols around chemical storage perimeters',
+      'Local control over dock mission scheduling'
+    ],
+    redFlagsAndSensitivities: [
+      'Declined the €50k Night-Time Priority Support upsell because basic maintenance should be covered under the SLA'
+    ],
+    recommendedTone: 'Operational, respectful, and zero-upsell. Focus on remote sensor recalibration and local inspection cost reduction.'
   }
 ];
 
