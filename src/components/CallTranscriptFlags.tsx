@@ -40,6 +40,36 @@ export const CallTranscriptFlags: React.FC<CallTranscriptFlagsProps> = ({
   const [filterSeverity, setFilterSeverity] = useState<'ALL' | 'critical' | 'competitor' | 'churn'>('ALL');
   const [selectedSpeaker, setSelectedSpeaker] = useState<string>('ALL');
 
+  // Gemini AI Synthesis Layer State
+  const [geminiSyntheses, setGeminiSyntheses] = useState<Record<string, any>>({});
+  const [loadingGeminiId, setLoadingGeminiId] = useState<string | null>(null);
+
+  const handleRunGeminiSynthesis = async (item: CallTranscriptFact) => {
+    setLoadingGeminiId(item.id);
+    try {
+      const res = await fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          topic: item.flagTitle,
+          context: `Customer ${item.speaker} said: "${item.text}". Risk Analysis: ${item.csmImpactAnalysis}. Suggested Action: ${item.suggestedAction}`,
+          stakeholder: item.speaker,
+          account: item.account,
+          goal: 'Protect contract renewal and resolve customer friction',
+        }),
+      });
+
+      const json = await res.json();
+      if (json.success && json.data) {
+        setGeminiSyntheses(prev => ({ ...prev, [item.id]: json.data }));
+      }
+    } catch (err) {
+      console.error('Failed to run Gemini synthesis:', err);
+    } finally {
+      setLoadingGeminiId(null);
+    }
+  };
+
   const filteredTranscripts = LIVE_CALL_TRANSCRIPTS.filter(item => {
     if (selectedAccount !== 'ALL' && item.account !== selectedAccount) return false;
     if (selectedSpeaker !== 'ALL' && item.speaker !== selectedSpeaker) return false;
@@ -276,6 +306,55 @@ export const CallTranscriptFlags: React.FC<CallTranscriptFlagsProps> = ({
                         {item.suggestedAction}
                       </p>
                     </div>
+                  </div>
+
+                  {/* Gemini Strategic AI Synthesis Layer */}
+                  <div className="pt-2">
+                    {geminiSyntheses[item.id] ? (
+                      <div className="p-4 rounded-xl border border-purple-300 dark:border-purple-800 bg-purple-50/50 dark:bg-purple-950/20 space-y-3 text-xs">
+                        <div className="flex items-center justify-between font-bold text-purple-950 dark:text-purple-300">
+                          <span className="flex items-center gap-1.5">
+                            <Sparkles className="w-4 h-4 text-purple-600" />
+                            <span>Gemini AI Strategic Synthesis Layer (Enrichment)</span>
+                          </span>
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-purple-200 dark:bg-purple-900 text-purple-900 dark:text-purple-100 font-mono">
+                            {geminiSyntheses[item.id].source}
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                          <div className="p-3 rounded-lg bg-white dark:bg-black border border-purple-200 dark:border-purple-900 space-y-1">
+                            <span className="font-bold text-black dark:text-white block">1. Psychological Intent:</span>
+                            <p className="text-gray-700 dark:text-gray-300 font-medium">
+                              {geminiSyntheses[item.id].psychologicalRead}
+                            </p>
+                          </div>
+
+                          <div className="p-3 rounded-lg bg-white dark:bg-black border border-purple-200 dark:border-purple-900 space-y-1">
+                            <span className="font-bold text-black dark:text-white block">2. Executive Draft:</span>
+                            <p className="text-gray-700 dark:text-gray-300 font-medium italic">
+                              "{geminiSyntheses[item.id].executiveActionDraft}"
+                            </p>
+                          </div>
+
+                          <div className="p-3 rounded-lg bg-white dark:bg-black border border-purple-200 dark:border-purple-900 space-y-1">
+                            <span className="font-bold text-blue-700 dark:text-blue-400 block">3. Engineering Escalation:</span>
+                            <p className="text-gray-700 dark:text-gray-300 font-medium">
+                              {geminiSyntheses[item.id].engineeringEscalationNote}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => handleRunGeminiSynthesis(item)}
+                        disabled={loadingGeminiId === item.id}
+                        className="px-3.5 py-2 rounded-xl text-xs font-bold border border-purple-300 dark:border-purple-800 bg-purple-50 hover:bg-purple-100 dark:bg-purple-950/30 text-purple-900 dark:text-purple-200 transition flex items-center gap-1.5 shadow-sm"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                        <span>{loadingGeminiId === item.id ? 'Running Gemini Synthesis...' : '✨ Run Gemini Strategic AI Synthesis'}</span>
+                      </button>
+                    )}
                   </div>
 
                 </div>
