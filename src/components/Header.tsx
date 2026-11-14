@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AccountId } from '../types/crm';
-import { RefreshCw, Plus, FileText, CheckCircle2, Sun, Moon, BookOpen } from 'lucide-react';
+import { RefreshCw, Plus, FileText, CheckCircle2, Sun, Moon, BookOpen, Radio, Zap } from 'lucide-react';
 
 interface HeaderProps {
   selectedAccount: AccountId | 'ALL';
@@ -31,6 +31,20 @@ export const Header: React.FC<HeaderProps> = ({
   onToggleTheme,
 }) => {
   const isDark = theme === 'dark';
+  const [countdown, setCountdown] = useState(60);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => (prev <= 1 ? 60 : prev - 1));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if (isSyncing) {
+      setCountdown(60);
+    }
+  }, [isSyncing]);
 
   return (
     <header className={`border-b sticky top-0 z-40 px-4 py-3 transition-colors ${
@@ -113,12 +127,17 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right Actions */}
         <div className="flex items-center gap-2">
-          {/* Status Pill */}
-          <div className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs ${
-            isDark ? 'border-gray-800 bg-[#0a0c0f] text-gray-400' : 'border-gray-200 bg-gray-50 text-gray-600'
+          {/* Live Auto-Sync Status Indicator */}
+          <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs ${
+            isDark ? 'border-gray-800 bg-[#0a0c0f] text-gray-300' : 'border-gray-200 bg-gray-50 text-gray-700'
           }`}>
-            <CheckCircle2 className={`w-3.5 h-3.5 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
-            <span className="font-mono text-[11px]">STREAM LIVE</span>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span className="font-mono text-[11px] font-bold">
+              {isSyncing ? 'SYNCING MCP...' : `AUTO-SYNC (${countdown}s)`}
+            </span>
           </div>
 
           {/* Theme Toggle */}

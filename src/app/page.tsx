@@ -25,6 +25,8 @@ import { CallTranscriptFlags } from '@/components/CallTranscriptFlags';
 import { PreMeetingBriefOnePager } from '@/components/PreMeetingBriefOnePager';
 import { SilentDropRadar } from '@/components/SilentDropRadar';
 import { CFOProofOfValuePacket } from '@/components/CFOProofOfValuePacket';
+import { AllAccountsOverviewGrid } from '@/components/AllAccountsOverviewGrid';
+import { DroneUsageAnalyticsChart } from '@/components/DroneUsageAnalyticsChart';
 import { initialCRMData } from '@/lib/mockData';
 import { AutonomousCSMAgentNetwork, AgentInsight } from '@/lib/agents';
 import { 
@@ -48,14 +50,16 @@ import {
   PhoneCall,
   Clock,
   TrendingDown,
-  DollarSign
+  DollarSign,
+  Layers,
+  Activity
 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [data, setData] = useState<CRMStoreData>(initialCRMData);
   const [selectedAccount, setSelectedAccount] = useState<AccountId | 'ALL'>('ALL');
   const [activeTab, setActiveTab] = useState<
-    'actions' | 'book' | 'dealvault' | 'brief' | 'checkin' | 'transcripts' | 'silentdrop' | 'power' | 'risks' | 'blindspots' | 'cfopacket' | 'agents' | 'notes' | 'infographics' | 'paperwork' | 'integrations'
+    'actions' | 'book' | 'dealvault' | 'brief' | 'droneusage' | 'checkin' | 'transcripts' | 'silentdrop' | 'power' | 'risks' | 'blindspots' | 'cfopacket' | 'agents' | 'notes' | 'infographics' | 'paperwork' | 'integrations'
   >('actions');
   const [theme, setTheme] = useState<'light' | 'dark'>('light'); // Crisp white default!
   const [isSyncing, setIsSyncing] = useState(false);
@@ -165,23 +169,43 @@ export default function DashboardPage() {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
-  const navItems = [
-    { id: 'actions', label: '1. Monday To-Do List', icon: CheckSquare, desc: 'Prioritized tasks' },
-    { id: 'book', label: '2. Contracts & Money', icon: ShieldCheck, desc: 'Guaranteed ARR' },
-    { id: 'dealvault', label: '3. Deal Vault & Intelligence', icon: BrainCircuit, desc: 'Touchpoint memory & psych dossiers', badge: 'Elite' },
-    { id: 'brief', label: '4. 60-Sec Pre-Meeting Brief', icon: Clock, desc: '1-pager before calling', badge: 'Fast Card' },
-    { id: 'checkin', label: '5. WhatsApp Customer Check-in', icon: MessageSquare, desc: 'Proactive relationship agent', badge: 'Live AI' },
-    { id: 'transcripts', label: '6. Call Transcripts & Risk Flags', icon: PhoneCall, desc: 'MCP dialogue & competitor flags', badge: 'Flags' },
-    { id: 'silentdrop', label: '7. Silent Drop Churn Radar', icon: TrendingDown, desc: 'Flight velocity churn alerts', badge: 'Yellow Alert' },
-    { id: 'power', label: '8. Who Makes Decisions', icon: Users, desc: 'Key stakeholders' },
-    { id: 'risks', label: '9. Problems & Deadlines', icon: AlertTriangle, desc: 'Risk countdowns' },
-    { id: 'blindspots', label: '10. Questions to Ask', icon: HelpCircle, desc: 'Unknown info' },
-    { id: 'cfopacket', label: '11. CFO Proof of Value (PDF)', icon: DollarSign, desc: 'Monthly 28th value packet', badge: '28th Auto' },
-    { id: 'agents', label: '12. AI Helpers (Calls & WhatsApp)', icon: Bot, desc: 'Smart swarm', badge: 'Active' },
-    { id: 'notes', label: '13. Shared Note Arena', icon: FileEdit, desc: 'Team whiteboard', badge: 'New' },
-    { id: 'infographics', label: '14. Visual Charts', icon: BarChart3, desc: 'Ratios & health' },
-    { id: 'paperwork', label: '15. Official Contract Papers', icon: FileText, desc: 'Data Room proofs' },
-    { id: 'integrations', label: '16. Integrations & Roadmap', icon: Sliders, desc: 'Telemetry & APIs' },
+  const navGroups = [
+    {
+      group: 'Core Cockpit',
+      items: [
+        { id: 'actions', label: '1. Monday Priority Queue', icon: CheckSquare, desc: 'Ranked tasks' },
+        { id: 'book', label: '2. Contracts & Receipts', icon: ShieldCheck, desc: '$602k verified ARR' },
+        { id: 'brief', label: '3. 60-Sec Pre-Meeting Brief', icon: Clock, desc: '1-pager before calling', badge: 'Fast' },
+        { id: 'droneusage', label: '4. Drone Usage & Velocity', icon: BarChart3, desc: 'Sortie cadence & flight logs', badge: 'Usage' },
+      ]
+    },
+    {
+      group: 'Churn & Flight Radar',
+      items: [
+        { id: 'silentdrop', label: '5. Silent Drop Radar (>20%)', icon: TrendingDown, desc: 'Flight velocity churn alerts', badge: 'Alert' },
+        { id: 'transcripts', label: '6. Dialogue & Competitor Flags', icon: PhoneCall, desc: 'MCP dialogue & flags', badge: 'Flags' },
+        { id: 'risks', label: '7. Problems & Deadlines Radar', icon: AlertTriangle, desc: 'Risk countdowns' },
+        { id: 'blindspots', label: '8. Questions to Ask (Blindspots)', icon: HelpCircle, desc: 'Unknown info' },
+      ]
+    },
+    {
+      group: 'Stakeholders & Money',
+      items: [
+        { id: 'power', label: '9. Who Makes Decisions', icon: Users, desc: '8 key deciders' },
+        { id: 'dealvault', label: '10. Deal Vault & Intelligence', icon: BrainCircuit, desc: 'Tactical dossiers', badge: 'Elite' },
+        { id: 'checkin', label: '11. WhatsApp & Twilio Phone', icon: MessageSquare, desc: 'Proactive relationship agent', badge: 'Live AI' },
+        { id: 'cfopacket', label: '12. CFO Proof of Value (PDF)', icon: DollarSign, desc: 'Monthly 28th value packet', badge: '28th Auto' },
+      ]
+    },
+    {
+      group: 'Intelligence & Data Room',
+      items: [
+        { id: 'agents', label: '13. 7-Agent Autonomous Swarm', icon: Bot, desc: 'Smart swarm', badge: 'Active' },
+        { id: 'paperwork', label: '14. Official Contract Data Room', icon: FileText, desc: 'Data Room proofs' },
+        { id: 'notes', label: '15. Shared Whiteboard Arena', icon: FileEdit, desc: 'Team whiteboard', badge: 'New' },
+        { id: 'integrations', label: '16. Telemetry & Hardware Hub', icon: Sliders, desc: 'Telemetry & APIs' },
+      ]
+    }
   ];
 
   return (
@@ -208,69 +232,77 @@ export default function DashboardPage() {
       {/* Main Container with Sidebar + Operations Area */}
       <div className="flex-1 max-w-[1550px] w-full mx-auto flex flex-col md:flex-row items-stretch p-3 md:p-5 gap-5">
         
-        {/* Sleek Vertical Sidebar Navigation (Never Crammed, High Contrast) */}
-        <aside className={`w-full md:w-64 lg:w-72 shrink-0 rounded-2xl border p-4 space-y-3 flex flex-col justify-between ${
+        {/* Sleek Vertical Sidebar Navigation (Grouped, Never Crammed) */}
+        <aside className={`w-full md:w-64 lg:w-72 shrink-0 rounded-2xl border p-4 space-y-4 flex flex-col justify-between ${
           isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-300 bg-white shadow-sm'
         }`}>
           <div className="space-y-4">
             <div className="flex items-center justify-between px-1">
               <span className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                Command Center Navigation
+                Navigation
               </span>
               <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${
                 isDark ? 'border-gray-700 bg-black text-gray-300' : 'border-gray-300 bg-gray-100 text-black'
               }`}>
-                {navItems.length} Pages
+                16 Modules
               </span>
             </div>
 
-            <nav className="space-y-1.5">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
+            <nav className="space-y-3">
+              {navGroups.map((grp) => (
+                <div key={grp.group} className="space-y-1">
+                  <div className={`px-2 text-[10px] font-bold uppercase tracking-wider ${
+                    isDark ? 'text-gray-500' : 'text-gray-400'
+                  }`}>
+                    {grp.group}
+                  </div>
 
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveTab(item.id as any)}
-                    className={`w-full text-left p-2.5 rounded-xl transition flex items-center justify-between group ${
-                      isActive
-                        ? isDark 
-                          ? 'bg-white text-black font-bold shadow-sm' 
-                          : 'bg-black text-white font-bold shadow-md'
-                        : isDark 
-                          ? 'hover:bg-gray-900 text-gray-300 hover:text-white' 
-                          : 'hover:bg-gray-100 text-black'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <Icon className={`w-4 h-4 shrink-0 ${
-                        isActive 
-                          ? isDark ? 'text-black' : 'text-white' 
-                          : isDark ? 'text-gray-400 group-hover:text-white' : 'text-gray-700 group-hover:text-black'
-                      }`} />
-                      <div className="min-w-0">
-                        <div className="text-xs truncate">{item.label}</div>
-                      </div>
-                    </div>
+                  {grp.items.map((item) => {
+                    const Icon = item.icon;
+                    const isActive = activeTab === item.id;
 
-                    {item.badge && (
-                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase shrink-0 ${
-                        isActive
-                          ? isDark ? 'bg-black text-white' : 'bg-white text-black'
-                          : 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300'
-                      }`}>
-                        {item.badge}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => setActiveTab(item.id as any)}
+                        className={`w-full text-left p-2 rounded-xl transition flex items-center justify-between group ${
+                          isActive
+                            ? isDark 
+                              ? 'bg-white text-black font-bold shadow-sm' 
+                              : 'bg-black text-white font-bold shadow-md'
+                            : isDark 
+                              ? 'hover:bg-gray-900 text-gray-300 hover:text-white' 
+                              : 'hover:bg-gray-100 text-black'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <Icon className={`w-3.5 h-3.5 shrink-0 ${
+                            isActive 
+                              ? isDark ? 'text-black' : 'text-white' 
+                              : isDark ? 'text-gray-400 group-hover:text-white' : 'text-gray-700 group-hover:text-black'
+                          }`} />
+                          <div className="text-xs truncate">{item.label}</div>
+                        </div>
+
+                        {item.badge && (
+                          <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full uppercase shrink-0 ${
+                            isActive
+                              ? isDark ? 'bg-black text-white' : 'bg-white text-black'
+                              : 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300'
+                          }`}>
+                            {item.badge}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              ))}
             </nav>
           </div>
 
           {/* Quick Guide Link in Sidebar Bottom */}
-          <div className="pt-4 border-t border-gray-200 dark:border-gray-800 space-y-2">
+          <div className="pt-3 border-t border-gray-200 dark:border-gray-800 space-y-2">
             <Link
               href="/guide"
               className={`w-full flex items-center justify-between p-2.5 rounded-xl border text-xs font-bold transition ${
@@ -279,7 +311,7 @@ export default function DashboardPage() {
             >
               <div className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-blue-600" />
-                <span>Read Full Platform Guide</span>
+                <span>Platform Guide & Architecture</span>
               </div>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
@@ -289,6 +321,14 @@ export default function DashboardPage() {
         {/* Main Canvas Area */}
         <main className="flex-1 min-w-0 space-y-6">
           
+          {/* All Accounts Always Visible Hero Grid */}
+          <AllAccountsOverviewGrid
+            accounts={data.accounts}
+            selectedAccount={selectedAccount}
+            onSelectAccount={setSelectedAccount}
+            isDark={isDark}
+          />
+
           {/* Executive Metric Cards */}
           <ExecutiveSummary
             accounts={data.accounts}
@@ -332,6 +372,13 @@ export default function DashboardPage() {
 
               {activeTab === 'brief' && (
                 <PreMeetingBriefOnePager
+                  selectedAccount={selectedAccount}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'droneusage' && (
+                <DroneUsageAnalyticsChart
                   selectedAccount={selectedAccount}
                   isDark={isDark}
                 />
