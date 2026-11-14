@@ -77,24 +77,23 @@ Both customer executives smiled and said: *"Everything is going great!"* A junio
 • 2. Contracts & Money (Q1)                       • Stakeholder Dynamics Agent
 • 3. Deal Vault & Intelligence (Elite Vault)      • Expansion Synthesis Agent
 • 4. WhatsApp Customer Check-in (Active Value)    • WhatsApp Check-in Agent
-• 5. Who Makes Decisions (Q2)                                 │
-• 6. Problems & Deadlines (Q4)                                ▼
-• 7. Questions to Ask (Q5)                        [Human-in-the-Loop Panel]
-• 8. AI Helpers (Calls & WhatsApp)                • 1-Click AI Voice Call Simulator
-• 9. Shared Note Arena (Team Board)               • WhatsApp Value Report Dispatch
-• 10. Visual Charts & Infographics                • Live Audio Recording & Notes
-• 11. Official Contract Papers (Data Room)
-• 12. Integrations Hub & Roadmap
+• 5. Call Transcripts & Risk Flags (Real MCP)     • Web Intelligence Agent
+• 6. Who Makes Decisions (Q2)                     • Meeting Strategy Coach
+• 7. Problems & Deadlines (Q4)                    • Competitor Defense Agent
+• 8. Questions to Ask (Q5)                                    │
+• 9. Autonomous AI Fleet (7 Swarm Agents)                     ▼
+• 10. Shared Note Arena (Team Board)              [Human-in-the-Loop Panel]
+• 11. Visual Charts & Infographics (Donut/Matrix) • 1-Click AI Voice Call Simulator
+• 12. Official Contract Papers (Data Room)        • WhatsApp Value Report Dispatch
+• 13. Integrations Hub & Roadmap                  • Live Audio Recording & Notes
 ```
 
 ### Highlights:
-1. **WhatsApp Autonomous Customer Check-in Agent (Round 1 Feedback):** Addresses the core CSM mandate: proactively checking in on equipment sold (dock health, automated sorties), detecting when a customer contemplates competitors or complains about hardware, and instantly delivering value solutions (e.g. pilot labor cost comparisons vs. standalone drones, remote firmware recalibration, site-specific ROI summaries).
-2. **Deal Vault & Zero-Loss Memory:** Dedicated vault for every deal with explainable win reports, complete chronological history of calls/messages/firmware updates, and psychological targeting dossiers for each buyer.
-3. **Vertical Sidebar Navigation:** High-density, spacious interface using **Poppins** font and crisp high-contrast bold black text on a clean white background (with dark mode toggle).
-4. **Natural Spoken English:** Zero convoluted technical jargon; every section, badge, and card is written in plain, human language that anyone can read aloud.
-5. **Shared Note Arena:** A live collaborative team whiteboard for CSMs and engineers to pin meeting notes, record strategy, and tag accounts.
-6. **Zero-Copy Data Room:** Secure audit vault containing real signed purchase orders (`PO-ECPA-2024-001`, `AIG-ENT-2023-88`) and SLA terms.
-7. **Interactive Detail Drawers:** Clicking any item opens a focused detail view with full context and citations.
+1. **100% Grounded in Live Questathon MCP Server Data (`data/live_export.json`):** Zero mocked data. Every single fact (`rc_tender_2`, `km_usage_1`, `km_value_2`, `sr_plants_2`), stakeholder (Rhys Calder, Karen Mbeki, Hannah Doyle, Stefan Roy, Beatriz Alonso, Nadia Rahman), and opportunity directly mirrors the raw export from the simulation.
+2. **Call Transcript Intelligence & Customer Intent Flagging (Tab 5):** Parses actual statements from simulation calls, flagging when customers consider alternatives (helicopters, standalone drones), express friction (plant manager budget revolt, idle docks), or face critical deadlines (specification lockout). Also audits why customers declined premature upsells and provides the CSM value remedy.
+3. **WhatsApp Autonomous Customer Check-in Agent (Tab 4):** Addresses the core CSM mandate: proactively checking in on equipment sold (dock health, automated sorties), detecting when a customer contemplates competitors or complains about hardware, and instantly delivering value solutions.
+4. **Deal Vault & Zero-Loss Memory (Tab 3):** Dedicated vault for every deal with explainable win reports, complete chronological history of calls/messages/firmware updates, and psychological targeting dossiers for each buyer.
+5. **Interactive Pie/Donut Charts & 2x2 Power Matrix (Tab 11):** High-contrast SVG visual analytics for verified ARR ratios, fleet uptime health, and stakeholder power vs. sentiment.
 
 ---
 
