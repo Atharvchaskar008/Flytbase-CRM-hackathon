@@ -19,6 +19,8 @@ import { ItemDetailModal, DetailModalData } from '@/components/ItemDetailModal';
 import { AnalyticsInfographics } from '@/components/AnalyticsInfographics';
 import { SharedNoteArena } from '@/components/SharedNoteArena';
 import { IntegrationsHub } from '@/components/IntegrationsHub';
+import { DealVault } from '@/components/DealVault';
+import { CustomerCheckinAgent } from '@/components/CustomerCheckinAgent';
 import { initialCRMData } from '@/lib/mockData';
 import { AutonomousCSMAgentNetwork, AgentInsight } from '@/lib/agents';
 import { 
@@ -36,14 +38,16 @@ import {
   FileText, 
   Sliders,
   Menu,
-  X
+  X,
+  BrainCircuit,
+  MessageSquare
 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [data, setData] = useState<CRMStoreData>(initialCRMData);
   const [selectedAccount, setSelectedAccount] = useState<AccountId | 'ALL'>('ALL');
   const [activeTab, setActiveTab] = useState<
-    'actions' | 'book' | 'power' | 'risks' | 'blindspots' | 'agents' | 'notes' | 'infographics' | 'paperwork' | 'integrations'
+    'actions' | 'book' | 'dealvault' | 'checkin' | 'power' | 'risks' | 'blindspots' | 'agents' | 'notes' | 'infographics' | 'paperwork' | 'integrations'
   >('actions');
   const [theme, setTheme] = useState<'light' | 'dark'>('light'); // Crisp white default!
   const [isSyncing, setIsSyncing] = useState(false);
@@ -156,14 +160,16 @@ export default function DashboardPage() {
   const navItems = [
     { id: 'actions', label: '1. Monday To-Do List', icon: CheckSquare, desc: 'Prioritized tasks' },
     { id: 'book', label: '2. Contracts & Money', icon: ShieldCheck, desc: 'Guaranteed ARR' },
-    { id: 'power', label: '3. Who Makes Decisions', icon: Users, desc: 'Key stakeholders' },
-    { id: 'risks', label: '4. Problems & Deadlines', icon: AlertTriangle, desc: 'Risk countdowns' },
-    { id: 'blindspots', label: '5. Questions to Ask', icon: HelpCircle, desc: 'Unknown info' },
-    { id: 'agents', label: '6. AI Helpers (Calls & WhatsApp)', icon: Bot, desc: 'Smart swarm', badge: 'Active' },
-    { id: 'notes', label: '7. Shared Note Arena', icon: FileEdit, desc: 'Team whiteboard', badge: 'New' },
-    { id: 'infographics', label: '8. Visual Charts', icon: BarChart3, desc: 'Ratios & health' },
-    { id: 'paperwork', label: '9. Official Contract Papers', icon: FileText, desc: 'Data Room proofs' },
-    { id: 'integrations', label: '10. Integrations & Roadmap', icon: Sliders, desc: 'Telemetry & APIs' },
+    { id: 'dealvault', label: '3. Deal Vault & Intelligence', icon: BrainCircuit, desc: 'Touchpoint memory & psych dossiers', badge: 'Elite' },
+    { id: 'checkin', label: '4. WhatsApp Customer Check-in', icon: MessageSquare, desc: 'Proactive relationship agent', badge: 'Live AI' },
+    { id: 'power', label: '5. Who Makes Decisions', icon: Users, desc: 'Key stakeholders' },
+    { id: 'risks', label: '6. Problems & Deadlines', icon: AlertTriangle, desc: 'Risk countdowns' },
+    { id: 'blindspots', label: '7. Questions to Ask', icon: HelpCircle, desc: 'Unknown info' },
+    { id: 'agents', label: '8. AI Helpers (Calls & WhatsApp)', icon: Bot, desc: 'Smart swarm', badge: 'Active' },
+    { id: 'notes', label: '9. Shared Note Arena', icon: FileEdit, desc: 'Team whiteboard', badge: 'New' },
+    { id: 'infographics', label: '10. Visual Charts', icon: BarChart3, desc: 'Ratios & health' },
+    { id: 'paperwork', label: '11. Official Contract Papers', icon: FileText, desc: 'Data Room proofs' },
+    { id: 'integrations', label: '12. Integrations & Roadmap', icon: Sliders, desc: 'Telemetry & APIs' },
   ];
 
   return (
@@ -299,6 +305,23 @@ export default function DashboardPage() {
                   selectedAccount={selectedAccount}
                   onSelectCitation={handleCitationClick}
                   onOpenDetail={handleOpenDetail}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'dealvault' && (
+                <DealVault
+                  accounts={data.accounts}
+                  selectedAccount={selectedAccount}
+                  onSelectCitation={handleCitationClick}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'checkin' && (
+                <CustomerCheckinAgent
+                  accounts={data.accounts}
+                  selectedAccount={selectedAccount}
                   isDark={isDark}
                 />
               )}

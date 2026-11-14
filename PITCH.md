@@ -74,23 +74,27 @@ Both customer executives smiled and said: *"Everything is going great!"* A junio
             ▼                                                 ▼
 [Clean Vertical Sidebar Layout]                   [Autonomous AI Swarm]
 • 1. Monday To-Do List (Q3)                       • Telemetry Watchdog Agent
-• 2. Signed Contracts & Money (Q1)                • Stakeholder Dynamics Agent
-• 3. Who Makes Decisions (Q2)                     • Expansion Synthesis Agent
-• 4. Problems & Deadlines (Q4)                                │
-• 5. Questions to Ask (Q5)                                    ▼
-• 6. AI Helpers (Voice & WhatsApp)                [Human-in-the-Loop Panel]
-• 7. Shared Note Arena (Team Board)               • 1-Click AI Voice Call Simulator
-• 8. Visual Charts & Infographics                 • WhatsApp PDF Report Dispatch
-• 9. Official Contract Papers (Data Room)         • Live Audio Recording & Notes
-• 10. Integrations Hub & Roadmap
+• 2. Contracts & Money (Q1)                       • Stakeholder Dynamics Agent
+• 3. Deal Vault & Intelligence (Elite Vault)      • Expansion Synthesis Agent
+• 4. WhatsApp Customer Check-in (Active Value)    • WhatsApp Check-in Agent
+• 5. Who Makes Decisions (Q2)                                 │
+• 6. Problems & Deadlines (Q4)                                ▼
+• 7. Questions to Ask (Q5)                        [Human-in-the-Loop Panel]
+• 8. AI Helpers (Calls & WhatsApp)                • 1-Click AI Voice Call Simulator
+• 9. Shared Note Arena (Team Board)               • WhatsApp Value Report Dispatch
+• 10. Visual Charts & Infographics                • Live Audio Recording & Notes
+• 11. Official Contract Papers (Data Room)
+• 12. Integrations Hub & Roadmap
 ```
 
 ### Highlights:
-1. **Vertical Sidebar Navigation:** High-density, spacious interface using **Poppins** font and crisp high-contrast black text on a clean white background (with dark mode toggle).
-2. **Natural Spoken English:** Zero convoluted technical jargon; every section, badge, and card is written in plain, human language that anyone can read aloud.
-3. **Shared Note Arena:** A live collaborative team whiteboard for CSMs and engineers to pin meeting notes, record strategy, and tag accounts.
-4. **Zero-Copy Data Room:** Secure audit vault containing real signed purchase orders (`PO-ECPA-2024-001`, `AIG-ENT-2023-88`) and SLA terms.
-5. **Interactive Detail Drawers:** Clicking any item opens a focused detail view with full context and citations.
+1. **WhatsApp Autonomous Customer Check-in Agent (Round 1 Feedback):** Addresses the core CSM mandate: proactively checking in on equipment sold (dock health, automated sorties), detecting when a customer contemplates competitors or complains about hardware, and instantly delivering value solutions (e.g. pilot labor cost comparisons vs. standalone drones, remote firmware recalibration, site-specific ROI summaries).
+2. **Deal Vault & Zero-Loss Memory:** Dedicated vault for every deal with explainable win reports, complete chronological history of calls/messages/firmware updates, and psychological targeting dossiers for each buyer.
+3. **Vertical Sidebar Navigation:** High-density, spacious interface using **Poppins** font and crisp high-contrast bold black text on a clean white background (with dark mode toggle).
+4. **Natural Spoken English:** Zero convoluted technical jargon; every section, badge, and card is written in plain, human language that anyone can read aloud.
+5. **Shared Note Arena:** A live collaborative team whiteboard for CSMs and engineers to pin meeting notes, record strategy, and tag accounts.
+6. **Zero-Copy Data Room:** Secure audit vault containing real signed purchase orders (`PO-ECPA-2024-001`, `AIG-ENT-2023-88`) and SLA terms.
+7. **Interactive Detail Drawers:** Clicking any item opens a focused detail view with full context and citations.
 
 ---
 
@@ -152,17 +156,19 @@ To move from hackathon simulation into full-scale enterprise production, here is
 * **[0:00 - 0:45] The Problem & The Deceptive Calm:**
   > *"Hi everyone, I am presenting the FlytBase CSM Command Center. In autonomous Drone-in-a-Box robotics, software and hardware are inseparable. A standard CRM is a passive filing cabinet. In our hackathon scenario, our customers smiled and said 'Everything is fine!' But our telemetry found 3 dead docks, an unanswered tactical police emergency, and a fleet champion resigning in January. Here is how our platform saved £588,000 in ARR."*
 
-* **[0:45 - 1:30] Answering the 5 Judging Questions:**
-  > *"We built this platform around the 5 judging questions. Navigating through our clean sidebar:
+* **[0:45 - 1:30] Answering the 5 Judging Questions + Round 1 Value Delivery:**
+  > *"We built this platform around the judging questions and the core CSM mission—delivering active value to the customer:
   > - Tab 1 (Monday To-Do List) gives our team their prioritized 9:00 AM action plan.
   > - Tab 2 (Contracts & Money) strictly audits £588k in signed ARR vs £1.1M in speculative pipeline.
-  > - Tab 3 (Who Makes Decisions) maps decision-makers, champions, and blockers.
-  > - Tab 4 (Problems & Deadlines) tracks our countdown timers on churn risks.
-  > - Tab 5 (Questions to Ask) identifies critical blind spots before they hurt our revenue."*
+  > - Tab 3 (Deal Vault & Intelligence) holds zero-loss memory for every deal, with explainable win reports and psychological targeting dossiers.
+  > - Tab 4 (WhatsApp Customer Check-in) is our autonomous customer relationship agent. It checks in regularly on the docks and sorties we sold, detects if a customer is looking at cheaper competitors or complaining about hardware, and instantly provides proof of value and solves the issue.
+  > - Tab 5 (Who Makes Decisions) maps decision-makers, champions, and blockers.
+  > - Tab 6 (Problems & Deadlines) tracks countdown timers on churn risks.
+  > - Tab 7 (Questions to Ask) identifies critical blind spots before they hurt our revenue."*
 
-* **[1:30 - 2:15] Data Room & Autonomous Calling Demo:**
+* **[1:30 - 2:15] Data Room & Autonomous Multi-Channel Demo:**
   > *"Notice this £420,000 figure for the police alliance. When I click on PO-ECPA-2024-001, it jumps into our Data Room, opening the exact signed contract and SLA response terms. 
-  > Meanwhile, our AI Helpers tab continuously runs in the background. When it detects an emergency, it drafts a voice call script. With human permission, we can click 'Authorize AI Voice Call' to dial the customer, listen to the simulated recording, and automatically save the transcript to our field notes."*
+  > In Tab 4 and Tab 8, our autonomous communication agents demonstrate live customer relationship management: in WhatsApp, our agent caught Karen Mbeki's question about cheaper drones and sent an instant comparison proving human pilots cost £120k more per mission. In the AI Helpers tab, when an emergency ticket arrives, the platform drafts a voice call script. With human permission, we can click 'Authorize AI Voice Call' to dial the customer, listen to the recording, and log the action."*
 
 * **[2:15 - 3:00] Shared Note Arena, Infographics & Architecture:**
   > *"We also added a Shared Note Arena where CSMs and engineers collaborate on client battlecards, and an Infographics tab visualizing our fleet and revenue ratios. 

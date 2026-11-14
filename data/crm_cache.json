@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-11-14T07:54:29.949Z",
-  "lastUpstreamSync": "2026-11-14T07:54:29.902Z",
+  "lastUpdated": "2026-11-14T09:40:21.766Z",
+  "lastUpstreamSync": "2026-11-14T09:40:21.173Z",
   "accounts": {
     "A": {
       "id": "A",
@@ -113,6 +113,20 @@
           "blockerReason": "Mbeki needs proof of response time ROI (12 mins vs 40 mins for helicopter).",
           "unlockCondition": "Provide cost per flight comparison against police helicopter unit.",
           "targetDate": "Day 25"
+        },
+        {
+          "id": "a_tarn",
+          "title": "Tarn Valley and Norwold go live",
+          "account": "A",
+          "stage": "identified",
+          "value": 100000,
+          "verifiedValue": 0,
+          "isVerified": false,
+          "confidenceScore": 35,
+          "citations": [
+            "rc_appetite_2"
+          ],
+          "blockerReason": "Pending verification."
         }
       ],
       "actions": [
@@ -448,30 +462,71 @@
       "account": "A",
       "dated": "2026-11-17",
       "title": "Eastern Counties: Rhys Calder is moving on",
-      "summary": "Rhys Calder emailed to state he leaves the drone programme in January. No successor named. Every historical call was with him alone.",
-      "impactLevel": "high",
-      "read": false
+      "summary": "Rhys Calder has emailed to say he leaves the drone programme in January. No successor is named. Every call on file before the handover was with him alone.",
+      "records": [
+        {
+          "kind": "email",
+          "path": "A/emails/2026-11-17_rhys_moving.txt",
+          "text": "From: Rhys Calder\nTo: (the CSM on the account)\nDate: 17 November 2026\nSubject: A change on my side\n\nA quick note so you hear it from me. I am moving to another role in the new year and will hand over the drone programme in January. My successor has not been named yet.\n\nAnything we have agreed stands. Until January, keep sending things to the programme office and I will make sure they land.\n\nRhys\n"
+        }
+      ],
+      "set_off_at": "2026-11-14T09:30:38.755Z"
     },
     {
       "id": "urgent_request",
       "account": "A",
       "dated": "2026-11-18",
-      "title": "Eastern Counties: Westmere needs an answer before 5 Dec public event",
-      "summary": "Insp. Karen Mbeki logged an urgent ticket ahead of 5 Dec event. Demands operator training dates and on-call dock failure support in writing. Nobody has replied!",
-      "impactLevel": "high",
-      "read": false
-    },
-    {
-      "id": "usage_drop",
-      "account": "B",
-      "dated": "2026-11-30",
-      "title": "Aldermoor: three docks that fly most nights have stopped",
-      "summary": "Weekly usage for 2-29 Nov reveals 3 docks that flew most nights flew zero sorties in the last two weeks while staying online. No ticket has been raised.",
-      "impactLevel": "high",
-      "read": false
+      "title": "Eastern Counties: Westmere needs an answer before a public event",
+      "summary": "Insp. Karen Mbeki has written directly, and logged a ticket, ahead of a large public event on 5 December. She wants two things settled in writing this week: dates for training more operators before the day, and who answers if a dock fails on the day. Nobody has replied.",
+      "records": [
+        {
+          "kind": "email",
+          "path": "A/emails/2026-11-18_karen_event.txt",
+          "text": "From: Insp. Karen Mbeki\nTo: (the CSM on the account)\nDate: 18 November 2026\nSubject: Public event, 5 December\n\nWe are policing a large public event on Saturday 5 December and I want the docks to carry more of it than they do now.\n\nWhatever was said last week, I need two things settled in writing this week.\n1. Operators. How many more of my officers can be trained before the day, and when.\n2. Cover on the day. If a dock fails, who do I call and how fast does anyone answer.\n\nI am logging this as a ticket as well, so it has a number.\n\nKaren Mbeki\nWestmere drone unit\n"
+        },
+        {
+          "kind": "request",
+          "path": "A/requests.csv",
+          "note": "Row to add to the account's requests log.",
+          "text": "request_id,opened,from,summary,status,owner,last_update,how_it_arrived\nFB-11206,2026-11-18,Westmere drone unit,\"Operator training and support cover before a public event on 5 December. Marked urgent by the requester.\",Open,,2026-11-18,Support ticket\n"
+        }
+      ],
+      "set_off_at": "2026-11-14T09:30:42.574Z"
     }
   ],
   "notes": [
+    {
+      "id": "note_1794647438385",
+      "account": "A",
+      "kind": "next_step",
+      "title": "[AGENT DEPLOYED] Executive Support Confirmation & On-Site SLA Letter",
+      "text": "Target: Insp. Karen Mbeki (Westmere Drone Unit) | Proposal: Inspector Mbeki, FlytBase confirms priority on-site engineering coverage for your 5 December public event. We have reserved pilot refresher training slots for 28-29 Nov. Our lead systems engineer will be on standby hotline during the entire operation.",
+      "created_at": "2026-11-14T09:10:38.385Z"
+    },
+    {
+      "id": "note_1794647434628",
+      "account": "A",
+      "kind": "next_step",
+      "title": "[AGENT DEPLOYED] Executive Support Confirmation & On-Site SLA Letter",
+      "text": "Target: Insp. Karen Mbeki (Westmere Drone Unit) | Proposal: Inspector Mbeki, FlytBase confirms priority on-site engineering coverage for your 5 December public event. We have reserved pilot refresher training slots for 28-29 Nov. Our lead systems engineer will be on standby hotline during the entire operation.",
+      "created_at": "2026-11-14T09:10:34.628Z"
+    },
+    {
+      "id": "note_1794647430375",
+      "account": "A",
+      "kind": "next_step",
+      "title": "[AGENT DEPLOYED] Executive Support Confirmation & On-Site SLA Letter",
+      "text": "Target: Insp. Karen Mbeki (Westmere Drone Unit) | Proposal: Inspector Mbeki, FlytBase confirms priority on-site engineering coverage for your 5 December public event. We have reserved pilot refresher training slots for 28-29 Nov. Our lead systems engineer will be on standby hotline during the entire operation.",
+      "created_at": "2026-11-14T09:10:30.375Z"
+    },
+    {
+      "id": "note_1794647420400",
+      "account": "A",
+      "kind": "next_step",
+      "title": "[AGENT DEPLOYED] Executive Support Confirmation & On-Site SLA Letter",
+      "text": "Target: Insp. Karen Mbeki (Westmere Drone Unit) | Proposal: Inspector Mbeki, FlytBase confirms priority on-site engineering coverage for your 5 December public event. We have reserved pilot refresher training slots for 28-29 Nov. Our lead systems engineer will be on standby hotline during the entire operation.",
+      "created_at": "2026-11-14T09:10:20.400Z"
+    },
     {
       "id": "note_101",
       "account": "A",
