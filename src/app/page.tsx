@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { AccountId, CRMStoreData, BlindSpot } from '@/types/crm';
+import { AccountId, CRMStoreData, BlindSpot, Note } from '@/types/crm';
 import { Header } from '@/components/Header';
 import { ExecutiveSummary } from '@/components/ExecutiveSummary';
 import { NextBestActions } from '@/components/NextBestActions';
@@ -17,19 +17,40 @@ import { MondayBriefModal } from '@/components/MondayBriefModal';
 import { AutonomousAgentsView } from '@/components/AutonomousAgentsView';
 import { ItemDetailModal, DetailModalData } from '@/components/ItemDetailModal';
 import { AnalyticsInfographics } from '@/components/AnalyticsInfographics';
+import { SharedNoteArena } from '@/components/SharedNoteArena';
+import { IntegrationsHub } from '@/components/IntegrationsHub';
 import { initialCRMData } from '@/lib/mockData';
 import { AutonomousCSMAgentNetwork, AgentInsight } from '@/lib/agents';
-import { BookOpen, ArrowRight, Sparkles, BarChart3 } from 'lucide-react';
+import { 
+  BookOpen, 
+  ArrowRight, 
+  Sparkles, 
+  BarChart3, 
+  CheckSquare, 
+  ShieldCheck, 
+  Users, 
+  AlertTriangle, 
+  HelpCircle, 
+  Bot, 
+  FileEdit, 
+  FileText, 
+  Sliders,
+  Menu,
+  X
+} from 'lucide-react';
 
 export default function DashboardPage() {
   const [data, setData] = useState<CRMStoreData>(initialCRMData);
   const [selectedAccount, setSelectedAccount] = useState<AccountId | 'ALL'>('ALL');
-  const [activeTab, setActiveTab] = useState<'actions' | 'book' | 'power' | 'risks' | 'blindspots' | 'agents' | 'infographics' | 'paperwork'>('actions');
+  const [activeTab, setActiveTab] = useState<
+    'actions' | 'book' | 'power' | 'risks' | 'blindspots' | 'agents' | 'notes' | 'infographics' | 'paperwork' | 'integrations'
+  >('actions');
   const [theme, setTheme] = useState<'light' | 'dark'>('light'); // Crisp white default!
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string>('');
   const [highlightedFile, setHighlightedFile] = useState<string | null>(null);
   const [agentInsights, setAgentInsights] = useState<AgentInsight[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   // Detail Modal
   const [detailModalData, setDetailModalData] = useState<DetailModalData | null>(null);
@@ -115,13 +136,39 @@ export default function DashboardPage() {
     }
   };
 
+  const handleAddDirectNote = async (newNote: { account: AccountId; kind: string; title: string; text: string }) => {
+    try {
+      await fetch('/api/notes', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(newNote),
+      });
+      fetchData(false);
+    } catch (err) {
+      console.error('Failed to post direct note:', err);
+    }
+  };
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
+  const navItems = [
+    { id: 'actions', label: '1. Monday To-Do List', icon: CheckSquare, desc: 'Prioritized tasks' },
+    { id: 'book', label: '2. Contracts & Money', icon: ShieldCheck, desc: 'Guaranteed ARR' },
+    { id: 'power', label: '3. Who Makes Decisions', icon: Users, desc: 'Key stakeholders' },
+    { id: 'risks', label: '4. Problems & Deadlines', icon: AlertTriangle, desc: 'Risk countdowns' },
+    { id: 'blindspots', label: '5. Questions to Ask', icon: HelpCircle, desc: 'Unknown info' },
+    { id: 'agents', label: '6. AI Helpers (Calls & WhatsApp)', icon: Bot, desc: 'Smart swarm', badge: 'Active' },
+    { id: 'notes', label: '7. Shared Note Arena', icon: FileEdit, desc: 'Team whiteboard', badge: 'New' },
+    { id: 'infographics', label: '8. Visual Charts', icon: BarChart3, desc: 'Ratios & health' },
+    { id: 'paperwork', label: '9. Official Contract Papers', icon: FileText, desc: 'Data Room proofs' },
+    { id: 'integrations', label: '10. Integrations & Roadmap', icon: Sliders, desc: 'Telemetry & APIs' },
+  ];
+
   return (
     <div className={`min-h-screen flex flex-col font-sans transition-colors ${
-      isDark ? 'bg-black text-gray-100' : 'bg-white text-gray-900'
+      isDark ? 'bg-black text-gray-100' : 'bg-white text-black'
     }`}>
       {/* Header */}
       <Header
@@ -140,274 +187,251 @@ export default function DashboardPage() {
         onToggleTheme={toggleTheme}
       />
 
-      {/* Main Dashboard Body */}
-      <main className="flex-1 max-w-[1400px] w-full mx-auto p-4 md:p-6 space-y-6">
+      {/* Main Container with Sidebar + Operations Area */}
+      <div className="flex-1 max-w-[1550px] w-full mx-auto flex flex-col md:flex-row items-stretch p-3 md:p-5 gap-5">
         
-        {/* Executive Metric Cards */}
-        <ExecutiveSummary
-          accounts={data.accounts}
-          selectedAccount={selectedAccount}
-          isDark={isDark}
-        />
-
-        {/* Platform Guide Shortcut Banner */}
-        <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 px-4 rounded-xl border text-xs transition ${
-          isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-200 bg-gray-50/80 shadow-sm'
+        {/* Sleek Vertical Sidebar Navigation (Never Crammed, High Contrast) */}
+        <aside className={`w-full md:w-64 lg:w-72 shrink-0 rounded-2xl border p-4 space-y-3 flex flex-col justify-between ${
+          isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-300 bg-white shadow-sm'
         }`}>
-          <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-lg bg-blue-500/10 text-blue-500 shrink-0">
-              <BookOpen className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="font-semibold text-sm">Need a full architecture & section breakdown?</span>
-              <span className={`block sm:inline sm:ml-2 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                Explore the dedicated platform guide explaining how each pillar protects £588k ARR.
+          <div className="space-y-4">
+            <div className="flex items-center justify-between px-1">
+              <span className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                Command Center Navigation
+              </span>
+              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${
+                isDark ? 'border-gray-700 bg-black text-gray-300' : 'border-gray-300 bg-gray-100 text-black'
+              }`}>
+                {navItems.length} Pages
               </span>
             </div>
-          </div>
-          <Link
-            href="/guide"
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition shrink-0 self-start sm:self-auto ${
-              isDark ? 'bg-white text-black hover:bg-gray-200' : 'bg-black text-white hover:bg-gray-800 shadow-sm'
-            }`}
-          >
-            <span>Read Platform Guide</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
 
-        {/* Tab Navigation Bar in Spoken English */}
-        <div className={`flex border-b overflow-x-auto gap-2 text-sm font-semibold ${
-          isDark ? 'border-gray-800' : 'border-gray-300'
-        }`}>
-          <button
-            onClick={() => setActiveTab('actions')}
-            className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
-              activeTab === 'actions'
-                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
-            }`}
-          >
-            1. Monday To-Do List
-          </button>
+            <nav className="space-y-1.5">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
 
-          <button
-            onClick={() => setActiveTab('book')}
-            className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
-              activeTab === 'book'
-                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
-            }`}
-          >
-            2. Signed Contracts & Money
-          </button>
-
-          <button
-            onClick={() => setActiveTab('power')}
-            className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
-              activeTab === 'power'
-                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
-            }`}
-          >
-            3. Who Makes Decisions
-          </button>
-
-          <button
-            onClick={() => setActiveTab('risks')}
-            className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
-              activeTab === 'risks'
-                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
-            }`}
-          >
-            4. Urgent Problems & Deadlines
-          </button>
-
-          <button
-            onClick={() => setActiveTab('blindspots')}
-            className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
-              activeTab === 'blindspots'
-                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
-            }`}
-          >
-            5. Questions to Ask
-          </button>
-
-          <button
-            onClick={() => setActiveTab('agents')}
-            className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap flex items-center gap-1.5 ${
-              activeTab === 'agents'
-                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
-            }`}
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>AI Helpers (Calls & WhatsApp)</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('infographics')}
-            className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap flex items-center gap-1.5 ${
-              activeTab === 'infographics'
-                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
-            }`}
-          >
-            <BarChart3 className="w-4 h-4 text-blue-600" />
-            <span>Visual Charts</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('paperwork')}
-            className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
-              activeTab === 'paperwork'
-                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
-            }`}
-          >
-            Official Contract Papers
-          </button>
-        </div>
-
-        {/* Dynamic Views Grid */}
-        <div className="grid lg:grid-cols-4 gap-6 items-start">
-          <div className="lg:col-span-3">
-            {activeTab === 'actions' && (
-              <NextBestActions
-                accounts={data.accounts}
-                selectedAccount={selectedAccount}
-                onSelectCitation={handleCitationClick}
-                onOpenDetail={handleOpenDetail}
-                isDark={isDark}
-              />
-            )}
-
-            {activeTab === 'book' && (
-              <BookWithReceipts
-                accounts={data.accounts}
-                selectedAccount={selectedAccount}
-                onSelectCitation={handleCitationClick}
-                onOpenDetail={handleOpenDetail}
-                isDark={isDark}
-              />
-            )}
-
-            {activeTab === 'power' && (
-              <PowerMap
-                accounts={data.accounts}
-                selectedAccount={selectedAccount}
-                onOpenDetail={handleOpenDetail}
-                isDark={isDark}
-              />
-            )}
-
-            {activeTab === 'risks' && (
-              <RiskRadar
-                accounts={data.accounts}
-                selectedAccount={selectedAccount}
-                onOpenDetail={handleOpenDetail}
-                isDark={isDark}
-              />
-            )}
-
-            {activeTab === 'blindspots' && (
-              <BlindSpotFinder
-                accounts={data.accounts}
-                selectedAccount={selectedAccount}
-                onDraftQuestion={handleDraftQuestion}
-                onOpenDetail={handleOpenDetail}
-                isDark={isDark}
-              />
-            )}
-
-            {activeTab === 'agents' && (
-              <AutonomousAgentsView
-                insights={agentInsights}
-                selectedAccount={selectedAccount}
-                onDeployAction={handleDeployAgentAction}
-                isDark={isDark}
-              />
-            )}
-
-            {activeTab === 'infographics' && (
-              <AnalyticsInfographics
-                accounts={data.accounts}
-                selectedAccount={selectedAccount}
-                isDark={isDark}
-              />
-            )}
-
-            {activeTab === 'paperwork' && (
-              <PaperworkRoom
-                accounts={data.accounts}
-                selectedAccount={selectedAccount}
-                highlightedFileId={highlightedFile}
-                isDark={isDark}
-              />
-            )}
-          </div>
-
-          {/* Right Rail: Signals & Notes */}
-          <div className="space-y-4">
-            <LiveSignalsPanel
-              signals={data.signals}
-              selectedAccount={selectedAccount}
-              isDark={isDark}
-            />
-
-            {/* Notes Log */}
-            <div className={`border p-4 rounded-xl space-y-3 ${
-              isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-200 bg-white shadow-sm'
-            }`}>
-              <div className={`flex items-center justify-between border-b pb-2 text-xs ${
-                isDark ? 'border-gray-800' : 'border-gray-200'
-              }`}>
-                <span className={`font-bold tracking-tight text-sm ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                  Field Notes ({data.notes.length})
-                </span>
-                <button
-                  onClick={() => {
-                    setNoteDefaultText('');
-                    setIsNoteModalOpen(true);
-                  }}
-                  className={`text-xs font-semibold ${
-                    isDark ? 'text-blue-400 hover:underline' : 'text-blue-600 hover:underline'
-                  }`}
-                >
-                  + Add Note
-                </button>
-              </div>
-
-              {data.notes.length === 0 ? (
-                <p className={`text-xs py-3 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-                  No field notes recorded yet.
-                </p>
-              ) : (
-                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
-                  {data.notes.map((n) => (
-                    <div key={n.id} className={`p-2.5 rounded-lg border text-xs ${
-                      isDark ? 'bg-black border-gray-800' : 'bg-gray-50 border-gray-200'
-                    }`}>
-                      <div className={`flex items-center justify-between text-[11px] mb-1 ${
-                        isDark ? 'text-gray-400' : 'text-gray-500'
-                      }`}>
-                        <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                          {n.title || n.kind}
-                        </span>
-                        <span>Account {n.account}</span>
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id as any)}
+                    className={`w-full text-left p-2.5 rounded-xl transition flex items-center justify-between group ${
+                      isActive
+                        ? isDark 
+                          ? 'bg-white text-black font-bold shadow-sm' 
+                          : 'bg-black text-white font-bold shadow-md'
+                        : isDark 
+                          ? 'hover:bg-gray-900 text-gray-300 hover:text-white' 
+                          : 'hover:bg-gray-100 text-black'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <Icon className={`w-4 h-4 shrink-0 ${
+                        isActive 
+                          ? isDark ? 'text-black' : 'text-white' 
+                          : isDark ? 'text-gray-400 group-hover:text-white' : 'text-gray-700 group-hover:text-black'
+                      }`} />
+                      <div className="min-w-0">
+                        <div className="text-xs truncate">{item.label}</div>
                       </div>
-                      <p className={`text-xs ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>{n.text}</p>
                     </div>
-                  ))}
-                </div>
+
+                    {item.badge && (
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase shrink-0 ${
+                        isActive
+                          ? isDark ? 'bg-black text-white' : 'bg-white text-black'
+                          : 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-300'
+                      }`}>
+                        {item.badge}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Quick Guide Link in Sidebar Bottom */}
+          <div className="pt-4 border-t border-gray-200 dark:border-gray-800 space-y-2">
+            <Link
+              href="/guide"
+              className={`w-full flex items-center justify-between p-2.5 rounded-xl border text-xs font-bold transition ${
+                isDark ? 'border-gray-800 bg-[#12151b] hover:bg-gray-800 text-white' : 'border-gray-300 bg-gray-50 hover:bg-gray-100 text-black'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-blue-600" />
+                <span>Read Full Platform Guide</span>
+              </div>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </aside>
+
+        {/* Main Canvas Area */}
+        <main className="flex-1 min-w-0 space-y-6">
+          
+          {/* Executive Metric Cards */}
+          <ExecutiveSummary
+            accounts={data.accounts}
+            selectedAccount={selectedAccount}
+            isDark={isDark}
+          />
+
+          {/* Active Page View Component */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            {/* Primary Content View (8 or 9 Cols) */}
+            <div className="lg:col-span-8 xl:col-span-9 space-y-6">
+              {activeTab === 'actions' && (
+                <NextBestActions
+                  accounts={data.accounts}
+                  selectedAccount={selectedAccount}
+                  onSelectCitation={handleCitationClick}
+                  onOpenDetail={handleOpenDetail}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'book' && (
+                <BookWithReceipts
+                  accounts={data.accounts}
+                  selectedAccount={selectedAccount}
+                  onSelectCitation={handleCitationClick}
+                  onOpenDetail={handleOpenDetail}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'power' && (
+                <PowerMap
+                  accounts={data.accounts}
+                  selectedAccount={selectedAccount}
+                  onOpenDetail={handleOpenDetail}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'risks' && (
+                <RiskRadar
+                  accounts={data.accounts}
+                  selectedAccount={selectedAccount}
+                  onOpenDetail={handleOpenDetail}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'blindspots' && (
+                <BlindSpotFinder
+                  accounts={data.accounts}
+                  selectedAccount={selectedAccount}
+                  onDraftQuestion={handleDraftQuestion}
+                  onOpenDetail={handleOpenDetail}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'agents' && (
+                <AutonomousAgentsView
+                  insights={agentInsights}
+                  selectedAccount={selectedAccount}
+                  onDeployAction={handleDeployAgentAction}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'notes' && (
+                <SharedNoteArena
+                  notes={data.notes}
+                  selectedAccount={selectedAccount}
+                  onAddNote={handleAddDirectNote}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'infographics' && (
+                <AnalyticsInfographics
+                  accounts={data.accounts}
+                  selectedAccount={selectedAccount}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'paperwork' && (
+                <PaperworkRoom
+                  accounts={data.accounts}
+                  selectedAccount={selectedAccount}
+                  highlightedFileId={highlightedFile}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'integrations' && (
+                <IntegrationsHub
+                  isDark={isDark}
+                />
               )}
             </div>
-          </div>
-        </div>
 
-      </main>
+            {/* Right Rail: Real-Time Signals & Fast Notes (4 or 3 Cols) */}
+            <div className="lg:col-span-4 xl:col-span-3 space-y-4">
+              <LiveSignalsPanel
+                signals={data.signals}
+                selectedAccount={selectedAccount}
+                isDark={isDark}
+              />
+
+              {/* Fast Team Notes Log */}
+              <div className={`border p-4 rounded-xl space-y-3 ${
+                isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-300 bg-white shadow-sm'
+              }`}>
+                <div className={`flex items-center justify-between border-b pb-2 text-xs ${
+                  isDark ? 'border-gray-800' : 'border-gray-200'
+                }`}>
+                  <span className={`font-bold tracking-tight text-sm ${isDark ? 'text-white' : 'text-black'}`}>
+                    Recent Field Notes ({data.notes.length})
+                  </span>
+                  <button
+                    onClick={() => {
+                      setNoteDefaultText('');
+                      setIsNoteModalOpen(true);
+                    }}
+                    className={`text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline`}
+                  >
+                    + Add
+                  </button>
+                </div>
+
+                {data.notes.length === 0 ? (
+                  <p className={`text-xs py-3 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>
+                    No notes recorded yet.
+                  </p>
+                ) : (
+                  <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+                    {data.notes.map((n) => (
+                      <div key={n.id} className={`p-2.5 rounded-lg border text-xs ${
+                        isDark ? 'bg-black border-gray-800' : 'bg-gray-50 border-gray-300'
+                      }`}>
+                        <div className={`flex items-center justify-between text-[11px] mb-1 font-semibold ${
+                          isDark ? 'text-gray-400' : 'text-gray-700'
+                        }`}>
+                          <span className={`font-bold ${isDark ? 'text-white' : 'text-black'}`}>
+                            {n.title || n.kind}
+                          </span>
+                          <span>Account {n.account}</span>
+                        </div>
+                        <p className={`text-xs font-medium ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>{n.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+          </div>
+
+        </main>
+      </div>
 
       {/* Item Detail Modal */}
       <ItemDetailModal
@@ -436,10 +460,10 @@ export default function DashboardPage() {
       />
 
       {/* Clean Footer */}
-      <footer className={`border-t py-4 px-6 text-center text-xs text-gray-500 ${
-        isDark ? 'border-gray-800 bg-black' : 'border-gray-200 bg-white'
+      <footer className={`border-t py-4 px-6 text-center text-xs font-semibold ${
+        isDark ? 'border-gray-800 bg-black text-gray-500' : 'border-gray-300 bg-white text-gray-700'
       }`}>
-        FlytBase Autonomous DiaB Customer Success Platform • Questathon 2026
+        FlytBase Autonomous Drone-in-a-Box Customer Success Platform • Questathon 2026
       </footer>
     </div>
   );

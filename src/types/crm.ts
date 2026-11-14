@@ -112,17 +112,21 @@ export interface AccountDetail {
   paperwork: PaperworkFile[];
 }
 
+export interface CRMNote {
+  id: string;
+  account?: AccountId;
+  kind: 'note' | 'task' | 'risk' | 'next_step' | string;
+  title?: string;
+  text: string;
+  created_at: string;
+}
+
+export type Note = CRMNote;
+
 export interface CRMStoreData {
   lastUpdated: string;
   lastUpstreamSync: string;
   accounts: Record<AccountId, AccountDetail>;
   signals: LiveSignal[];
-  notes: Array<{
-    id: string;
-    account?: AccountId;
-    kind: 'note' | 'task' | 'risk' | 'next_step';
-    title?: string;
-    text: string;
-    created_at: string;
-  }>;
+  notes: CRMNote[];
 }
