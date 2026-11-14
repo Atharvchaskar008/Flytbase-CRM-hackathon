@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import { AccountDetail, AccountId, Deal } from '../types/crm';
@@ -40,8 +40,8 @@ export const BookWithReceipts: React.FC<BookWithReceiptsProps> = ({
           : 'Future Opportunity: We are talking about this, but nothing is signed yet.',
         badge: deal.isVerified ? 'Signed on Paper' : 'Not Signed Yet',
         stats: [
-          { label: 'Real Signed Money', value: `£${deal.verifiedValue.toLocaleString()}`, color: 'text-emerald-600' },
-          { label: 'Potential New Deal', value: `£${deal.value.toLocaleString()}`, color: 'text-blue-600' },
+          { label: 'Real Signed Money', value: `$${deal.verifiedValue.toLocaleString()}`, color: 'text-emerald-600' },
+          { label: 'Potential New Deal', value: `$${deal.value.toLocaleString()}`, color: 'text-blue-600' },
           { label: 'Paperwork Status', value: deal.isVerified ? 'Signed Contract' : 'Needs Pricing Model', color: deal.isVerified ? 'text-emerald-600' : 'text-amber-600' },
         ],
         description: `This is the agreement for ${deal.account === 'A' ? 'Eastern Counties Police Alliance' : 'Aldermoor Industrial Group'}. Every single pound shown here is checked against real contracts in our files.`,
@@ -86,12 +86,12 @@ export const BookWithReceipts: React.FC<BookWithReceiptsProps> = ({
             isDark ? 'border-emerald-900 bg-emerald-950/40 text-emerald-300' : 'border-emerald-400 bg-emerald-50 text-emerald-900'
           }`}>
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span className="font-bold">Guaranteed: £{(verifiedARR / 1000).toFixed(0)}k / yr</span>
+            <span className="font-bold">Guaranteed: ${(verifiedARR / 1000).toFixed(0)}k / yr</span>
           </div>
           <div className={`px-3 py-1.5 rounded-lg border font-semibold ${
             isDark ? 'border-gray-800 bg-[#0e1014] text-gray-300' : 'border-gray-300 bg-white text-gray-800 shadow-sm'
           }`}>
-            Possible Future Deals: £{(unverifiedPipeline / 1000).toFixed(0)}k
+            Possible Future Deals: ${(unverifiedPipeline / 1000).toFixed(0)}k
           </div>
         </div>
       </div>
@@ -152,11 +152,11 @@ export const BookWithReceipts: React.FC<BookWithReceiptsProps> = ({
                     <td className="py-4 px-4 font-mono font-bold text-sm">
                       {deal.isVerified ? (
                         <span className="text-emerald-700 dark:text-emerald-400 font-bold text-base">
-                          £{deal.verifiedValue.toLocaleString()}
+                          ${deal.verifiedValue.toLocaleString()}
                         </span>
                       ) : (
                         <span className={`text-base font-semibold ${isDark ? 'text-gray-300' : 'text-black'}`}>
-                          £{deal.value.toLocaleString()}
+                          ${deal.value.toLocaleString()}
                         </span>
                       )}
                     </td>
@@ -201,3 +201,4 @@ export const BookWithReceipts: React.FC<BookWithReceiptsProps> = ({
     </div>
   );
 };
+

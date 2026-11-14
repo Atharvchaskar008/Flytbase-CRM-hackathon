@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 import { AccountDetail, AccountId } from '../types/crm';
@@ -102,7 +102,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
           </div>
           <div className="text-2xl md:text-3xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
-            £{(verifiedARR / 1000).toFixed(0)}k <span className="text-xs font-sans text-gray-500 font-normal">/ yr</span>
+            ${(verifiedARR / 1000).toFixed(0)}k <span className="text-xs font-sans text-gray-500 font-normal">/ yr</span>
           </div>
           <div className={`text-[11px] mt-2 pt-2 border-t font-medium ${
             isDark ? 'border-gray-800 text-gray-400' : 'border-gray-200 text-gray-800'
@@ -122,7 +122,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
             <TrendingUp className="w-4 h-4 text-blue-600" />
           </div>
           <div className={`text-2xl md:text-3xl font-bold font-mono ${isDark ? 'text-white' : 'text-black'}`}>
-            £{(totalPipeline / 1000).toFixed(0)}k
+            ${(totalPipeline / 1000).toFixed(0)}k
           </div>
           <div className={`text-[11px] mt-2 pt-2 border-t font-medium ${
             isDark ? 'border-gray-800 text-gray-400' : 'border-gray-200 text-gray-800'
@@ -198,3 +198,4 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
     </div>
   );
 };
+

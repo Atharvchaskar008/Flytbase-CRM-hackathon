@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -103,7 +103,7 @@ export default function PlatformGuidePage() {
             This platform is an enterprise-grade command center built specifically for <strong>FlytBase</strong>. 
             Traditional CRMs act as passive filing cabinets for sales notes. This system connects live hardware telemetry, 
             contractual obligations, and organizational politics into an automated intelligence engine that protects 
-            <strong> £588,000 in baseline recurring revenue (ARR)</strong> and paves the path for expansion across 300+ autonomous docks.
+            <strong> $588,000 in baseline recurring revenue (ARR)</strong> and paves the path for expansion across 300+ autonomous docks.
           </p>
         </section>
 
@@ -129,7 +129,7 @@ export default function PlatformGuidePage() {
                 <h4 className="text-lg font-bold">Physical Hardware Telemetry</h4>
                 <p className={`text-sm leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
                   FlytBase does not just host software; it controls physical robotic docks deployed in dangerous chemical plants and police jurisdictions. 
-                  When 3 docks stop flying at Aldermoor, it is not a software ticket—it is a £168k contract cancellation risk happening in silence.
+                  When 3 docks stop flying at Aldermoor, it is not a software ticket—it is a $168k contract cancellation risk happening in silence.
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-800 text-xs font-semibold text-blue-600 dark:text-blue-400">
@@ -206,7 +206,7 @@ export default function PlatformGuidePage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-2xl font-mono font-bold text-emerald-600 dark:text-emerald-400">£588,000</span>
+                  <span className="text-2xl font-mono font-bold text-emerald-600 dark:text-emerald-400">$588,000</span>
                   <span className="text-xs block text-gray-500">Signed Baseline ARR</span>
                 </div>
               </div>
@@ -216,14 +216,14 @@ export default function PlatformGuidePage() {
                   <h5 className="font-semibold mb-2 text-base">What This Section Shows:</h5>
                   <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
                     A strict, audited financial breakdown separating legally signed recurring revenue from unverified pipeline.
-                    Eastern Counties Police Alliance contributes <strong>£420,000</strong> (35 docks @ £1k/mo under PO-ECPA-2024-001), 
-                    while Aldermoor Industrial contributes <strong>£168,000</strong> (14 docks @ £1k/mo under AIG-ENT-2023-88).
+                    Eastern Counties Police Alliance contributes <strong>$420,000</strong> (35 docks @ $1k/mo under PO-ECPA-2024-001), 
+                    while Aldermoor Industrial contributes <strong>$168,000</strong> (14 docks @ $1k/mo under AIG-ENT-2023-88).
                   </p>
                 </div>
                 <div>
                   <h5 className="font-semibold mb-2 text-base">Why It Matters to FlytBase Leadership:</h5>
                   <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
-                    The 300-dock police framework tender is worth £1.1M, but it has <strong>zero verified revenue</strong> until a costed operating model is submitted. 
+                    The 300-dock police framework tender is worth $1.1M, but it has <strong>zero verified revenue</strong> until a costed operating model is submitted. 
                     This tab prevents executive teams from assuming prospective deals are guaranteed money.
                   </p>
                 </div>
@@ -369,7 +369,7 @@ export default function PlatformGuidePage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-2xl font-mono font-bold text-amber-600 dark:text-amber-400">£1,268,000</span>
+                  <span className="text-2xl font-mono font-bold text-amber-600 dark:text-amber-400">$1,268,000</span>
                   <span className="text-xs block text-gray-500">Revenue at Stake</span>
                 </div>
               </div>
@@ -463,16 +463,16 @@ export default function PlatformGuidePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
               <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#07080a]' : 'border-gray-100 bg-gray-50'}`}>
-                <h5 className="font-bold text-sm text-blue-500 mb-1">Account A: Eastern Counties Police Alliance (£420k ARR)</h5>
+                <h5 className="font-bold text-sm text-blue-500 mb-1">Account A: Eastern Counties Police Alliance ($420k ARR)</h5>
                 <ul className="space-y-1 list-disc list-inside text-gray-500 dark:text-gray-400">
                   <li><strong>Active Champion Resignation:</strong> Rhys Calder announced his departure in January 2026 with no successor mapped.</li>
                   <li><strong>Unanswered Tactical Crisis:</strong> Inspector Karen Mbeki had an unacknowledged emergency ticket for a 5 Dec public event.</li>
-                  <li><strong>Procurement Roadblock:</strong> Derek Finch was preparing to disqualify FlytBase from the 300-dock (£1.1M) tender due to missing cost models.</li>
+                  <li><strong>Procurement Roadblock:</strong> Derek Finch was preparing to disqualify FlytBase from the 300-dock ($1.1M) tender due to missing cost models.</li>
                 </ul>
               </div>
 
               <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#07080a]' : 'border-gray-100 bg-gray-50'}`}>
-                <h5 className="font-bold text-sm text-amber-500 mb-1">Account B: Aldermoor Industrial Group (£168k ARR)</h5>
+                <h5 className="font-bold text-sm text-amber-500 mb-1">Account B: Aldermoor Industrial Group ($168k ARR)</h5>
                 <ul className="space-y-1 list-disc list-inside text-gray-500 dark:text-gray-400">
                   <li><strong>Silent Drone Degradation:</strong> 3 docks at Stallingborough completely stopped flying while remaining online.</li>
                   <li><strong>Plant Manager Budget Revolt:</strong> Facility managers were refusing to pay corporate security chargebacks for idle drones.</li>
@@ -508,11 +508,11 @@ export default function PlatformGuidePage() {
 
                 <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#101318]' : 'border-gray-200 bg-gray-50'}`}>
                   <strong className="text-sm font-semibold text-violet-600 dark:text-violet-400 block mb-1">
-                    Decision 3: Unit-Economics Model for Derek Finch (Unlocking the £1.1M Framework Tender)
+                    Decision 3: Unit-Economics Model for Derek Finch (Unlocking the $1.1M Framework Tender)
                   </strong>
                   <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
-                    <em>Why:</em> Derek Finch in procurement cared about cost-per-flight-hour, not marketing slides. We audited our £1,000/dock/month model against manual helicopter flight costs.<br />
-                    <em>Impact:</em> Successfully satisfied procurement criteria, qualifying FlytBase for the 300-dock national framework tender (£1,100,000 upside).
+                    <em>Why:</em> Derek Finch in procurement cared about cost-per-flight-hour, not marketing slides. We audited our $1,000/dock/month model against manual helicopter flight costs.<br />
+                    <em>Impact:</em> Successfully satisfied procurement criteria, qualifying FlytBase for the 300-dock national framework tender ($1,100,000 upside).
                   </p>
                 </div>
 
@@ -521,8 +521,8 @@ export default function PlatformGuidePage() {
                     Decision 4: Quelling Aldermoor's Plant Revolt with Automated Flight ROI Reports
                   </strong>
                   <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
-                    <em>Why:</em> Nadia Rahman was caught between angry plant managers and central IT. We extracted automated flight frequency logs for each plant showing £240k saved in manual perimeter patrols.<br />
-                    <em>Impact:</em> Ended the internal budget revolt, restored Nadia's confidence, and secured the £168k contract renewal.
+                    <em>Why:</em> Nadia Rahman was caught between angry plant managers and central IT. We extracted automated flight frequency logs for each plant showing $240k saved in manual perimeter patrols.<br />
+                    <em>Impact:</em> Ended the internal budget revolt, restored Nadia's confidence, and secured the $168k contract renewal.
                   </p>
                 </div>
 
@@ -543,13 +543,13 @@ export default function PlatformGuidePage() {
               <h4 className="text-lg font-bold">Recommended 3-Minute Video Walkthrough Script for Judges:</h4>
               <div className="space-y-2 text-xs leading-relaxed font-mono bg-gray-50 dark:bg-[#07080a] p-4 rounded-xl border border-gray-200 dark:border-gray-800">
                 <p><strong>[0:00 - 0:45] The Hook & The Problem:</strong><br />
-                "Hello, I am presenting the FlytBase CSM Command Center. In autonomous Drone-in-a-Box operations, customer support cannot be a passive filing cabinet. Customers smiled and said everything was fine, but our telemetry found 3 dead docks, an unanswered tactical police emergency, and a champion resigning in January. Here is how our platform saved £588,000 in ARR."</p>
+                "Hello, I am presenting the FlytBase CSM Command Center. In autonomous Drone-in-a-Box operations, customer support cannot be a passive filing cabinet. Customers smiled and said everything was fine, but our telemetry found 3 dead docks, an unanswered tactical police emergency, and a champion resigning in January. Here is how our platform saved $588,000 in ARR."</p>
 
                 <p><strong>[0:45 - 1:30] Answering the 5 Judging Questions:</strong><br />
-                "Our dashboard directly answers the 5 hackathon questions: Tab 1 (Receipts) audits £588k in signed ARR vs £1.1M in speculative pipeline. Tab 2 (Power Map) maps deciders like Chief Constable Marcus Hayes and blockers like Derek Finch. Tab 3 gives our Monday 9:00 AM ranked playbook. Tab 4 tracks impending risk countdowns. Tab 5 discovers critical blind spots."</p>
+                "Our dashboard directly answers the 5 hackathon questions: Tab 1 (Receipts) audits $588k in signed ARR vs $1.1M in speculative pipeline. Tab 2 (Power Map) maps deciders like Chief Constable Marcus Hayes and blockers like Derek Finch. Tab 3 gives our Monday 9:00 AM ranked playbook. Tab 4 tracks impending risk countdowns. Tab 5 discovers critical blind spots."</p>
 
                 <p><strong>[1:30 - 2:15] Tracing a Number to a Receipt (Data Room) & AI Agents:</strong><br />
-                "Notice this £420,000 ARR figure. When I click on PO-ECPA-2024-001, it jumps into our Data Room, opening the exact signed contract and SLA response terms. Meanwhile, our Autonomous AI Agents detect telemetry drops and allow us to authorize simulated AI voice calls and WhatsApp dispatches with human permission."</p>
+                "Notice this $420,000 ARR figure. When I click on PO-ECPA-2024-001, it jumps into our Data Room, opening the exact signed contract and SLA response terms. Meanwhile, our Autonomous AI Agents detect telemetry drops and allow us to authorize simulated AI voice calls and WhatsApp dispatches with human permission."</p>
 
                 <p><strong>[2:15 - 3:00] Architecture & Ingestion:</strong><br />
                 "Built on Next.js 14 and Poppins styling, the platform connects to Questathon via streamable MCP, strictly respects the 1 call/min rate limit with an atomic cache, and ingests live event signals and new accounts dynamically. Thank you!"</p>
@@ -618,3 +618,4 @@ export default function PlatformGuidePage() {
     </div>
   );
 }
+

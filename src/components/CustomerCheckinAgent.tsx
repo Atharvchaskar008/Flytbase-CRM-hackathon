@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { AccountDetail, AccountId } from '../types/crm';
@@ -74,7 +74,7 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
         id: 'msg_3',
         sender: 'agent',
         senderName: 'FlytBase Autonomous Check-in Agent',
-        text: 'Understood immediately, Inspector. Two things done: 1) We ran remote diagnostic on Westmere dock 4—it was an ionospheric delay, and we have pushed a firmware satellite recalibration (signal lock is now nominal 100%). 2) Regarding standalone drones: standalone drones legally require a full-time human pilot on-site per mission (£120k/yr labor). FlytBase autonomous docks operate with zero human pilot overhead. I have sent the full comparison report to your email!',
+        text: 'Understood immediately, Inspector. Two things done: 1) We ran remote diagnostic on Westmere dock 4—it was an ionospheric delay, and we have pushed a firmware satellite recalibration (signal lock is now nominal 100%). 2) Regarding standalone drones: standalone drones legally require a full-time human pilot on-site per mission ($120k/yr labor). FlytBase autonomous docks operate with zero human pilot overhead. I have sent the full comparison report to your email!',
         timestamp: '14 Nov 2026, 08:36 AM',
       },
       {
@@ -114,18 +114,18 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
         id: 'msg_7',
         sender: 'agent',
         senderName: 'FlytBase Autonomous Check-in Agent',
-        text: 'Understood Nadia. We anticipated this and pulled your per-plant data: automated thermal drone scans saved £80,000 in manual scaffolding inspections at Stallingborough alone this quarter, and zero safety incidents occurred. I have generated a 1-page executive PDF and sent it directly to your WhatsApp.',
+        text: 'Understood Nadia. We anticipated this and pulled your per-plant data: automated thermal drone scans saved $80,000 in manual scaffolding inspections at Stallingborough alone this quarter, and zero safety incidents occurred. I have generated a 1-page executive PDF and sent it directly to your WhatsApp.',
         timestamp: '14 Nov 2026, 09:22 AM',
       },
       {
         id: 'msg_8',
         sender: 'customer',
         senderName: 'Nadia Rahman (VP Operations)',
-        text: 'This 1-page summary is brilliant. Showing £80k saved completely stops the plant managers\' complaints. I am forwarding this to the Safety Board right now. Renewal is safe.',
+        text: 'This 1-page summary is brilliant. Showing $80k saved completely stops the plant managers\' complaints. I am forwarding this to the Safety Board right now. Renewal is safe.',
         timestamp: '14 Nov 2026, 09:25 AM',
         flag: {
           type: 'satisfaction_high',
-          label: 'Renewal Risk Neutralized (£168k Saved)',
+          label: 'Renewal Risk Neutralized ($168k Saved)',
           actionTaken: 'Customer confirmed contract renewal is protected.',
         },
       },
@@ -162,7 +162,7 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
       let flagData: ChatMessage['flag'] | undefined = undefined;
 
       if (isAltQuery) {
-        replyText = 'We hear you on pricing! Unlike traditional alternatives that require certified pilot operators on-site, FlytBase autonomous BVLOS docks operate with zero human labor, saving over £140k annually. Let me prepare a custom unit-economics breakdown for your review.';
+        replyText = 'We hear you on pricing! Unlike traditional alternatives that require certified pilot operators on-site, FlytBase autonomous BVLOS docks operate with zero human labor, saving over $140k annually. Let me prepare a custom unit-economics breakdown for your review.';
         flagData = {
           type: 'competitor_risk',
           label: 'Customer Inquired About Alternatives/Cost',
@@ -416,7 +416,7 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
                   1. Catches Competitor Threats Instantly
                 </strong>
                 <p className="text-gray-600 dark:text-gray-300 text-[11px] leading-relaxed">
-                  When the customer mentions testing standalone drones, the agent does not panic. It immediately shows that manual pilots cost £120k/yr, proving FlytBase's superior ROI.
+                  When the customer mentions testing standalone drones, the agent does not panic. It immediately shows that manual pilots cost $120k/yr, proving FlytBase's superior ROI.
                 </p>
               </div>
 
@@ -438,7 +438,7 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
                   3. Gives Executives Data to Stop Internal Revolts
                 </strong>
                 <p className="text-gray-600 dark:text-gray-300 text-[11px] leading-relaxed">
-                  When plant managers complained about corporate security fees, the agent gave Nadia Rahman the £80k scaffolding savings proof she needed to defend the budget.
+                  When plant managers complained about corporate security fees, the agent gave Nadia Rahman the $80k scaffolding savings proof she needed to defend the budget.
                 </p>
               </div>
             </div>
@@ -486,3 +486,4 @@ export const CustomerCheckinAgent: React.FC<CustomerCheckinAgentProps> = ({
     </div>
   );
 };
+

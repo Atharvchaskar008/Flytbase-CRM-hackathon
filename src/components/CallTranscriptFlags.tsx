@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { AccountId } from '../types/crm';
@@ -391,7 +391,7 @@ export const CallTranscriptFlags: React.FC<CallTranscriptFlagsProps> = ({
                 <div className="flex items-center justify-between font-bold">
                   <span className="text-black dark:text-white text-sm">{offer.title}</span>
                   <span className="font-mono text-rose-700 dark:text-rose-400 font-bold text-sm">
-                    £{offer.value.toLocaleString()} [DECLINED]
+                    ${offer.value.toLocaleString()} [DECLINED]
                   </span>
                 </div>
 
@@ -425,3 +425,4 @@ export const CallTranscriptFlags: React.FC<CallTranscriptFlagsProps> = ({
     </div>
   );
 };
+

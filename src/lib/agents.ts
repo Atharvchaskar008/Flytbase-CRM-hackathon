@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Autonomous AI Agent Engine for FlytBase CSM
  * Implements agentic workflows: Telemetry Watchdog, Stakeholder Liaison, and Revenue Expansion.
  */
@@ -211,7 +211,7 @@ export const STAKEHOLDER_WEB_DOSSIERS: WebResearchDossier[] = [
       {
         source: 'Eastern Police Authority Minutes (Q2 2025)',
         quote: 'Every pound spent on aviation or technology must translate to visible officer hours on the beat, not vanity projects.',
-        context: 'Under cross-examination on rising helicopter fuel surcharges (£3,500/hour).'
+        context: 'Under cross-examination on rising helicopter fuel surcharges ($3,500/hour).'
       },
       {
         source: 'National Policing Innovation Summit (2024)',
@@ -258,7 +258,7 @@ export const STAKEHOLDER_WEB_DOSSIERS: WebResearchDossier[] = [
       'Contractual penalty clauses for uptime under 99.5%'
     ],
     redFlagsAndSensitivities: [
-      'Will immediately disqualify FlytBase from the 300-dock tender if unit economics (£1,000/dock/mo) are not mathematically reconciled',
+      'Will immediately disqualify FlytBase from the 300-dock tender if unit economics ($1,000/dock/mo) are not mathematically reconciled',
       'Despises unverified "pipeline ARR" claims not backed by signed purchase orders'
     ],
     recommendedTone: 'Ultra-factual, methodical, and financially conservative. Present structured unit-economics comparison matrices.'
@@ -285,7 +285,7 @@ export const STAKEHOLDER_WEB_DOSSIERS: WebResearchDossier[] = [
     psychologicalProfile: 'P&L-centric, unsentimental, direct. Prioritizes plant safety compliance (COMAH Tier 1) and unit cost reduction. Tolerates zero operational downtime.',
     coreMotivations: [
       'Quelling the plant manager rebellion regarding corporate security chargebacks',
-      'Proving measurable reduction in physical guard contractor costs (£240k saved/year)',
+      'Proving measurable reduction in physical guard contractor costs ($240k saved/year)',
       'Ensuring ATEX-certified safety compliance across all 14 refinery sites'
     ],
     redFlagsAndSensitivities: [
@@ -376,7 +376,7 @@ export const STAKEHOLDER_WEB_DOSSIERS: WebResearchDossier[] = [
     coreMotivations: [
       'Audit-proof procurement documentation complying with UK Public Contracts Regulations',
       'Securing a costed operating model showing exactly who flies 300 docks',
-      'Ensuring fixed, predictable £1,000/dock/month pricing with no hidden cloud charges'
+      'Ensuring fixed, predictable $1,000/dock/month pricing with no hidden cloud charges'
     ],
     redFlagsAndSensitivities: [
       'Will exclude FlytBase from the 300-dock tender if unit economics and pilot ratios are not provided before spec lock'
@@ -475,7 +475,7 @@ export const MEETING_PLAYBOOKS: MeetingPlaybookBattlecard[] = [
     meetingTarget: 'Chief Constable Marcus Hayes',
     targetRole: 'Economic Buyer & Alliance Chair',
     account: 'A',
-    scenario: 'Institutionalizing the £420k Contract & 300-Dock Tender Before Rhys Calder Exits',
+    scenario: 'Institutionalizing the $420k Contract & 300-Dock Tender Before Rhys Calder Exits',
     primaryObjective: 'Secure Marcus Hayes’s direct personal sponsorship of the drone alliance program so it survives Rhys Calder’s January departure.',
     strategicLeverage: 'FlytBase has saved the alliance 1,840 frontline officer pursuit hours this year at 1/3 the operating cost of national police helicopters.',
     phrasesToSay: [
@@ -490,8 +490,8 @@ export const MEETING_PLAYBOOKS: MeetingPlaybookBattlecard[] = [
     ],
     likelyObjectionsAndCounters: [
       {
-        objection: 'Our police authority is questioning whether we can justify £420k/year when frontline station budgets are tight.',
-        counterScript: 'Chief Constable, traditional helicopter response costs £3,500 per hour. In Westmere alone, FlytBase docks flew 142 sorties this month at an effective cost of £245 per deployment, preserving over 200 frontline officer pursuit hours.'
+        objection: 'Our police authority is questioning whether we can justify $420k/year when frontline station budgets are tight.',
+        counterScript: 'Chief Constable, traditional helicopter response costs $3,500 per hour. In Westmere alone, FlytBase docks flew 142 sorties this month at an effective cost of $245 per deployment, preserving over 200 frontline officer pursuit hours.'
       },
       {
         objection: 'What happens if a dock malfunctions during a high-visibility incident?',
@@ -505,11 +505,11 @@ export const MEETING_PLAYBOOKS: MeetingPlaybookBattlecard[] = [
     meetingTarget: 'Derek Finch',
     targetRole: 'Senior Regional Procurement Director',
     account: 'A',
-    scenario: 'Submitting Unit Economics Model for the £1,100,000 300-Dock Framework Tender',
+    scenario: 'Submitting Unit Economics Model for the $1,100,000 300-Dock Framework Tender',
     primaryObjective: 'Pass Derek Finch’s commercial scrutiny gate and eliminate the risk of FlytBase being disqualified from the 300-dock national tender.',
-    strategicLeverage: 'Only FlytBase has proven audited £1,000/dock/month unit economics backed by 35 deployed stations with 99.8% uptime receipts.',
+    strategicLeverage: 'Only FlytBase has proven audited $1,000/dock/month unit economics backed by 35 deployed stations with 99.8% uptime receipts.',
     phrasesToSay: [
-      '"Derek, we have mathematically reconciled the 3-year TCO model: £1,000 per dock per month covers hardware, continuous maintenance, automated battery cycles, and cloud orchestration."',
+      '"Derek, we have mathematically reconciled the 3-year TCO model: $1,000 per dock per month covers hardware, continuous maintenance, automated battery cycles, and cloud orchestration."',
       '"Our multi-dock remote pilot protocol allows 1 qualified operator to supervise 10 stations simultaneously under CAA standard BVLOS regulations."',
       '"We are attaching signed receipts from PO-ECPA-2024-001 proving our operational uptime SLA compliance."'
     ],
@@ -521,7 +521,7 @@ export const MEETING_PLAYBOOKS: MeetingPlaybookBattlecard[] = [
     likelyObjectionsAndCounters: [
       {
         objection: 'Other vendors claim they can sell standalone drones for 1/3 of your station cost.',
-        counterScript: 'Derek, a standalone drone requires a dedicated £45,000/year pilot on-site for every single mission. Across 300 locations, manual pilot staffing exceeds £13.5M annually. FlytBase autonomous stations eliminate manual on-site piloting, saving £10.8M in lifetime staffing costs.'
+        counterScript: 'Derek, a standalone drone requires a dedicated $45,000/year pilot on-site for every single mission. Across 300 locations, manual pilot staffing exceeds $13.5M annually. FlytBase autonomous stations eliminate manual on-site piloting, saving $10.8M in lifetime staffing costs.'
       },
       {
         objection: 'What if FlytBase increases cloud API pricing after we sign the multi-year framework?',
@@ -535,13 +535,13 @@ export const MEETING_PLAYBOOKS: MeetingPlaybookBattlecard[] = [
     meetingTarget: 'Nadia Rahman',
     targetRole: 'Group Financial Controller & Operations VP',
     account: 'B',
-    scenario: 'Defending the £168k Contract Renewal & Quelling Plant Manager Revolt',
+    scenario: 'Defending the $168k Contract Renewal & Quelling Plant Manager Revolt',
     primaryObjective: 'Secure unanimous plant approval for the March contract renewal by presenting site-level contractor substitution savings.',
-    strategicLeverage: 'Automated perimeter patrols across 14 docks substituted 1,420 physical guard hours, saving £240,000 in third-party security contractor billings.',
+    strategicLeverage: 'Automated perimeter patrols across 14 docks substituted 1,420 physical guard hours, saving $240,000 in third-party security contractor billings.',
     phrasesToSay: [
-      '"Nadia, we understand the plant managers’ frustration regarding central chargebacks. Here is the plant-by-plant audit showing £240,000 in saved security contractor billings."',
+      '"Nadia, we understand the plant managers’ frustration regarding central chargebacks. Here is the plant-by-plant audit showing $240,000 in saved security contractor billings."',
       '"Regarding the 3 idle docks at Stallingborough: our autonomous diagnostic identified a sensor calibration issue, pushed remote firmware, and full night missions resumed yesterday with zero charge to the plant."',
-      '"By standardizing night patrols, each facility manager will see their local security contractor invoices drop by an average of £17,000 per site next quarter."'
+      '"By standardizing night patrols, each facility manager will see their local security contractor invoices drop by an average of $17,000 per site next quarter."'
     ],
     phrasesToNeverSay: [
       'DO NOT SAY: "The plant managers don’t understand modern autonomous robotics."',
@@ -554,7 +554,7 @@ export const MEETING_PLAYBOOKS: MeetingPlaybookBattlecard[] = [
         counterScript: 'He is completely justified in asking, Nadia. Our telemetry confirmed that while the docks were online, wind gusts exceeded safety cutoffs on 6 shifts, and dock 4 had an RTK sensor lock. We have recalibrated the dock, scheduled a joint review with Plant 7 ops, and credited the plant with 30 priority inspection sorties.'
       }
     ],
-    desiredClosingAgreement: 'Nadia approves the 12-month contract renewal for £168k ARR and schedules the joint plant manager ROI briefing for next Tuesday.'
+    desiredClosingAgreement: 'Nadia approves the 12-month contract renewal for $168k ARR and schedules the joint plant manager ROI briefing for next Tuesday.'
   }
 ];
 
@@ -615,16 +615,16 @@ export const AUTONOMOUS_AGENT_FLEET: AgentFleetMember[] = [
     frequency: 'Real-time Signal Ingestion',
     capability: 'Detects champion departures, sentiment cooling, and single-point-of-failure vulnerabilities; auto-generates multi-threading introduction memos.',
     status: 'intervention_active',
-    focus: 'Insulates the £420k contract against Rhys Calder’s departure in January.'
+    focus: 'Insulates the $420k contract against Rhys Calder’s departure in January.'
   },
   {
     id: 'agent_tender_architect',
     name: 'Commercial Expansion & Tender Architect',
     role: 'Unit-Economics & Framework Model Synthesizer',
     frequency: 'Tender Milestone Triggered',
-    capability: 'Calculates audited £1,000/dock/month unit economics, 1:10 BVLOS pilot ratios, and prepares compliance matrices for national frameworks.',
+    capability: 'Calculates audited $1,000/dock/month unit economics, 1:10 BVLOS pilot ratios, and prepares compliance matrices for national frameworks.',
     status: 'ready',
-    focus: 'Secures qualification for the 300-dock (£1.1M) national police framework.'
+    focus: 'Secures qualification for the 300-dock ($1.1M) national police framework.'
   },
   {
     id: 'agent_counter_strike',
@@ -633,6 +633,7 @@ export const AUTONOMOUS_AGENT_FLEET: AgentFleetMember[] = [
     frequency: 'Continuous Web & Chat Signal Scan',
     capability: 'Identifies competitor pricing tactics (DJI Dock, Skydio, Percepto) and generates defensible operational counter-narratives highlighting FlytBase’s autonomy moat.',
     status: 'ready',
-    focus: 'Counters standalone drone inquiries with £120k/year human pilot cost analysis.'
+    focus: 'Counters standalone drone inquiries with $120k/year human pilot cost analysis.'
   }
 ];
+

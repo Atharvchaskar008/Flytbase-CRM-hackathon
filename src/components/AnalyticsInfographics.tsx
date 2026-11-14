@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { AccountDetail, AccountId } from '../types/crm';
@@ -212,7 +212,7 @@ export const AnalyticsInfographics: React.FC<AnalyticsInfographicsProps> = ({
                   {/* Donut Center Display */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
                     <span className="text-2xl font-mono font-bold text-black dark:text-white">
-                      {hoveredSlice === 'pipeline' ? `£${(pipelineARR / 1000).toFixed(0)}k` : `£${(verifiedARR / 1000).toFixed(0)}k`}
+                      {hoveredSlice === 'pipeline' ? `$${(pipelineARR / 1000).toFixed(0)}k` : `$${(verifiedARR / 1000).toFixed(0)}k`}
                     </span>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-gray-500">
                       {hoveredSlice === 'pipeline' ? 'Speculative' : 'Verified ARR'}
@@ -237,7 +237,7 @@ export const AnalyticsInfographics: React.FC<AnalyticsInfographicsProps> = ({
                         <span>Signed Baseline ARR ({verifiedPct}%)</span>
                       </div>
                       <span className="font-mono text-emerald-700 dark:text-emerald-400">
-                        £{verifiedARR.toLocaleString()}
+                        ${verifiedARR.toLocaleString()}
                       </span>
                     </div>
                     <span className="text-[11px] text-gray-600 dark:text-gray-400 mt-1 block">
@@ -260,7 +260,7 @@ export const AnalyticsInfographics: React.FC<AnalyticsInfographicsProps> = ({
                         <span>Speculative Tender ({pipelinePct}%)</span>
                       </div>
                       <span className="font-mono text-amber-700 dark:text-amber-400">
-                        £{pipelineARR.toLocaleString()}
+                        ${pipelineARR.toLocaleString()}
                       </span>
                     </div>
                     <span className="text-[11px] text-gray-600 dark:text-gray-400 mt-1 block">
@@ -530,3 +530,4 @@ export const AnalyticsInfographics: React.FC<AnalyticsInfographicsProps> = ({
     </div>
   );
 };
+

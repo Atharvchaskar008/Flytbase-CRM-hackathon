@@ -1,4 +1,4 @@
-import { AccountId } from '../types/crm';
+﻿import { AccountId } from '../types/crm';
 
 export interface CallTranscriptFact {
   id: string;
@@ -157,8 +157,8 @@ export const LIVE_CALL_TRANSCRIPTS: CallTranscriptFact[] = [
     flagType: 'competitor_alternative',
     flagSeverity: 'critical',
     flagTitle: 'CRITICAL FLAG: Helicopter Comparison & Missing Unit Cost',
-    csmImpactAnalysis: 'Rhys admits missing person rescues are treated as mere anecdotes because nobody has proven cost per flight against police helicopters (£3,500/hr).',
-    suggestedAction: 'Produce an audited cost-per-flight model: FlytBase DiaB (£245/sortie) vs Police Helicopter (£3,500/hr).'
+    csmImpactAnalysis: 'Rhys admits missing person rescues are treated as mere anecdotes because nobody has proven cost per flight against police helicopters ($3,500/hr).',
+    suggestedAction: 'Produce an audited cost-per-flight model: FlytBase DiaB ($245/sortie) vs Police Helicopter ($3,500/hr).'
   },
 
   // Account B Call Transcripts
@@ -232,7 +232,7 @@ export const LIVE_DECLINED_OFFERS: DeclinedOffer[] = [
     value: 60000,
     pitchTo: 'Insp. Karen Mbeki',
     status: 'declined',
-    whyDeclined: 'Karen Mbeki declined because FlytBase had not yet answered her urgent ticket for the 5 Dec public event. Pitching a £60k paid contract to a customer with an active unresolved support ticket created immediate resentment.',
+    whyDeclined: 'Karen Mbeki declined because FlytBase had not yet answered her urgent ticket for the 5 Dec public event. Pitching a $60k paid contract to a customer with an active unresolved support ticket created immediate resentment.',
     csmRemedy: 'Deliver free dedicated standby engineering coverage for the 5 Dec event first to rebuild trust, then roll priority support into the core 35-dock contract renewal.'
   },
   {
@@ -242,7 +242,7 @@ export const LIVE_DECLINED_OFFERS: DeclinedOffer[] = [
     value: 45000,
     pitchTo: 'Insp. Karen Mbeki',
     status: 'declined',
-    whyDeclined: 'Mbeki needed confirmed training dates on her calendar for her officers before the weekend, not an additional £45,000 upsell invoice.',
+    whyDeclined: 'Mbeki needed confirmed training dates on her calendar for her officers before the weekend, not an additional $45,000 upsell invoice.',
     csmRemedy: 'Provide 2 pilot refresher training slots (28-29 Nov) under existing contract SLA with zero additional surcharge.'
   },
   {
@@ -276,3 +276,4 @@ export const LIVE_DECLINED_OFFERS: DeclinedOffer[] = [
     csmRemedy: 'Reactivate the 3 idle docks, secure Plant 7 satisfaction, and use that success story to unlock Plant 15 in Q2.'
   }
 ];
+

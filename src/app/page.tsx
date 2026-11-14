@@ -22,6 +22,9 @@ import { IntegrationsHub } from '@/components/IntegrationsHub';
 import { DealVault } from '@/components/DealVault';
 import { CustomerCheckinAgent } from '@/components/CustomerCheckinAgent';
 import { CallTranscriptFlags } from '@/components/CallTranscriptFlags';
+import { PreMeetingBriefOnePager } from '@/components/PreMeetingBriefOnePager';
+import { SilentDropRadar } from '@/components/SilentDropRadar';
+import { CFOProofOfValuePacket } from '@/components/CFOProofOfValuePacket';
 import { initialCRMData } from '@/lib/mockData';
 import { AutonomousCSMAgentNetwork, AgentInsight } from '@/lib/agents';
 import { 
@@ -42,14 +45,17 @@ import {
   X,
   BrainCircuit,
   MessageSquare,
-  PhoneCall
+  PhoneCall,
+  Clock,
+  TrendingDown,
+  DollarSign
 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [data, setData] = useState<CRMStoreData>(initialCRMData);
   const [selectedAccount, setSelectedAccount] = useState<AccountId | 'ALL'>('ALL');
   const [activeTab, setActiveTab] = useState<
-    'actions' | 'book' | 'dealvault' | 'checkin' | 'transcripts' | 'power' | 'risks' | 'blindspots' | 'agents' | 'notes' | 'infographics' | 'paperwork' | 'integrations'
+    'actions' | 'book' | 'dealvault' | 'brief' | 'checkin' | 'transcripts' | 'silentdrop' | 'power' | 'risks' | 'blindspots' | 'cfopacket' | 'agents' | 'notes' | 'infographics' | 'paperwork' | 'integrations'
   >('actions');
   const [theme, setTheme] = useState<'light' | 'dark'>('light'); // Crisp white default!
   const [isSyncing, setIsSyncing] = useState(false);
@@ -163,16 +169,19 @@ export default function DashboardPage() {
     { id: 'actions', label: '1. Monday To-Do List', icon: CheckSquare, desc: 'Prioritized tasks' },
     { id: 'book', label: '2. Contracts & Money', icon: ShieldCheck, desc: 'Guaranteed ARR' },
     { id: 'dealvault', label: '3. Deal Vault & Intelligence', icon: BrainCircuit, desc: 'Touchpoint memory & psych dossiers', badge: 'Elite' },
-    { id: 'checkin', label: '4. WhatsApp Customer Check-in', icon: MessageSquare, desc: 'Proactive relationship agent', badge: 'Live AI' },
-    { id: 'transcripts', label: '5. Call Transcripts & Risk Flags', icon: PhoneCall, desc: 'MCP dialogue & competitor flags', badge: 'Flags' },
-    { id: 'power', label: '6. Who Makes Decisions', icon: Users, desc: 'Key stakeholders' },
-    { id: 'risks', label: '7. Problems & Deadlines', icon: AlertTriangle, desc: 'Risk countdowns' },
-    { id: 'blindspots', label: '8. Questions to Ask', icon: HelpCircle, desc: 'Unknown info' },
-    { id: 'agents', label: '9. AI Helpers (Calls & WhatsApp)', icon: Bot, desc: 'Smart swarm', badge: 'Active' },
-    { id: 'notes', label: '10. Shared Note Arena', icon: FileEdit, desc: 'Team whiteboard', badge: 'New' },
-    { id: 'infographics', label: '11. Visual Charts', icon: BarChart3, desc: 'Ratios & health' },
-    { id: 'paperwork', label: '12. Official Contract Papers', icon: FileText, desc: 'Data Room proofs' },
-    { id: 'integrations', label: '13. Integrations & Roadmap', icon: Sliders, desc: 'Telemetry & APIs' },
+    { id: 'brief', label: '4. 60-Sec Pre-Meeting Brief', icon: Clock, desc: '1-pager before calling', badge: 'Fast Card' },
+    { id: 'checkin', label: '5. WhatsApp Customer Check-in', icon: MessageSquare, desc: 'Proactive relationship agent', badge: 'Live AI' },
+    { id: 'transcripts', label: '6. Call Transcripts & Risk Flags', icon: PhoneCall, desc: 'MCP dialogue & competitor flags', badge: 'Flags' },
+    { id: 'silentdrop', label: '7. Silent Drop Churn Radar', icon: TrendingDown, desc: 'Flight velocity churn alerts', badge: 'Yellow Alert' },
+    { id: 'power', label: '8. Who Makes Decisions', icon: Users, desc: 'Key stakeholders' },
+    { id: 'risks', label: '9. Problems & Deadlines', icon: AlertTriangle, desc: 'Risk countdowns' },
+    { id: 'blindspots', label: '10. Questions to Ask', icon: HelpCircle, desc: 'Unknown info' },
+    { id: 'cfopacket', label: '11. CFO Proof of Value (PDF)', icon: DollarSign, desc: 'Monthly 28th value packet', badge: '28th Auto' },
+    { id: 'agents', label: '12. AI Helpers (Calls & WhatsApp)', icon: Bot, desc: 'Smart swarm', badge: 'Active' },
+    { id: 'notes', label: '13. Shared Note Arena', icon: FileEdit, desc: 'Team whiteboard', badge: 'New' },
+    { id: 'infographics', label: '14. Visual Charts', icon: BarChart3, desc: 'Ratios & health' },
+    { id: 'paperwork', label: '15. Official Contract Papers', icon: FileText, desc: 'Data Room proofs' },
+    { id: 'integrations', label: '16. Integrations & Roadmap', icon: Sliders, desc: 'Telemetry & APIs' },
   ];
 
   return (
@@ -321,6 +330,13 @@ export default function DashboardPage() {
                 />
               )}
 
+              {activeTab === 'brief' && (
+                <PreMeetingBriefOnePager
+                  selectedAccount={selectedAccount}
+                  isDark={isDark}
+                />
+              )}
+
               {activeTab === 'checkin' && (
                 <CustomerCheckinAgent
                   accounts={data.accounts}
@@ -331,6 +347,13 @@ export default function DashboardPage() {
 
               {activeTab === 'transcripts' && (
                 <CallTranscriptFlags
+                  selectedAccount={selectedAccount}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'silentdrop' && (
+                <SilentDropRadar
                   selectedAccount={selectedAccount}
                   isDark={isDark}
                 />
@@ -360,6 +383,13 @@ export default function DashboardPage() {
                   selectedAccount={selectedAccount}
                   onDraftQuestion={handleDraftQuestion}
                   onOpenDetail={handleOpenDetail}
+                  isDark={isDark}
+                />
+              )}
+
+              {activeTab === 'cfopacket' && (
+                <CFOProofOfValuePacket
+                  selectedAccount={selectedAccount}
                   isDark={isDark}
                 />
               )}

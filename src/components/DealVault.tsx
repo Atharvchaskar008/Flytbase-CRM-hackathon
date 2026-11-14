@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { AccountDetail, AccountId, Deal, Character } from '../types/crm';
@@ -77,7 +77,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
         timestamp: '14 Nov 2024, 09:00',
         title: 'PO-ECPA-2024-001 Formally Signed & Deposited',
         participant: 'Chief Constable Marcus Hayes',
-        summary: 'Official 35-dock enterprise agreement executed at £1,000/dock/month (£420,000 ARR). Binding SLA: 30-min remote triage and 4-hour on-site dispatch.',
+        summary: 'Official 35-dock enterprise agreement executed at $1,000/dock/month ($420,000 ARR). Binding SLA: 30-min remote triage and 4-hour on-site dispatch.',
         receiptId: 'PO-ECPA-2024-001',
       },
       {
@@ -114,7 +114,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
         timestamp: '14 Nov 2026, 10:45',
         title: 'Unit-Economics Operating Model Submitted',
         participant: 'CSM Team & Derek Finch',
-        summary: 'Audited model submitted showing £1,000/dock/month against £3,500/hr traditional helicopter flight hours. Derek Finch cleared procurement gate.',
+        summary: 'Audited model submitted showing $1,000/dock/month against $3,500/hr traditional helicopter flight hours. Derek Finch cleared procurement gate.',
         receiptId: 'TENDER-SPEC-300D',
       },
     ],
@@ -125,7 +125,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
         timestamp: '12 Oct 2023, 10:00',
         title: 'AIG-ENT-2023-88 Master Platform License Executed',
         participant: 'Nadia Rahman (VP Operations)',
-        summary: '14 docks deployed across 3 chemical facilities at £168,000 ARR. Annual renewal window set for March 31.',
+        summary: '14 docks deployed across 3 chemical facilities at $168,000 ARR. Annual renewal window set for March 31.',
         receiptId: 'AIG-ENT-2023-88',
       },
       {
@@ -142,7 +142,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
         timestamp: '14 Nov 2026, 10:00',
         title: 'WhatsApp Cloud Dispatch: Plant Flight ROI Summary PDF',
         participant: 'Nadia Rahman',
-        summary: 'Sent customized facility report proving 84 automated perimeter patrols saved £240k in manual security contractor hours, quelling plant revolt.',
+        summary: 'Sent customized facility report proving 84 automated perimeter patrols saved $240k in manual security contractor hours, quelling plant revolt.',
       },
     ],
   };
@@ -167,7 +167,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
         account: 'Eastern Counties Police',
         personalityType: 'Compliance Bureaucrat (Audited Numbers, Unit Cost Obsessed)',
         coreMotivation: 'Guaranteed cost efficiency, zero procurement audit failures, and fixed SLA penalties.',
-        whatToSay: '"At £1,000 per dock per month, an autonomous FlytBase dock costs £1.38 per flight hour, compared to £3,500 per hour for a police helicopter."',
+        whatToSay: '"At $1,000 per dock per month, an autonomous FlytBase dock costs $1.38 per flight hour, compared to $3,500 per hour for a police helicopter."',
         whatNeverToSay: 'Do NOT say "we can estimate savings later" or "pricing is negotiable." Present fixed unit economics with audit references.',
         bestContactChannel: 'Formal PDF Model with Signed Precedents',
         bestTimeToReach: 'Monday or Wednesday 14:00 - 16:00',
@@ -191,7 +191,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
         account: 'Aldermoor Industrial',
         personalityType: 'Executive Pragmatist (Plant Autonomy & Bottom-Line Peace)',
         coreMotivation: 'Maintaining safety board compliance without having plant managers revolt against corporate IT overhead.',
-        whatToSay: '"Here is the per-plant breakdown showing Stallingborough alone saved £80,000 in scaffolding inspection costs this quarter."',
+        whatToSay: '"Here is the per-plant breakdown showing Stallingborough alone saved $80,000 in scaffolding inspection costs this quarter."',
         whatNeverToSay: 'Do NOT mandate top-down corporate policies without giving her hard data she can show her angry plant managers.',
         bestContactChannel: 'Executive WhatsApp Briefing & 1-Page PDF',
         bestTimeToReach: 'Friday Afternoon 14:00 - 15:30',
@@ -264,7 +264,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
                     ? isDark ? 'bg-black text-white' : 'bg-white text-black' 
                     : 'bg-gray-200 text-black'
                 }`}>
-                  £{( (deal.verifiedValue || deal.value) / 1000 ).toFixed(0)}k
+                  ${( (deal.verifiedValue || deal.value) / 1000 ).toFixed(0)}k
                 </span>
               </button>
             );
@@ -325,7 +325,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
                 Annual Commercial ARR
               </span>
               <div className="text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
-                £{(activeDeal.verifiedValue || activeDeal.value).toLocaleString()}
+                ${(activeDeal.verifiedValue || activeDeal.value).toLocaleString()}
               </div>
               <span className="text-xs text-gray-500 mt-1 block">
                 {activeDeal.isVerified ? 'Signed Purchase Order on Record' : 'Prospective Commercial Scope'}
@@ -378,7 +378,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
                 </strong>
                 <ul className="space-y-1.5 list-disc list-inside font-medium text-black dark:text-gray-200">
                   <li>Direct champion backing and operational usage across 4 constabularies.</li>
-                  <li>Signed purchase order backing £420,000 baseline under PO-ECPA-2024-001.</li>
+                  <li>Signed purchase order backing $420,000 baseline under PO-ECPA-2024-001.</li>
                   <li>Proven response-time reduction from 18 minutes to 3 minutes for tactical emergency units.</li>
                 </ul>
               </div>
@@ -405,7 +405,7 @@ export const DealVault: React.FC<DealVaultProps> = ({
               <p className="text-xs font-semibold text-black dark:text-white leading-relaxed">
                 "Chief Constable Hayes, our 35 docks have delivered 99.4% flight uptime for your tactical air command. 
                 With Rhys Calder stepping down, we have co-opted Inspector Karen Mbeki into operational oversight, 
-                guaranteeing continuous public safety air coverage while saving £2.4M compared to legacy air support."
+                guaranteeing continuous public safety air coverage while saving $2.4M compared to legacy air support."
               </p>
             </div>
           </div>
@@ -556,3 +556,4 @@ export const DealVault: React.FC<DealVaultProps> = ({
     </div>
   );
 };
+

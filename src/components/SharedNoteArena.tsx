@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useState } from 'react';
 import { AccountId, Note } from '../types/crm';
@@ -56,7 +56,7 @@ export const SharedNoteArena: React.FC<SharedNoteArenaProps> = ({
       account: 'B',
       title: 'Plant Manager Alignment: Stallingborough Cost Relief',
       kind: 'blocker',
-      text: 'Delivered site flight logs to Nadia. She showed the plant manager that drone inspections saved £80k in contractor scaffolding this quarter. Stallingborough withdrew their budget complaint!',
+      text: 'Delivered site flight logs to Nadia. She showed the plant manager that drone inspections saved $80k in contractor scaffolding this quarter. Stallingborough withdrew their budget complaint!',
       created_at: '2026-11-14T09:15:00Z',
     },
     {
@@ -64,7 +64,7 @@ export const SharedNoteArena: React.FC<SharedNoteArenaProps> = ({
       account: 'A',
       title: '300-Dock Framework Tender: Derek Finch Unit Economics',
       kind: 'decision',
-      text: 'Derek Finch confirmed our £1,000/dock/month model meets public procurement threshold. We are officially cleared to submit the full tender response by Day 25.',
+      text: 'Derek Finch confirmed our $1,000/dock/month model meets public procurement threshold. We are officially cleared to submit the full tender response by Day 25.',
       created_at: '2026-11-14T11:00:00Z',
     },
   ];
@@ -325,3 +325,4 @@ export const SharedNoteArena: React.FC<SharedNoteArenaProps> = ({
     </div>
   );
 };
+
