@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -206,7 +206,7 @@ export default function PlatformGuidePage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-2xl font-mono font-bold text-emerald-600 dark:text-emerald-400">$588,000</span>
+                  <span className="text-2xl font-mono font-bold text-emerald-600 dark:text-emerald-400">$602,000</span>
                   <span className="text-xs block text-gray-500">Signed Baseline ARR</span>
                 </div>
               </div>
@@ -217,7 +217,8 @@ export default function PlatformGuidePage() {
                   <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
                     A strict, audited financial breakdown separating legally signed recurring revenue from unverified pipeline.
                     Eastern Counties Police Alliance contributes <strong>$420,000</strong> (35 docks @ $1k/mo under PO-ECPA-2024-001), 
-                    while Aldermoor Industrial contributes <strong>$168,000</strong> (14 docks @ $1k/mo under AIG-ENT-2023-88).
+                    Aldermoor Industrial contributes <strong>$168,000</strong> (14 docks @ $1k/mo under AIG-ENT-2023-88), and surprise live drop 
+                    Kestrel Estates contributes <strong>$14,000</strong> (1 dock under PO-KESTREL-2024-001).
                   </p>
                 </div>
                 <div>
@@ -247,8 +248,8 @@ export default function PlatformGuidePage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-2xl font-mono font-bold text-blue-600 dark:text-blue-400">6 Deciders</span>
-                  <span className="text-xs block text-gray-500">Mapped Across Accounts</span>
+                  <span className="text-2xl font-mono font-bold text-blue-600 dark:text-blue-400">8 Deciders</span>
+                  <span className="text-xs block text-gray-500">Mapped Across 3 Accounts</span>
                 </div>
               </div>
 
@@ -256,8 +257,8 @@ export default function PlatformGuidePage() {
                 <div>
                   <h5 className="font-semibold mb-2 text-base">What This Section Shows:</h5>
                   <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
-                    Every key individual classified by their structural influence: <strong>Decision Maker</strong> (Marcus Hayes, Nadia Rahman), 
-                    <strong>Payer / Economic Buyer</strong>, <strong>Champion</strong> (Rhys Calder), <strong>Blocker</strong> (Derek Finch), 
+                    Every key individual classified by their structural influence: <strong>Decision Maker</strong> (Marcus Hayes, Nadia Rahman, Graham Okafor), 
+                    <strong>Payer / Economic Buyer</strong>, <strong>Champion</strong> (Rhys Calder, Dana Whitfield), <strong>Blocker</strong> (Derek Finch, Lucy Pratt), 
                     and <strong>End User</strong> (Inspector Karen Mbeki). Each profile displays an objective trust score and their primary operational hurdle.
                   </p>
                 </div>
@@ -266,6 +267,127 @@ export default function PlatformGuidePage() {
                   <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
                     When champion Rhys Calder leaves in January, the relationship defaults to zero if FlytBase has not institutionalized 
                     relationships with Chief Constable Hayes and Karen Mbeki. The Power Map exposes single points of organizational failure.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Section Card: Pre-Meeting 60-Second Brief */}
+            <div className={`p-8 rounded-2xl border ${
+              isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-200 bg-white shadow-sm'
+            }`}>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-amber-500/10 text-amber-500">
+                    <Activity className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                      Pre-Call Executive Intelligence
+                    </span>
+                    <h4 className="text-xl font-bold">The Pre-Meeting 60-Second Brief One-Pager</h4>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-mono font-bold text-amber-600 dark:text-amber-400">60 Seconds</span>
+                  <span className="text-xs block text-gray-500">Tactical Preparation Time</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm leading-relaxed">
+                <div>
+                  <h5 className="font-semibold mb-2 text-base">What This Section Shows:</h5>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    A single high-impact battlecard for every stakeholder before dialing. Shows their <strong>Customer Temperature</strong> (Guarded, Ally, Skeptic), 
+                    <strong>What they last complained about</strong>, <strong>The win we gave them</strong>, and crucially <strong>The 1 phrase to avoid</strong> 
+                    (e.g., <em>"Don't mention Rhys's resignation"</em>). Includes a 1-click copyable golden opening line.
+                  </p>
+                </div>
+                <div>
+                  <h5 className="font-semibold mb-2 text-base">Why CSMs Love It:</h5>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    CSMs don't have time to read 15-page contracts right before dialing Inspector Karen Mbeki or Group Controller Nadia Rahman. 
+                    This card gives them instant psychological alignment and prevents verbal missteps.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Section Card: Silent Drop Churn Radar */}
+            <div className={`p-8 rounded-2xl border ${
+              isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-200 bg-white shadow-sm'
+            }`}>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-rose-500/10 text-rose-500">
+                    <Radio className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+                      Predictive Churn Detection
+                    </span>
+                    <h4 className="text-xl font-bold">Autonomous "Silent Drop" Churn Radar</h4>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-mono font-bold text-rose-600 dark:text-rose-400">&gt;20% Alert</span>
+                  <span className="text-xs block text-gray-500">Sortie Velocity Trigger</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm leading-relaxed">
+                <div>
+                  <h5 className="font-semibold mb-2 text-base">What This Section Shows:</h5>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    Monitors 7-day automated sortie counts across all 7 operational facilities. If missions drop by &gt;20%, it fires an immediate 
+                    <strong>Yellow Churn Warning</strong> (e.g., -35.7% at Plant 7 Stallingborough, -22% at Saltend, and -100% idle at Kestrel Estates North Gate).
+                  </p>
+                </div>
+                <div>
+                  <h5 className="font-semibold mb-2 text-base">The Business Impact:</h5>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    In enterprise hardware, clients rarely complain before cancelling—they quietly stop flying. By detecting silent drops 
+                    weeks before contract renewal, the CSM can intervene and resolve root causes before churn occurs.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Section Card: CFO Proof of Value Packets */}
+            <div className={`p-8 rounded-2xl border ${
+              isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-200 bg-white shadow-sm'
+            }`}>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-emerald-500/10 text-emerald-500">
+                    <FileText className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                      Automated Monthly Value Audit
+                    </span>
+                    <h4 className="text-xl font-bold">Automated "CFO Proof of Value" Packets</h4>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <span className="text-2xl font-mono font-bold text-emerald-600 dark:text-emerald-400">28th Monthly</span>
+                  <span className="text-xs block text-gray-500">Automated PDF Schedule</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm leading-relaxed">
+                <div>
+                  <h5 className="font-semibold mb-2 text-base">What This Section Shows:</h5>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    An audit-grade 1-page financial packet generated automatically every month on the 28th for client Finance Controllers (Nadia Rahman, Hannah Doyle, Graham Okafor). 
+                    Shows: <strong>$1,000 dock cost vs. $3,500/hr traditional helicopter cost = $42,000 net monthly taxpayer/operational savings</strong>.
+                  </p>
+                </div>
+                <div>
+                  <h5 className="font-semibold mb-2 text-base">Executive Value:</h5>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    CFOs don't renew based on slide decks. They renew when presented with signed PO numbers (PO-ECPA-2024-001, AIG-ENT-2023-88) 
+                    and verified hours saved. Includes a 1-click print button that formats into a clean, board-ready 1-page PDF.
                   </p>
                 </div>
               </div>
@@ -528,11 +650,21 @@ export default function PlatformGuidePage() {
 
                 <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#101318]' : 'border-gray-200 bg-gray-50'}`}>
                   <strong className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 block mb-1">
-                    Decision 5: Autonomous AI Agent Network with Human-in-the-Loop Calling
+                    Decision 5: Twilio Live Voice Calling & Zero-Key WhatsApp Gateway
                   </strong>
                   <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
-                    <em>Why:</em> Manual CRM entry is too slow for 49 physical robotic docks. We built a background multi-agent network (Watchdog, Stakeholder, Expansion) that automatically detects anomalies and proposes 1-click authorized AI Voice Calls and WhatsApp dispatches.<br />
-                    <em>Impact:</em> Proactive intervention before the customer is even aware of technical degradation.
+                    <em>Why:</em> Manual CRM typing doesn't resolve customer doubt. We integrated real Twilio Outbound Voice Calling (verified dispatch to +919881898129) and universal WhatsApp click-to-chat (wa.me) requiring zero API keys for testing.<br />
+                    <em>Impact:</em> CSMs can execute immediate tactical phone interventions and WhatsApp check-ins directly from the cockpit.
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#101318]' : 'border-gray-200 bg-gray-50'}`}>
+                  <strong className="text-sm font-semibold text-amber-500 dark:text-amber-400 block mb-1">
+                    Decision 6: Dynamic Ingestion & Salvation of Kestrel Estates (Account K Surprise Drop)
+                  </strong>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    <em>Why:</em> A surprise mid-game drop introduced Account K: 1 dock paid, 0 flying, vanished installer, and unnotified property insurance. Traditional systems require manual database schema migration.<br />
+                    <em>Impact:</em> Our platform ingested /drops/K dynamically, generated an insurance declaration rider for Lucy Pratt, enrolled 2 staff in pilot training, and prepared a residents board presentation for Graham Okafor to defend the budget.
                   </p>
                 </div>
               </div>
@@ -543,13 +675,13 @@ export default function PlatformGuidePage() {
               <h4 className="text-lg font-bold">Recommended 3-Minute Video Walkthrough Script for Judges:</h4>
               <div className="space-y-2 text-xs leading-relaxed font-mono bg-gray-50 dark:bg-[#07080a] p-4 rounded-xl border border-gray-200 dark:border-gray-800">
                 <p><strong>[0:00 - 0:45] The Hook & The Problem:</strong><br />
-                "Hello, I am presenting the FlytBase CSM Command Center. In autonomous Drone-in-a-Box operations, customer support cannot be a passive filing cabinet. Customers smiled and said everything was fine, but our telemetry found 3 dead docks, an unanswered tactical police emergency, and a champion resigning in January. Here is how our platform saved $588,000 in ARR."</p>
+                "Hello, I am presenting the FlytBase CSM Command Center. In autonomous Drone-in-a-Box operations, customer support cannot be a passive filing cabinet. Customers smiled and said everything was fine, but our telemetry found 3 dead docks, an unanswered tactical police emergency, a champion resigning in January, and a surprise residential account with a vanished installer. Here is how our platform defended $602,000 in ARR across 3 accounts."</p>
 
-                <p><strong>[0:45 - 1:30] Answering the 5 Judging Questions:</strong><br />
-                "Our dashboard directly answers the 5 hackathon questions: Tab 1 (Receipts) audits $588k in signed ARR vs $1.1M in speculative pipeline. Tab 2 (Power Map) maps deciders like Chief Constable Marcus Hayes and blockers like Derek Finch. Tab 3 gives our Monday 9:00 AM ranked playbook. Tab 4 tracks impending risk countdowns. Tab 5 discovers critical blind spots."</p>
+                <p><strong>[0:45 - 1:30] Answering the 5 Judging Questions & Instant 60-Sec Battlecards:</strong><br />
+                "Our dashboard directly answers the 5 hackathon questions: Tab 2 (Receipts) audits $602k in signed ARR vs $1.1M in speculative pipeline. Tab 4 gives our 60-Second Pre-Meeting Brief cards before dialing any client. Tab 7 tracks silent flight velocity churn drops (&gt;20%). Tab 8 maps deciders like Chief Constable Marcus Hayes and blockers like Derek Finch. Tab 11 auto-generates 1-page CFO value packets on the 28th."</p>
 
-                <p><strong>[1:30 - 2:15] Tracing a Number to a Receipt (Data Room) & AI Agents:</strong><br />
-                "Notice this $420,000 ARR figure. When I click on PO-ECPA-2024-001, it jumps into our Data Room, opening the exact signed contract and SLA response terms. Meanwhile, our Autonomous AI Agents detect telemetry drops and allow us to authorize simulated AI voice calls and WhatsApp dispatches with human permission."</p>
+                <p><strong>[1:30 - 2:15] Tracing a Number to a Receipt (Data Room) & Telephony:</strong><br />
+                "Notice this $420,000 ARR figure. When I click on PO-ECPA-2024-001, it jumps into our Data Room, opening the exact signed contract and SLA response terms. Meanwhile, our Autonomous AI Agents detect telemetry drops and allow us to trigger live Twilio Voice Calls directly to +919881898129 or open universal WhatsApp check-ins with zero API key setup."</p>
 
                 <p><strong>[2:15 - 3:00] Architecture & Ingestion:</strong><br />
                 "Built on Next.js 14 and Poppins styling, the platform connects to Questathon via streamable MCP, strictly respects the 1 call/min rate limit with an atomic cache, and ingests live event signals and new accounts dynamically. Thank you!"</p>

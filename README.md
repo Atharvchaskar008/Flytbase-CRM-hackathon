@@ -81,37 +81,58 @@ Scheduled to generate automatically every month on the 28th, this 1-page executi
 
 ---
 
-## 🛠️ Architecture: Why TypeScript & Next.js over Python
-
-A frequent technical question is why TypeScript / Next.js was selected for the Command Center backend rather than Python:
+## 🛠️ Complete System Architecture & Data Flow
 
 ```
-┌────────────────────────────────────────────────────────┐
-│                   Next.js 14 Cockpit                   │
-│   (React 18 Server Components + Tailwind + Lucide)     │
-└──────────────────────────┬─────────────────────────────┘
-                           │ In-Process Fast Route Handlers
-┌──────────────────────────┴─────────────────────────────┐
-│                 Next.js Edge/Node API                  │
-│   ├── /api/data        -> 60-Sec Polling & MCP Cache   │
-│   ├── /api/notes       -> Write-Back to Upstream Server│
-│   └── /api/gemini      -> Strategic AI Synthesis Layer │
-└────────────┬─────────────────────────────┬─────────────┘
-             │ Stream Rate-Limit Guard     │ Secure Key
-┌────────────┴─────────────┐ ┌─────────────┴─────────────┐
-│   Questathon MCP Server  │ │     Google Gemini API     │
-│   (1 call/min upstream)  │ │ (1.5 Flash Reasoning LLM) │
-└──────────────────────────┘ └───────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────┐
+│                        Next.js 14 Executive Command Center                             │
+│       (React 18 Server Components + Tailwind CSS 3.4 + High-Contrast Theme)           │
+│                                                                                        │
+│   ├── 1. Monday 9am Priority Queue            ├── 9. Problems & Deadlines Radar        │
+│   ├── 2. Contracts & Money (Receipts)         ├── 10. Questions to Ask (Blind Spots)   │
+│   ├── 3. Deal Vault & Intelligence            ├── 11. CFO Proof of Value (PDF)        │
+│   ├── 4. 60-Sec Pre-Meeting Brief Card        ├── 12. 7-Agent Autonomous Swarm         │
+│   ├── 5. WhatsApp & Twilio Phone Agent        ├── 13. Shared Whiteboard & Team Notes   │
+│   ├── 6. Dialogue Transcripts & Risk Flags    ├── 14. Visual Analytics & Infographics │
+│   ├── 7. Silent Drop Churn Radar (>20% drop)  ├── 15. Official Contract Data Room      │
+│   └── 8. Who Makes Decisions (Power Map)      └── 16. Telemetry & Integrations Hub    │
+└──────────────────────────────────────────┬─────────────────────────────────────────────┘
+                                           │ In-Process Type-Safe Route Handlers
+┌──────────────────────────────────────────┴─────────────────────────────────────────────┐
+│                           Next.js Fullstack API Runtime                                │
+│                                                                                        │
+│   ├── GET  /api/data          -> 60-Sec Background Polling & MCP Cache Synchronization  │
+│   ├── POST /api/notes         -> Direct Upstream Write-Back to Questathon Server       │
+│   ├── POST /api/gemini        -> Google Gemini 1.5 Flash Strategic Reasoning Layer     │
+│   ├── POST /api/twilio/call   -> Dispatches Real Outbound Phone Calls (+17372508034)   │
+│   └── POST /api/twilio/message-> Dispatches SMS & Generates Universal wa.me Web Links │
+└───────┬──────────────────────────┬──────────────────────────┬──────────────────────────┘
+        │ 1 Call/Min Rate Guard    │ HTTPS Basic Auth         │ Google AI Studio
+┌───────┴──────────────────┐ ┌─────┴────────────────────┐ ┌───┴────────────────────────┐
+│  Questathon MCP Server   │ │    Twilio REST Gateway   │ │     Google Gemini API      │
+│  ├── /me (Player State)  │ │  (Voice Call & SMS API)  │ │ (Strategic synthesis layer │
+│  ├── /drops/K (Kestrel)  │ │  SID: ACad2febb745cbcbc… │ │  with deterministic        │
+│  ├── /signals (Events)   │ │  To: +919881898129       │ │  offline fallback)         │
+│  └── /notes (Write-Back) │ │  From: +17372508034      │ │                            │
+└──────────────────────────┘ └──────────────────────────┘ └────────────────────────────┘
+        │                                  ▲
+        ▼                                  │
+┌──────────────────────────┐ ┌─────────────┴────────────────────────────────────────────┐
+│ Local File-System Cache  │ │ Universal Zero-Key WhatsApp Gateway (wa.me)               │
+│ data/crm_cache.json      │ │ Direct click-to-chat links for instant evaluator testing  │
+│ data/live_export.json    │ │ on phone or browser with ZERO API key required!          │
+└──────────────────────────┘ └──────────────────────────────────────────────────────────┘
 ```
 
+### Why TypeScript & Next.js over Python for the Command Center:
 1. **Unified Type System (Zero Drift):**
    The upstream MCP server exposes JSON payloads for characters, contracts, and signals. With TypeScript, schemas (`Character`, `Deal`, `CallTranscriptFact`, `BlindSpot`) are shared end-to-end across the cache, the API routes, and the React UI with 100% compile-time safety. In Python, maintaining parallel Pydantic and TypeScript models introduces schema drift during rapid hackathon iterations.
 2. **Zero-Latency In-Process API Routes:**
-   Next.js API route handlers (`src/app/api/data/route.ts`, `src/app/api/notes/route.ts`) execute within the same server runtime with zero serialization hop, eliminating cold-start latency.
+   Next.js API route handlers (`/api/data`, `/api/notes`, `/api/twilio/call`, `/api/twilio/message`) execute within the same server runtime with zero serialization hop, eliminating cold-start latency.
 3. **Native Streaming & Real-Time SSE:**
    Next.js handles Server-Sent Events (SSE) and asynchronous polling out-of-the-box, ensuring the 60-second MCP sync runs in the background without blocking the UI thread.
 4. **Python's Proper Role:**
-   Python is optimal for heavy offline machine learning (e.g. training drone battery thermal degradation models). However, for an interactive executive CRM with live data, optimistic UI updates, and instant PDF generation, Next.js provides unmatched reliability and performance.
+   Python is optimal for heavy offline machine learning (e.g. training drone battery thermal degradation models). However, for an interactive executive CRM with live data, optimistic UI updates, real-time telephony, and instant PDF generation, Next.js provides unmatched reliability and performance.
 
 ---
 
