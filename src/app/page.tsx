@@ -16,14 +16,15 @@ import { NoteModal } from '@/components/NoteModal';
 import { MondayBriefModal } from '@/components/MondayBriefModal';
 import { AutonomousAgentsView } from '@/components/AutonomousAgentsView';
 import { ItemDetailModal, DetailModalData } from '@/components/ItemDetailModal';
+import { AnalyticsInfographics } from '@/components/AnalyticsInfographics';
 import { initialCRMData } from '@/lib/mockData';
 import { AutonomousCSMAgentNetwork, AgentInsight } from '@/lib/agents';
-import { BookOpen, ArrowRight, Sparkles } from 'lucide-react';
+import { BookOpen, ArrowRight, Sparkles, BarChart3 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [data, setData] = useState<CRMStoreData>(initialCRMData);
   const [selectedAccount, setSelectedAccount] = useState<AccountId | 'ALL'>('ALL');
-  const [activeTab, setActiveTab] = useState<'actions' | 'book' | 'power' | 'risks' | 'blindspots' | 'agents' | 'paperwork'>('actions');
+  const [activeTab, setActiveTab] = useState<'actions' | 'book' | 'power' | 'risks' | 'blindspots' | 'agents' | 'infographics' | 'paperwork'>('actions');
   const [theme, setTheme] = useState<'light' | 'dark'>('light'); // Crisp white default!
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string>('');
@@ -238,6 +239,18 @@ export default function DashboardPage() {
           </button>
 
           <button
+            onClick={() => setActiveTab('infographics')}
+            className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap flex items-center gap-1.5 ${
+              activeTab === 'infographics'
+                ? isDark ? 'border-white text-white font-semibold' : 'border-black text-black font-semibold'
+                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+            }`}
+          >
+            <BarChart3 className="w-4 h-4 text-blue-500" />
+            <span>Infographics & Charts</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('paperwork')}
             className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
               activeTab === 'paperwork'
@@ -305,6 +318,14 @@ export default function DashboardPage() {
                 insights={agentInsights}
                 selectedAccount={selectedAccount}
                 onDeployAction={handleDeployAgentAction}
+                isDark={isDark}
+              />
+            )}
+
+            {activeTab === 'infographics' && (
+              <AnalyticsInfographics
+                accounts={data.accounts}
+                selectedAccount={selectedAccount}
                 isDark={isDark}
               />
             )}

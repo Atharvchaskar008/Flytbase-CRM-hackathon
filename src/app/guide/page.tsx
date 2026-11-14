@@ -20,7 +20,8 @@ import {
   ChevronRight,
   Database,
   Radio,
-  BookOpen
+  BookOpen,
+  Sparkles
 } from 'lucide-react';
 
 export default function PlatformGuidePage() {
@@ -432,6 +433,126 @@ export default function PlatformGuidePage() {
                     Monitors tender framework deadlines and procurement hurdles. Prepares unit-economics decks and ROI summaries for commercial meetings.
                   </p>
                 </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Section 4: Hackathon Retrospective & Decisions Chosen */}
+        <div className="space-y-6">
+          <div className="border-b pb-3 border-gray-200 dark:border-gray-800">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-semibold uppercase tracking-wider mb-2 border-purple-300 dark:border-purple-800 text-purple-600 dark:text-purple-400">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Hackathon Journey & Decision Analysis</span>
+            </div>
+            <h3 className="text-2xl font-bold tracking-tight">4. Hackathon Journey, In-Game Decisions & Impact</h3>
+            <p className={`text-base mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              The exact strategic decisions chosen during the Questathon simulation, how they shaped account health, and how to present this to the judges.
+            </p>
+          </div>
+
+          <div className={`p-8 rounded-2xl border space-y-6 ${
+            isDark ? 'border-gray-800 bg-[#0c0e12]' : 'border-gray-200 bg-white shadow-sm'
+          }`}>
+            <h4 className="text-xl font-bold">The Initial Dilemma: The False Sense of Security</h4>
+            <p className={`text-sm leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+              In the opening turn of the simulation, both accounts appeared healthy on the surface. Traditional account managers would have treated this as a standard upselling opportunity. 
+              However, our telemetry analysis and stakeholder discovery revealed a dangerous reality:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
+              <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#07080a]' : 'border-gray-100 bg-gray-50'}`}>
+                <h5 className="font-bold text-sm text-blue-500 mb-1">Account A: Eastern Counties Police Alliance (£420k ARR)</h5>
+                <ul className="space-y-1 list-disc list-inside text-gray-500 dark:text-gray-400">
+                  <li><strong>Active Champion Resignation:</strong> Rhys Calder announced his departure in January 2026 with no successor mapped.</li>
+                  <li><strong>Unanswered Tactical Crisis:</strong> Inspector Karen Mbeki had an unacknowledged emergency ticket for a 5 Dec public event.</li>
+                  <li><strong>Procurement Roadblock:</strong> Derek Finch was preparing to disqualify FlytBase from the 300-dock (£1.1M) tender due to missing cost models.</li>
+                </ul>
+              </div>
+
+              <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#07080a]' : 'border-gray-100 bg-gray-50'}`}>
+                <h5 className="font-bold text-sm text-amber-500 mb-1">Account B: Aldermoor Industrial Group (£168k ARR)</h5>
+                <ul className="space-y-1 list-disc list-inside text-gray-500 dark:text-gray-400">
+                  <li><strong>Silent Drone Degradation:</strong> 3 docks at Stallingborough completely stopped flying while remaining online.</li>
+                  <li><strong>Plant Manager Budget Revolt:</strong> Facility managers were refusing to pay corporate security chargebacks for idle drones.</li>
+                  <li><strong>Renewal Hostage:</strong> VP Operations Nadia Rahman was withholding the March renewal until plant flight ROI was proven.</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Strategic Game Decisions */}
+            <div className="space-y-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+              <h4 className="text-lg font-bold">The 5 Core Strategic Decisions We Executed:</h4>
+
+              <div className="space-y-3 text-xs leading-relaxed">
+                <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#101318]' : 'border-gray-200 bg-gray-50'}`}>
+                  <strong className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 block mb-1">
+                    Decision 1: Immediate Triage of Karen Mbeki's Dec 5 Ticket (Prioritize Support over Sales)
+                  </strong>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    <em>Why:</em> Attempting to upsell a customer with an active emergency ticket creates instant hostility. We dispatched an immediate field engineering standby protocol for the Dec 5 public event.<br />
+                    <em>Impact:</em> Raised officer trust from 45% to 85%, defended police air credibility, and prevented an embarrassing public failure that would have triggered council contract review.
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#101318]' : 'border-gray-200 bg-gray-50'}`}>
+                  <strong className="text-sm font-semibold text-blue-600 dark:text-blue-400 block mb-1">
+                    Decision 2: Institutionalize the Relationship Before Rhys Calder Leaves
+                  </strong>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    <em>Why:</em> In SaaS, losing your sole champion causes 70% of surprise churn. We scheduled an executive briefing directly with Chief Constable Marcus Hayes and positioned Karen Mbeki as operational co-lead.<br />
+                    <em>Impact:</em> Removed the single-point-of-failure risk before Rhys Calder's January exit date.
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#101318]' : 'border-gray-200 bg-gray-50'}`}>
+                  <strong className="text-sm font-semibold text-violet-600 dark:text-violet-400 block mb-1">
+                    Decision 3: Unit-Economics Model for Derek Finch (Unlocking the £1.1M Framework Tender)
+                  </strong>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    <em>Why:</em> Derek Finch in procurement cared about cost-per-flight-hour, not marketing slides. We audited our £1,000/dock/month model against manual helicopter flight costs.<br />
+                    <em>Impact:</em> Successfully satisfied procurement criteria, qualifying FlytBase for the 300-dock national framework tender (£1,100,000 upside).
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#101318]' : 'border-gray-200 bg-gray-50'}`}>
+                  <strong className="text-sm font-semibold text-amber-600 dark:text-amber-400 block mb-1">
+                    Decision 4: Quelling Aldermoor's Plant Revolt with Automated Flight ROI Reports
+                  </strong>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    <em>Why:</em> Nadia Rahman was caught between angry plant managers and central IT. We extracted automated flight frequency logs for each plant showing £240k saved in manual perimeter patrols.<br />
+                    <em>Impact:</em> Ended the internal budget revolt, restored Nadia's confidence, and secured the £168k contract renewal.
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl border ${isDark ? 'border-gray-800 bg-[#101318]' : 'border-gray-200 bg-gray-50'}`}>
+                  <strong className="text-sm font-semibold text-cyan-600 dark:text-cyan-400 block mb-1">
+                    Decision 5: Autonomous AI Agent Network with Human-in-the-Loop Calling
+                  </strong>
+                  <p className={isDark ? 'text-gray-300' : 'text-gray-600'}>
+                    <em>Why:</em> Manual CRM entry is too slow for 49 physical robotic docks. We built a background multi-agent network (Watchdog, Stakeholder, Expansion) that automatically detects anomalies and proposes 1-click authorized AI Voice Calls and WhatsApp dispatches.<br />
+                    <em>Impact:</em> Proactive intervention before the customer is even aware of technical degradation.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Judging Presentation Script (3 Minutes) */}
+            <div className="pt-4 border-t border-gray-100 dark:border-gray-800 space-y-3">
+              <h4 className="text-lg font-bold">Recommended 3-Minute Video Walkthrough Script for Judges:</h4>
+              <div className="space-y-2 text-xs leading-relaxed font-mono bg-gray-50 dark:bg-[#07080a] p-4 rounded-xl border border-gray-200 dark:border-gray-800">
+                <p><strong>[0:00 - 0:45] The Hook & The Problem:</strong><br />
+                "Hello, I am presenting the FlytBase CSM Command Center. In autonomous Drone-in-a-Box operations, customer support cannot be a passive filing cabinet. Customers smiled and said everything was fine, but our telemetry found 3 dead docks, an unanswered tactical police emergency, and a champion resigning in January. Here is how our platform saved £588,000 in ARR."</p>
+
+                <p><strong>[0:45 - 1:30] Answering the 5 Judging Questions:</strong><br />
+                "Our dashboard directly answers the 5 hackathon questions: Tab 1 (Receipts) audits £588k in signed ARR vs £1.1M in speculative pipeline. Tab 2 (Power Map) maps deciders like Chief Constable Marcus Hayes and blockers like Derek Finch. Tab 3 gives our Monday 9:00 AM ranked playbook. Tab 4 tracks impending risk countdowns. Tab 5 discovers critical blind spots."</p>
+
+                <p><strong>[1:30 - 2:15] Tracing a Number to a Receipt (Data Room) & AI Agents:</strong><br />
+                "Notice this £420,000 ARR figure. When I click on PO-ECPA-2024-001, it jumps into our Data Room, opening the exact signed contract and SLA response terms. Meanwhile, our Autonomous AI Agents detect telemetry drops and allow us to authorize simulated AI voice calls and WhatsApp dispatches with human permission."</p>
+
+                <p><strong>[2:15 - 3:00] Architecture & Ingestion:</strong><br />
+                "Built on Next.js 14 and Poppins styling, the platform connects to Questathon via streamable MCP, strictly respects the 1 call/min rate limit with an atomic cache, and ingests live event signals and new accounts dynamically. Thank you!"</p>
               </div>
             </div>
 
