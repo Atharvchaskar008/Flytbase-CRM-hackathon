@@ -48,31 +48,31 @@ export const AllAccountsOverviewGrid: React.FC<AllAccountsOverviewGridProps> = (
         <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs font-mono">
           <div>
             <span className="text-gray-500 text-[10px] uppercase block">Accounts</span>
-            <strong className="text-sm text-black dark:text-white">3 Active</strong>
+            <strong className="text-sm text-black dark:text-white">4 Active</strong>
           </div>
           <div>
             <span className="text-gray-500 text-[10px] uppercase block">Total Docks</span>
-            <strong className="text-sm text-black dark:text-white">50 Docks</strong>
+            <strong className="text-sm text-black dark:text-white">56 Docks</strong>
           </div>
           <div>
             <span className="text-gray-500 text-[10px] uppercase block">Active Flying</span>
-            <strong className="text-sm text-emerald-600 dark:text-emerald-400">27 Flying</strong>
+            <strong className="text-sm text-emerald-600 dark:text-emerald-400">32 Flying</strong>
           </div>
           <div>
-            <span className="text-gray-500 text-[10px] uppercase block">Idle / Silent</span>
-            <strong className="text-sm text-rose-600 dark:text-rose-400">4 Docks</strong>
+            <span className="text-gray-500 text-[10px] uppercase block">Idle / Grounded</span>
+            <strong className="text-sm text-rose-600 dark:text-rose-400">5 Docks</strong>
           </div>
           <div>
             <span className="text-gray-500 text-[10px] uppercase block">Signed ARR</span>
-            <strong className="text-sm text-emerald-600 dark:text-emerald-400">$602,000</strong>
+            <strong className="text-sm text-emerald-600 dark:text-emerald-400">$698,000</strong>
           </div>
           <div>
             <span className="text-gray-500 text-[10px] uppercase block">Tender Pipeline</span>
-            <strong className="text-sm text-blue-600 dark:text-blue-400">$1,228,000</strong>
+            <strong className="text-sm text-blue-600 dark:text-blue-400">$1,230,000</strong>
           </div>
           <div>
             <span className="text-gray-500 text-[10px] uppercase block">Weekly Sorties</span>
-            <strong className="text-sm text-purple-600 dark:text-purple-400">333 Flights/wk</strong>
+            <strong className="text-sm text-purple-600 dark:text-purple-400">373 Flights/wk</strong>
           </div>
         </div>
 
@@ -85,12 +85,12 @@ export const AllAccountsOverviewGrid: React.FC<AllAccountsOverviewGridProps> = (
           }`}
         >
           <Layers className="w-3.5 h-3.5" />
-          <span>View All Accounts</span>
+          <span>View All 4 Accounts</span>
         </button>
       </div>
 
-      {/* The 3 Accounts Side-by-Side Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* The 4 Accounts Side-by-Side Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* CARD 1: ACCOUNT A */}
         <div
@@ -215,6 +215,49 @@ export const AllAccountsOverviewGrid: React.FC<AllAccountsOverviewGridProps> = (
             <div className="text-[11px] font-medium text-amber-700 dark:text-amber-400 flex items-center gap-1">
               <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
               <span className="truncate">Pilot Training Needed • Monday Board Vote</span>
+            </div>
+          </div>
+        </div>
+
+        {/* CARD 4: ACCOUNT H (BRINDLE HARBOUR AUTHORITY) */}
+        <div
+          onClick={() => onSelectAccount('H')}
+          className={`p-5 rounded-2xl border cursor-pointer transition-all relative overflow-hidden flex flex-col justify-between space-y-4 ${
+            selectedAccount === 'H'
+              ? isDark ? 'border-emerald-500 bg-emerald-950/20 shadow-md ring-2 ring-emerald-500/40' : 'border-emerald-600 bg-emerald-50/50 shadow-md ring-2 ring-emerald-400/50'
+              : isDark ? 'border-gray-800 bg-[#0c0e12] hover:border-gray-700' : 'border-gray-300 bg-white hover:border-gray-400 shadow-sm'
+          }`}
+        >
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-950 border border-emerald-300 flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-emerald-600" />
+                <span>Account H • Live Port Drop</span>
+              </span>
+              <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                $96,000 ARR
+              </span>
+            </div>
+
+            <h4 className="text-base font-bold text-black dark:text-white leading-tight">
+              Brindle Harbour Authority
+            </h4>
+
+            <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2">
+              Commercial maritime port operating 6 docks. Saves $400k/yr replacing patrol boats. Quays 1 & 2 fly nightly.
+            </p>
+          </div>
+
+          <div className="space-y-2 pt-3 border-t border-gray-200 dark:border-gray-800 text-xs">
+            <div className="flex items-center justify-between text-gray-600 dark:text-gray-400 text-[11px]">
+              <span>Docks: <strong>6 Installed</strong></span>
+              <span>Sorties: <strong className="text-emerald-600">40/wk</strong></span>
+              <span>Health: <strong className="text-blue-600">60%</strong></span>
+            </div>
+
+            <div className="text-[11px] font-medium text-amber-700 dark:text-amber-400 flex items-center gap-1">
+              <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+              <span className="truncate">Elena Varga DPIA Clearance • Tom Reyes Exit</span>
             </div>
           </div>
         </div>

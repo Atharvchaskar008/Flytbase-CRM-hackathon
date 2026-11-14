@@ -35,9 +35,9 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
   });
 
   if (selectedAccount === 'ALL') {
-    totalDocks = 50;
-    activeDocks = 27;
-    silentDocks = 4;
+    totalDocks = 56;
+    activeDocks = 32;
+    silentDocks = 5;
   } else if (selectedAccount === 'A') {
     totalDocks = 35;
     activeDocks = 14;
@@ -46,6 +46,14 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
     totalDocks = 14;
     activeDocks = 11;
     silentDocks = 3;
+  } else if (selectedAccount === 'K') {
+    totalDocks = 1;
+    activeDocks = 0;
+    silentDocks = 1;
+  } else if (selectedAccount === 'H') {
+    totalDocks = 6;
+    activeDocks = 5;
+    silentDocks = 1;
   } else {
     totalDocks = 1;
     activeDocks = 0;
