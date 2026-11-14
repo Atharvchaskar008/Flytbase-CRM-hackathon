@@ -16,3 +16,7 @@ next-env.d.ts
 
 __pycache__
 *.pyc
+
+# Local presentation & pitch drafts
+PITCH.md
+pitch.md
