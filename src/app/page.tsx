@@ -19,6 +19,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<CRMStoreData>(initialCRMData);
   const [selectedAccount, setSelectedAccount] = useState<AccountId | 'ALL'>('ALL');
   const [activeTab, setActiveTab] = useState<'actions' | 'book' | 'power' | 'risks' | 'blindspots' | 'paperwork'>('actions');
+  const [theme, setTheme] = useState<'light' | 'dark'>('light'); // White background default!
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string>('');
   const [highlightedFile, setHighlightedFile] = useState<string | null>(null);
@@ -27,6 +28,8 @@ export default function DashboardPage() {
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [noteDefaultText, setNoteDefaultText] = useState('');
+
+  const isDark = theme === 'dark';
 
   const fetchData = async (sync = false) => {
     setIsSyncing(true);
@@ -60,8 +63,14 @@ export default function DashboardPage() {
     setIsNoteModalOpen(true);
   };
 
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
   return (
-    <div className="min-h-screen bg-black flex flex-col text-[#ededed] antialiased selection:bg-white selection:text-black">
+    <div className={`min-h-screen flex flex-col antialiased transition-colors ${
+      isDark ? 'bg-black text-[#ededed]' : 'bg-white text-gray-900'
+    }`}>
       {/* Header */}
       <Header
         selectedAccount={selectedAccount}
@@ -75,6 +84,8 @@ export default function DashboardPage() {
         }}
         onOpenReportModal={() => setIsReportModalOpen(true)}
         signalsCount={data.signals.length}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       {/* Main Dashboard (No landing page) */}
@@ -84,16 +95,19 @@ export default function DashboardPage() {
         <ExecutiveSummary
           accounts={data.accounts}
           selectedAccount={selectedAccount}
+          isDark={isDark}
         />
 
-        {/* Minimal Monochrome Tab Bar */}
-        <div className="flex border-b border-[#1c2026] overflow-x-auto gap-1 text-xs font-mono uppercase tracking-wider">
+        {/* Minimal Tab Bar */}
+        <div className={`flex border-b overflow-x-auto gap-1 text-xs font-mono uppercase tracking-wider ${
+          isDark ? 'border-[#1c2026]' : 'border-gray-200'
+        }`}>
           <button
             onClick={() => setActiveTab('actions')}
             className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'actions'
-                ? 'border-white text-white font-bold bg-[#0c0d10]'
-                : 'border-transparent text-[#777] hover:text-white'
+                ? isDark ? 'border-white text-white font-bold bg-[#0c0d10]' : 'border-black text-black font-bold bg-gray-100'
+                : isDark ? 'border-transparent text-[#777] hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
             }`}
           >
             1. Actions (Q3)
@@ -103,8 +117,8 @@ export default function DashboardPage() {
             onClick={() => setActiveTab('book')}
             className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'book'
-                ? 'border-white text-white font-bold bg-[#0c0d10]'
-                : 'border-transparent text-[#777] hover:text-white'
+                ? isDark ? 'border-white text-white font-bold bg-[#0c0d10]' : 'border-black text-black font-bold bg-gray-100'
+                : isDark ? 'border-transparent text-[#777] hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
             }`}
           >
             2. Receipts (Q1)
@@ -114,8 +128,8 @@ export default function DashboardPage() {
             onClick={() => setActiveTab('power')}
             className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'power'
-                ? 'border-white text-white font-bold bg-[#0c0d10]'
-                : 'border-transparent text-[#777] hover:text-white'
+                ? isDark ? 'border-white text-white font-bold bg-[#0c0d10]' : 'border-black text-black font-bold bg-gray-100'
+                : isDark ? 'border-transparent text-[#777] hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
             }`}
           >
             3. Power Map (Q2)
@@ -125,8 +139,8 @@ export default function DashboardPage() {
             onClick={() => setActiveTab('risks')}
             className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'risks'
-                ? 'border-white text-white font-bold bg-[#0c0d10]'
-                : 'border-transparent text-[#777] hover:text-white'
+                ? isDark ? 'border-white text-white font-bold bg-[#0c0d10]' : 'border-black text-black font-bold bg-gray-100'
+                : isDark ? 'border-transparent text-[#777] hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
             }`}
           >
             4. Risk Radar (Q4)
@@ -136,8 +150,8 @@ export default function DashboardPage() {
             onClick={() => setActiveTab('blindspots')}
             className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'blindspots'
-                ? 'border-white text-white font-bold bg-[#0c0d10]'
-                : 'border-transparent text-[#777] hover:text-white'
+                ? isDark ? 'border-white text-white font-bold bg-[#0c0d10]' : 'border-black text-black font-bold bg-gray-100'
+                : isDark ? 'border-transparent text-[#777] hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
             }`}
           >
             5. Blind Spots (Q5)
@@ -147,15 +161,15 @@ export default function DashboardPage() {
             onClick={() => setActiveTab('paperwork')}
             className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'paperwork'
-                ? 'border-white text-white font-bold bg-[#0c0d10]'
-                : 'border-transparent text-[#777] hover:text-white'
+                ? isDark ? 'border-white text-white font-bold bg-[#0c0d10]' : 'border-black text-black font-bold bg-gray-100'
+                : isDark ? 'border-transparent text-[#777] hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
             }`}
           >
             Data Room
           </button>
         </div>
 
-        {/* Dynamic Content Views */}
+        {/* Dynamic Views */}
         <div className="grid lg:grid-cols-4 gap-4 items-start">
           <div className="lg:col-span-3">
             {activeTab === 'actions' && (
@@ -163,6 +177,7 @@ export default function DashboardPage() {
                 accounts={data.accounts}
                 selectedAccount={selectedAccount}
                 onSelectCitation={handleCitationClick}
+                isDark={isDark}
               />
             )}
 
@@ -171,6 +186,7 @@ export default function DashboardPage() {
                 accounts={data.accounts}
                 selectedAccount={selectedAccount}
                 onSelectCitation={handleCitationClick}
+                isDark={isDark}
               />
             )}
 
@@ -178,6 +194,7 @@ export default function DashboardPage() {
               <PowerMap
                 accounts={data.accounts}
                 selectedAccount={selectedAccount}
+                isDark={isDark}
               />
             )}
 
@@ -185,6 +202,7 @@ export default function DashboardPage() {
               <RiskRadar
                 accounts={data.accounts}
                 selectedAccount={selectedAccount}
+                isDark={isDark}
               />
             )}
 
@@ -193,6 +211,7 @@ export default function DashboardPage() {
                 accounts={data.accounts}
                 selectedAccount={selectedAccount}
                 onDraftQuestion={handleDraftQuestion}
+                isDark={isDark}
               />
             )}
 
@@ -201,21 +220,27 @@ export default function DashboardPage() {
                 accounts={data.accounts}
                 selectedAccount={selectedAccount}
                 highlightedFileId={highlightedFile}
+                isDark={isDark}
               />
             )}
           </div>
 
-          {/* Right Rail: Live Feed & Notes */}
+          {/* Right Rail */}
           <div className="space-y-3 font-mono">
             <LiveSignalsPanel
               signals={data.signals}
               selectedAccount={selectedAccount}
+              isDark={isDark}
             />
 
-            {/* Notes & Activity Stream */}
-            <div className="border border-[#1c2026] bg-[#07080a] p-3 rounded space-y-2">
-              <div className="flex items-center justify-between border-b border-[#181a1f] pb-2 text-[11px]">
-                <span className="text-white font-bold uppercase tracking-wider">
+            {/* Notes Log */}
+            <div className={`border p-3 rounded space-y-2 ${
+              isDark ? 'border-[#1c2026] bg-[#07080a]' : 'border-gray-200 bg-white shadow-sm'
+            }`}>
+              <div className={`flex items-center justify-between border-b pb-2 text-[11px] ${
+                isDark ? 'border-[#181a1f]' : 'border-gray-200'
+              }`}>
+                <span className={`font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-gray-900'}`}>
                   Notes Log ({data.notes.length})
                 </span>
                 <button
@@ -223,23 +248,29 @@ export default function DashboardPage() {
                     setNoteDefaultText('');
                     setIsNoteModalOpen(true);
                   }}
-                  className="text-[10px] text-white hover:underline uppercase"
+                  className={`text-[10px] uppercase font-bold ${
+                    isDark ? 'text-white hover:underline' : 'text-gray-900 hover:underline'
+                  }`}
                 >
                   + Add
                 </button>
               </div>
 
               {data.notes.length === 0 ? (
-                <p className="text-[11px] text-[#666] py-2">No notes recorded.</p>
+                <p className={`text-[11px] py-2 ${isDark ? 'text-[#666]' : 'text-gray-400'}`}>No notes recorded.</p>
               ) : (
                 <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
                   {data.notes.map((n) => (
-                    <div key={n.id} className="bg-black p-2 rounded border border-[#1a1d24] text-[11px]">
-                      <div className="flex items-center justify-between text-[10px] text-[#666] mb-0.5">
-                        <span className="font-semibold text-white">{n.title || n.kind}</span>
+                    <div key={n.id} className={`p-2 rounded border text-[11px] ${
+                      isDark ? 'bg-black border-[#1a1d24]' : 'bg-gray-50 border-gray-200'
+                    }`}>
+                      <div className={`flex items-center justify-between text-[10px] mb-0.5 ${
+                        isDark ? 'text-[#666]' : 'text-gray-400'
+                      }`}>
+                        <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>{n.title || n.kind}</span>
                         <span>Acc {n.account}</span>
                       </div>
-                      <p className="text-[#999] font-sans text-xs">{n.text}</p>
+                      <p className={`font-sans text-xs ${isDark ? 'text-[#999]' : 'text-gray-600'}`}>{n.text}</p>
                     </div>
                   ))}
                 </div>
@@ -257,6 +288,7 @@ export default function DashboardPage() {
         onNoteAdded={() => fetchData(false)}
         defaultAccount={selectedAccount === 'ALL' ? 'A' : selectedAccount}
         defaultText={noteDefaultText}
+        isDark={isDark}
       />
 
       {/* Monday Brief Modal */}
@@ -264,10 +296,13 @@ export default function DashboardPage() {
         isOpen={isReportModalOpen}
         onClose={() => setIsReportModalOpen(false)}
         accounts={data.accounts}
+        isDark={isDark}
       />
 
       {/* Footer */}
-      <footer className="border-t border-[#16181d] py-3 px-6 text-center text-[10px] font-mono text-[#555] uppercase tracking-wider">
+      <footer className={`border-t py-3 px-6 text-center text-[10px] font-mono uppercase tracking-wider ${
+        isDark ? 'border-[#16181d] text-[#555]' : 'border-gray-200 text-gray-400'
+      }`}>
         FLYTBASE // DiaB Customer Success System // Questathon 2026
       </footer>
     </div>

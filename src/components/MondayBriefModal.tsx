@@ -8,12 +8,14 @@ interface MondayBriefModalProps {
   isOpen: boolean;
   onClose: () => void;
   accounts: Record<AccountId, AccountDetail>;
+  isDark?: boolean;
 }
 
 export const MondayBriefModal: React.FC<MondayBriefModalProps> = ({
   isOpen,
   onClose,
   accounts,
+  isDark = false,
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -77,40 +79,56 @@ export const MondayBriefModal: React.FC<MondayBriefModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm">
-      <div className="bg-[#090a0d] border border-[#2a2f38] rounded w-full max-w-2xl max-h-[85vh] flex flex-col p-5 shadow-2xl relative font-mono text-xs">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className={`border rounded w-full max-w-2xl max-h-[85vh] flex flex-col p-5 shadow-2xl relative font-mono text-xs ${
+        isDark ? 'bg-[#090a0d] border-[#2a2f38] text-white' : 'bg-white border-gray-200 text-gray-900'
+      }`}>
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#666] hover:text-white transition"
+          className={`absolute top-4 right-4 transition ${
+            isDark ? 'text-[#666] hover:text-white' : 'text-gray-400 hover:text-black'
+          }`}
         >
           <X className="w-4 h-4" />
         </button>
 
-        <div className="flex items-center justify-between pb-3 border-b border-[#1c2026] mb-3">
+        <div className={`flex items-center justify-between pb-3 border-b mb-3 ${
+          isDark ? 'border-[#1c2026]' : 'border-gray-200'
+        }`}>
           <div>
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+            <h3 className="text-sm font-bold uppercase tracking-wider">
               Monday Executive Brief // Handover Memo
             </h3>
-            <p className="text-[11px] text-[#777]">Answers to the 5 core questions formatted for leadership.</p>
+            <p className={`text-[11px] ${isDark ? 'text-[#777]' : 'text-gray-500'}`}>
+              Answers to the 5 core questions formatted for leadership.
+            </p>
           </div>
 
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded text-[11px] uppercase font-semibold bg-white text-black hover:bg-[#e0e0e0] transition"
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-[11px] uppercase font-semibold transition ${
+              isDark ? 'bg-white text-black hover:bg-[#e0e0e0]' : 'bg-black text-white hover:bg-gray-800'
+            }`}
           >
             {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
             <span>{copied ? 'Copied' : 'Copy'}</span>
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto space-y-3 pr-2 bg-black p-3 rounded border border-[#1a1c22] text-[#bbb] text-[11px]">
+        <div className={`flex-1 overflow-y-auto space-y-3 pr-2 p-3 rounded border text-[11px] ${
+          isDark ? 'bg-black border-[#1a1c22] text-[#bbb]' : 'bg-gray-50 border-gray-200 text-gray-800'
+        }`}>
           <pre className="whitespace-pre-wrap font-mono">{generateMarkdown()}</pre>
         </div>
 
-        <div className="flex justify-end pt-3 border-t border-[#1c2026] mt-3">
+        <div className={`flex justify-end pt-3 border-t mt-3 ${
+          isDark ? 'border-[#1c2026]' : 'border-gray-200'
+        }`}>
           <button
             onClick={onClose}
-            className="px-3 py-1.5 rounded text-[11px] uppercase border border-[#222] text-[#888] hover:text-white transition"
+            className={`px-3 py-1.5 rounded text-[11px] uppercase border transition ${
+              isDark ? 'border-[#222] text-[#888] hover:text-white' : 'border-gray-200 text-gray-600 hover:text-black'
+            }`}
           >
             Close
           </button>

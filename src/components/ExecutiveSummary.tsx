@@ -6,11 +6,13 @@ import { AccountDetail, AccountId } from '../types/crm';
 interface ExecutiveSummaryProps {
   accounts: Record<AccountId, AccountDetail>;
   selectedAccount: AccountId | 'ALL';
+  isDark?: boolean;
 }
 
 export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
   accounts,
   selectedAccount,
+  isDark = false,
 }) => {
   const currentAccounts = selectedAccount === 'ALL' 
     ? Object.values(accounts) 
@@ -33,8 +35,8 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
 
   if (selectedAccount === 'ALL') {
     totalDocks = 49;
-    activeDocks = 27; // 14 Police + 13 Industrial
-    silentDocks = 3;  // 3 silent in Aldermoor
+    activeDocks = 27;
+    silentDocks = 3;
   } else if (selectedAccount === 'A') {
     totalDocks = 35;
     activeDocks = 14;
@@ -46,78 +48,100 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({
   }
 
   return (
-    <div className="space-y-3">
-      {/* Mini banner if specific account selected */}
+    <div className="space-y-3 font-mono">
+      {/* Account Context Banner */}
       {selectedAccount !== 'ALL' && accounts[selectedAccount] && (
-        <div className="border border-[#1e2229] bg-[#07080a] p-3 rounded flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+        <div className={`border p-3 rounded flex flex-wrap items-center justify-between gap-3 text-xs ${
+          isDark ? 'border-[#1e2229] bg-[#07080a]' : 'border-gray-200 bg-gray-50'
+        }`}>
           <div>
-            <span className="font-bold text-white uppercase tracking-wider">
+            <span className={`font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-gray-900'}`}>
               {accounts[selectedAccount].name}
             </span>
-            <span className="text-[#666] ml-2 font-normal">
+            <span className={`ml-2 font-normal ${isDark ? 'text-[#666]' : 'text-gray-500'}`}>
               — {accounts[selectedAccount].sold}
             </span>
           </div>
-          <div className="text-[#888] text-[11px]">
+          <div className={`text-[11px] ${isDark ? 'text-[#888]' : 'text-gray-600'}`}>
             {accounts[selectedAccount].handoverNote}
           </div>
         </div>
       )}
 
-      {/* Monochrome Minimal Metrics Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-2 font-mono">
+      {/* KPI Cards Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
         
         {/* Verified ARR */}
-        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
-          <div className="text-[10px] text-[#777] uppercase tracking-wider">Verified ARR</div>
-          <div className="text-xl font-bold text-white mt-1">
+        <div className={`border p-3 rounded transition ${
+          isDark ? 'border-[#1c2026] bg-[#08090b]' : 'border-gray-200 bg-white shadow-sm'
+        }`}>
+          <div className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-[#777]' : 'text-gray-500'}`}>
+            Verified ARR
+          </div>
+          <div className={`text-xl font-bold mt-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             ${(verifiedARR / 1000).toFixed(0)}k
           </div>
-          <div className="text-[10px] text-[#666] mt-0.5">
-            of ${(totalPipeline / 1000).toFixed(0)}k total pipeline
+          <div className={`text-[10px] mt-0.5 ${isDark ? 'text-[#666]' : 'text-gray-400'}`}>
+            of ${(totalPipeline / 1000).toFixed(0)}k pipeline
           </div>
         </div>
 
         {/* Fleet Deployment */}
-        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
-          <div className="text-[10px] text-[#777] uppercase tracking-wider">Fleet Status</div>
-          <div className="text-xl font-bold text-white mt-1">
-            {activeDocks} <span className="text-xs font-normal text-[#666]">/ {totalDocks} Flying</span>
+        <div className={`border p-3 rounded transition ${
+          isDark ? 'border-[#1c2026] bg-[#08090b]' : 'border-gray-200 bg-white shadow-sm'
+        }`}>
+          <div className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-[#777]' : 'text-gray-500'}`}>
+            Fleet Status
           </div>
-          <div className="text-[10px] text-[#888] mt-0.5">
+          <div className={`text-xl font-bold mt-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            {activeDocks} <span className={`text-xs font-normal ${isDark ? 'text-[#666]' : 'text-gray-400'}`}>/ {totalDocks} Flying</span>
+          </div>
+          <div className={`text-[10px] mt-0.5 ${isDark ? 'text-[#888]' : 'text-gray-500'}`}>
             {silentDocks > 0 ? `${silentDocks} silent docks halted` : 'Zero critical faults'}
           </div>
         </div>
 
         {/* Urgent Deadlines */}
-        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
-          <div className="text-[10px] text-[#777] uppercase tracking-wider">Active Threats</div>
-          <div className="text-xl font-bold text-white mt-1">
-            {criticalRisks} <span className="text-xs font-normal text-[#666]">Critical</span>
+        <div className={`border p-3 rounded transition ${
+          isDark ? 'border-[#1c2026] bg-[#08090b]' : 'border-gray-200 bg-white shadow-sm'
+        }`}>
+          <div className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-[#777]' : 'text-gray-500'}`}>
+            Active Threats
           </div>
-          <div className="text-[10px] text-[#888] mt-0.5">
+          <div className={`text-xl font-bold mt-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            {criticalRisks} <span className={`text-xs font-normal ${isDark ? 'text-[#666]' : 'text-gray-400'}`}>Critical</span>
+          </div>
+          <div className={`text-[10px] mt-0.5 ${isDark ? 'text-[#888]' : 'text-gray-500'}`}>
             5 Dec Event • Spec Lock
           </div>
         </div>
 
         {/* Stakeholder Trust */}
-        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
-          <div className="text-[10px] text-[#777] uppercase tracking-wider">Key Deciders</div>
-          <div className="text-xl font-bold text-white mt-1">
-            {currentAccounts.flatMap(a => a.people).length} <span className="text-xs font-normal text-[#666]">Mapped</span>
+        <div className={`border p-3 rounded transition ${
+          isDark ? 'border-[#1c2026] bg-[#08090b]' : 'border-gray-200 bg-white shadow-sm'
+        }`}>
+          <div className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-[#777]' : 'text-gray-500'}`}>
+            Key Deciders
           </div>
-          <div className="text-[10px] text-[#888] mt-0.5">
+          <div className={`text-xl font-bold mt-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            {currentAccounts.flatMap(a => a.people).length} <span className={`text-xs font-normal ${isDark ? 'text-[#666]' : 'text-gray-400'}`}>Mapped</span>
+          </div>
+          <div className={`text-[10px] mt-0.5 ${isDark ? 'text-[#888]' : 'text-gray-500'}`}>
             1 Departing (Calder)
           </div>
         </div>
 
         {/* Portfolio Health */}
-        <div className="border border-[#1c2026] bg-[#08090b] p-3 rounded">
-          <div className="text-[10px] text-[#777] uppercase tracking-wider">Health Index</div>
-          <div className="text-xl font-bold text-white mt-1">
+        <div className={`border p-3 rounded transition ${
+          isDark ? 'border-[#1c2026] bg-[#08090b]' : 'border-gray-200 bg-white shadow-sm'
+        }`}>
+          <div className={`text-[10px] uppercase tracking-wider ${isDark ? 'text-[#777]' : 'text-gray-500'}`}>
+            Health Index
+          </div>
+          <div className={`text-xl font-bold mt-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             {Math.round(currentAccounts.reduce((s, a) => s + a.healthScore, 0) / currentAccounts.length)}%
           </div>
-          <div className="text-[10px] text-[#888] mt-0.5">
+          <div className={`text-[10px] mt-0.5 ${isDark ? 'text-[#888]' : 'text-gray-500'}`}>
             Attention Required
           </div>
         </div>
