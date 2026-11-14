@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { AccountDetail, AccountId, Deal } from '../types/crm';
-import { ShieldCheck, AlertCircle, FileText, ExternalLink } from 'lucide-react';
+import { ShieldCheck, AlertCircle, FileText } from 'lucide-react';
 import { DetailModalData } from './ItemDetailModal';
 
 interface BookWithReceiptsProps {
@@ -35,17 +35,21 @@ export const BookWithReceipts: React.FC<BookWithReceiptsProps> = ({
         type: 'deal',
         title: deal.title,
         account: deal.account,
-        subtitle: `Stage: ${deal.stage.toUpperCase()} • Confidence Score: ${deal.confidenceScore}%`,
-        badge: deal.isVerified ? 'Verified Contracted ARR' : 'Speculative Expansion Pipeline',
+        subtitle: deal.isVerified 
+          ? 'Guaranteed Contract: The customer signed a real contract for this money.' 
+          : 'Future Opportunity: We are talking about this, but nothing is signed yet.',
+        badge: deal.isVerified ? 'Signed on Paper' : 'Not Signed Yet',
         stats: [
-          { label: 'Verified ARR', value: `£${deal.verifiedValue.toLocaleString()}`, color: 'text-emerald-500' },
-          { label: 'Upsell Value', value: `£${deal.value.toLocaleString()}`, color: 'text-blue-500' },
-          { label: 'Audit Status', value: deal.isVerified ? 'Legally Signed' : 'Pending Model', color: deal.isVerified ? 'text-emerald-500' : 'text-amber-500' },
+          { label: 'Real Signed Money', value: `£${deal.verifiedValue.toLocaleString()}`, color: 'text-emerald-600' },
+          { label: 'Potential New Deal', value: `£${deal.value.toLocaleString()}`, color: 'text-blue-600' },
+          { label: 'Paperwork Status', value: deal.isVerified ? 'Signed Contract' : 'Needs Pricing Model', color: deal.isVerified ? 'text-emerald-600' : 'text-amber-600' },
         ],
-        description: `Commercial commercial terms and fleet arrangement for Account ${deal.account}. Every verified pound requires signed purchase order documentation and SLA terms.`,
-        impactOrOutcome: deal.blockerReason ? `Active Blocker & Requirements: ${deal.blockerReason}` : 'Fully active contract in good standing.',
+        description: `This is the agreement for ${deal.account === 'A' ? 'Eastern Counties Police Alliance' : 'Aldermoor Industrial Group'}. Every single pound shown here is checked against real contracts in our files.`,
+        impactOrOutcome: deal.blockerReason 
+          ? `What is holding this up: ${deal.blockerReason}` 
+          : 'Everything is signed and working normally according to our contract.',
         citations: deal.citations,
-        ctaText: 'Inspect in Data Room',
+        ctaText: 'Open Official Contract in Data Room',
         onCtaClick: () => {
           if (deal.citations?.[0]) onSelectCitation?.(deal.citations[0]);
         },
@@ -56,60 +60,60 @@ export const BookWithReceipts: React.FC<BookWithReceiptsProps> = ({
 
   return (
     <div className="space-y-4 font-sans">
-      {/* Header */}
+      {/* Header in Plain English */}
       <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 ${
-        isDark ? 'border-gray-800' : 'border-gray-200'
+        isDark ? 'border-gray-800' : 'border-gray-300'
       }`}>
         <div>
           <div className="flex items-center gap-2">
-            <span className={`text-base font-bold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Question 1: What is the Book Worth?
-            </span>
-            <span className={`px-2 py-0.5 rounded text-xs font-semibold uppercase ${
-              isDark ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-emerald-100 text-emerald-800'
+            <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-black'}`}>
+              Question 1: How Much Money Is Guaranteed vs. In Discussion?
+            </h3>
+            <span className={`px-2.5 py-0.5 rounded text-xs font-bold uppercase ${
+              isDark ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
             }`}>
-              Book With Receipts
+              Signed Contracts List
             </span>
           </div>
-          <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-            Audited financial breakdown separating signed recurring revenue from unverified pipeline.
+          <p className={`text-xs mt-1 font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            We separate guaranteed money from future wishes so our bosses know exactly what is real.
           </p>
         </div>
         
         {/* Total Numbers Banner */}
         <div className="flex items-center gap-2 text-xs">
           <div className={`px-3 py-1.5 rounded-lg border flex items-center gap-1.5 ${
-            isDark ? 'border-emerald-900/80 bg-emerald-950/40 text-emerald-300' : 'border-emerald-200 bg-emerald-50 text-emerald-800'
+            isDark ? 'border-emerald-900 bg-emerald-950/40 text-emerald-300' : 'border-emerald-400 bg-emerald-50 text-emerald-900'
           }`}>
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span className="font-semibold">Verified: £{(verifiedARR / 1000).toFixed(0)}k ARR</span>
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span className="font-bold">Guaranteed: £{(verifiedARR / 1000).toFixed(0)}k / yr</span>
           </div>
-          <div className={`px-3 py-1.5 rounded-lg border ${
-            isDark ? 'border-gray-800 bg-[#0e1014] text-gray-400' : 'border-gray-200 bg-gray-50 text-gray-600'
+          <div className={`px-3 py-1.5 rounded-lg border font-semibold ${
+            isDark ? 'border-gray-800 bg-[#0e1014] text-gray-300' : 'border-gray-300 bg-white text-gray-800 shadow-sm'
           }`}>
-            Speculative: £{(unverifiedPipeline / 1000).toFixed(0)}k
+            Possible Future Deals: £{(unverifiedPipeline / 1000).toFixed(0)}k
           </div>
         </div>
       </div>
 
-      {/* Clean Table */}
+      {/* Clean High-Contrast Table with Crisp Black Text */}
       <div className={`border rounded-xl overflow-hidden ${
-        isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-200 bg-white shadow-sm'
+        isDark ? 'border-gray-800 bg-[#0a0c0f]' : 'border-gray-300 bg-white shadow-sm'
       }`}>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className={`border-b text-[11px] uppercase tracking-wider font-semibold ${
-                isDark ? 'border-gray-800 text-gray-400 bg-[#0d0f13]' : 'border-gray-200 text-gray-500 bg-gray-50'
+              <tr className={`border-b text-xs font-bold uppercase tracking-wider ${
+                isDark ? 'border-gray-800 text-gray-300 bg-[#0d0f13]' : 'border-gray-300 text-black bg-gray-100'
               }`}>
-                <th className="py-3 px-4">Deal & Scope</th>
-                <th className="py-3 px-4">Verification</th>
-                <th className="py-3 px-4">Contract Value</th>
-                <th className="py-3 px-4">Proof Citations</th>
-                <th className="py-3 px-4">Blockers & Next Unlock</th>
+                <th className="py-3 px-4">Deal Name</th>
+                <th className="py-3 px-4">Is it Signed?</th>
+                <th className="py-3 px-4">Annual Money</th>
+                <th className="py-3 px-4">Official Paperwork</th>
+                <th className="py-3 px-4">What Is Needed Next</th>
               </tr>
             </thead>
-            <tbody className={`divide-y ${isDark ? 'divide-gray-800/80' : 'divide-gray-100'}`}>
+            <tbody className={`divide-y ${isDark ? 'divide-gray-800' : 'divide-gray-200'}`}>
               {allDeals.map((deal) => {
                 return (
                   <tr 
@@ -119,58 +123,58 @@ export const BookWithReceipts: React.FC<BookWithReceiptsProps> = ({
                       isDark ? 'hover:bg-[#11141a]' : 'hover:bg-gray-50'
                     }`}
                   >
-                    {/* Deal Name & Account */}
-                    <td className="py-3.5 px-4">
-                      <div className="font-semibold text-sm text-gray-900 dark:text-gray-100">
+                    {/* Deal Name & Account - BOLD BLACK TEXT */}
+                    <td className="py-4 px-4">
+                      <div className={`font-bold text-sm leading-snug ${isDark ? 'text-white' : 'text-black'}`}>
                         {deal.title}
                       </div>
-                      <div className="text-[11px] text-gray-500 mt-0.5">
-                        Account {deal.account} • {deal.stage}
+                      <div className={`text-xs mt-1 font-semibold ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>
+                        Account {deal.account === 'A' ? 'A (Police Alliance)' : 'B (Aldermoor Industrial)'}
                       </div>
                     </td>
 
-                    {/* Verification Badge */}
-                    <td className="py-3.5 px-4">
+                    {/* Signed Badge */}
+                    <td className="py-4 px-4">
                       {deal.isVerified ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
-                          <ShieldCheck className="w-3 h-3" />
-                          Signed PO
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-950 border border-emerald-400">
+                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                          Signed on Paper
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
-                          <AlertCircle className="w-3 h-3" />
-                          Speculative
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-950 border border-amber-400">
+                          <AlertCircle className="w-3.5 h-3.5 text-amber-700" />
+                          Not Signed Yet
                         </span>
                       )}
                     </td>
 
-                    {/* Value */}
-                    <td className="py-3.5 px-4 font-mono font-bold text-sm">
+                    {/* Value - BOLD BLACK / GREEN */}
+                    <td className="py-4 px-4 font-mono font-bold text-sm">
                       {deal.isVerified ? (
-                        <span className="text-emerald-600 dark:text-emerald-400">
+                        <span className="text-emerald-700 dark:text-emerald-400 font-bold text-base">
                           £{deal.verifiedValue.toLocaleString()}
                         </span>
                       ) : (
-                        <span className="text-gray-500 dark:text-gray-400">
+                        <span className={`text-base font-semibold ${isDark ? 'text-gray-300' : 'text-black'}`}>
                           £{deal.value.toLocaleString()}
                         </span>
                       )}
                     </td>
 
-                    {/* Citations */}
-                    <td className="py-3.5 px-4">
+                    {/* Proof Citations */}
+                    <td className="py-4 px-4">
                       <div className="flex flex-wrap gap-1.5" onClick={e => e.stopPropagation()}>
                         {deal.citations.map((cite) => (
                           <button
                             key={cite}
                             onClick={() => onSelectCitation?.(cite)}
-                            className={`flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-mono border transition ${
+                            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold border transition ${
                               isDark 
-                                ? 'border-gray-800 bg-[#12151b] hover:bg-gray-800 text-gray-300' 
-                                : 'border-gray-200 bg-gray-50 hover:bg-gray-100 text-gray-700'
+                                ? 'border-gray-700 bg-[#12151b] hover:bg-gray-800 text-white' 
+                                : 'border-gray-400 bg-gray-100 hover:bg-gray-200 text-black shadow-sm'
                             }`}
                           >
-                            <FileText className="w-3 h-3 text-emerald-500" />
+                            <FileText className="w-3.5 h-3.5 text-emerald-600" />
                             <span>{cite}</span>
                           </button>
                         ))}
@@ -178,9 +182,13 @@ export const BookWithReceipts: React.FC<BookWithReceiptsProps> = ({
                     </td>
 
                     {/* Blocker & Requirements */}
-                    <td className="py-3.5 px-4 max-w-xs">
-                      <div className={`text-xs ${deal.blockerReason ? 'text-amber-700 dark:text-amber-300 font-medium' : 'text-gray-500'}`}>
-                        {deal.blockerReason || 'Signed contract; ongoing renewal telemetry.'}
+                    <td className="py-4 px-4 max-w-xs">
+                      <div className={`text-xs leading-relaxed font-semibold ${
+                        deal.blockerReason 
+                          ? 'text-amber-900 dark:text-amber-300' 
+                          : isDark ? 'text-gray-400' : 'text-gray-800'
+                      }`}>
+                        {deal.blockerReason || 'Signed and active in good standing.'}
                       </div>
                     </td>
                   </tr>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { AccountDetail, AccountId, BlindSpot } from '../types/crm';
-import { HelpCircle, MessageSquarePlus, ArrowRight } from 'lucide-react';
+import { HelpCircle, MessageSquarePlus } from 'lucide-react';
 import { DetailModalData } from './ItemDetailModal';
 
 interface BlindSpotFinderProps {
@@ -32,16 +32,16 @@ export const BlindSpotFinder: React.FC<BlindSpotFinderProps> = ({
         type: 'blindspot',
         title: spot.question,
         account: spot.account,
-        subtitle: `Target Stakeholder: ${spot.whoCouldAnswer}`,
-        badge: 'Critical Unknown',
+        subtitle: `Person Who Has the Answer: ${spot.whoCouldAnswer}`,
+        badge: 'Unknown Information',
         stats: [
-          { label: 'Key Contact', value: spot.whoCouldAnswer },
+          { label: 'Person to Ask', value: spot.whoCouldAnswer },
           { label: 'Account', value: spot.account === 'A' ? 'Police Alliance' : 'Aldermoor' },
-          { label: 'Action Needed', value: 'Direct Discovery' },
+          { label: 'Action to Take', value: 'Schedule Quick Call' },
         ],
-        description: `Why It Matters: ${spot.whyItMatters}`,
-        impactOrOutcome: `Potential Revenue Impact: ${spot.potentialImpact} | Suggested Discovery Script: "${spot.suggestedAsk}"`,
-        ctaText: 'Log Discovery Inquiry',
+        description: `Why this is important: ${spot.whyItMatters}`,
+        impactOrOutcome: `What could happen if we don't ask: ${spot.potentialImpact} | What to say: "${spot.suggestedAsk}"`,
+        ctaText: 'Write Down an Inquiry Note',
         onCtaClick: () => {
           onDraftQuestion?.(spot);
         },
@@ -51,35 +51,35 @@ export const BlindSpotFinder: React.FC<BlindSpotFinderProps> = ({
 
   return (
     <div className="space-y-4 font-sans">
-      {/* Header */}
+      {/* Header in Plain English */}
       <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 ${
-        isDark ? 'border-gray-800' : 'border-gray-200'
+        isDark ? 'border-gray-800' : 'border-gray-300'
       }`}>
         <div>
           <div className="flex items-center gap-2">
-            <span className={`text-base font-bold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Question 5: What Do You Still Not Know?
-            </span>
-            <span className={`px-2 py-0.5 rounded text-xs font-semibold uppercase ${
-              isDark ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-amber-100 text-amber-800'
+            <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-black'}`}>
+              Question 5: What Important Things Do We Still Not Know?
+            </h3>
+            <span className={`px-2.5 py-0.5 rounded text-xs font-bold uppercase ${
+              isDark ? 'bg-amber-950 text-amber-300 border border-amber-800' : 'bg-amber-100 text-amber-950 border border-amber-300'
             }`}>
-              Blind Spot Finder
+              Questions to Ask
             </span>
           </div>
-          <p className={`text-xs mt-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-            Knowledge gaps and unanswered dependencies that jeopardize contract renewals or expansion.
+          <p className={`text-xs mt-1 font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            Missing information that could secretly hurt our contract or relationship if we don't ask right away.
           </p>
         </div>
 
-        <div className={`text-xs font-medium px-2.5 py-1 rounded-full border self-start sm:self-auto ${
-          isDark ? 'border-gray-800 bg-[#0e1014] text-amber-400' : 'border-amber-200 bg-amber-50 text-amber-700'
+        <div className={`text-xs font-bold px-3 py-1 rounded-full border self-start sm:self-auto ${
+          isDark ? 'border-gray-800 bg-[#0e1014] text-amber-400' : 'border-amber-300 bg-amber-50 text-amber-950 shadow-sm'
         }`}>
-          {allSpots.length} Unknown Dependencies
+          {allSpots.length} Questions to Ask
         </div>
       </div>
 
-      {/* Clean Cards */}
-      <div className="space-y-2.5">
+      {/* Clean High-Contrast Cards */}
+      <div className="space-y-3">
         {allSpots.map((spot) => {
           return (
             <div
@@ -87,41 +87,42 @@ export const BlindSpotFinder: React.FC<BlindSpotFinderProps> = ({
               onClick={() => handleOpenSpot(spot)}
               className={`border p-4 rounded-xl transition cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-4 ${
                 isDark 
-                  ? 'border-gray-800/80 bg-[#0a0c0f] hover:border-gray-700' 
-                  : 'border-gray-200 bg-white hover:border-gray-400 shadow-sm'
+                  ? 'border-gray-800 bg-[#0a0c0f] hover:border-gray-700' 
+                  : 'border-gray-300 bg-white hover:border-gray-500 shadow-sm'
               }`}
             >
               <div className="flex items-start gap-3 min-w-0 flex-1">
-                <div className="p-2 rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 shrink-0">
-                  <HelpCircle className="w-4 h-4" />
+                <div className="p-2 rounded-lg bg-amber-100 text-amber-950 border border-amber-300 shrink-0">
+                  <HelpCircle className="w-5 h-5" />
                 </div>
 
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h4 className={`text-sm md:text-base font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                    <h4 className={`text-base font-bold ${isDark ? 'text-white' : 'text-black'}`}>
                       {spot.question}
                     </h4>
-                    <span className={`text-xs px-2 py-0.5 rounded-full border ${
-                      isDark ? 'border-gray-800 text-gray-400' : 'border-gray-200 text-gray-600'
+                    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border ${
+                      isDark ? 'border-gray-700 text-gray-300' : 'border-gray-300 text-black bg-gray-100'
                     }`}>
-                      Account {spot.account}
+                      Account {spot.account === 'A' ? 'A (Police)' : 'B (Aldermoor)'}
                     </span>
                   </div>
 
-                  <p className={`text-xs mt-1 line-clamp-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Why it matters: {spot.whyItMatters}
+                  <p className={`text-xs mt-1.5 font-medium leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-800'}`}>
+                    <strong className={isDark ? 'text-white' : 'text-black'}>Why this matters: </strong>
+                    {spot.whyItMatters}
                   </p>
                 </div>
               </div>
 
               {/* Stakeholder & Action */}
-              <div className="flex items-center justify-between md:justify-end gap-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-gray-100 dark:border-gray-800">
+              <div className="flex items-center justify-between md:justify-end gap-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-gray-200 dark:border-gray-800">
                 <div className="text-left md:text-right text-xs">
-                  <div className="font-medium text-gray-800 dark:text-gray-200">
-                    Ask: {spot.whoCouldAnswer}
+                  <div className={`font-bold ${isDark ? 'text-white' : 'text-black'}`}>
+                    Person to ask: <strong>{spot.whoCouldAnswer}</strong>
                   </div>
-                  <div className="text-[11px] text-gray-400">
-                    Impact: {spot.potentialImpact}
+                  <div className={`text-xs mt-0.5 font-medium ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>
+                    Danger if skipped: {spot.potentialImpact}
                   </div>
                 </div>
 
@@ -130,14 +131,14 @@ export const BlindSpotFinder: React.FC<BlindSpotFinderProps> = ({
                     e.stopPropagation();
                     onDraftQuestion?.(spot);
                   }}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition ${
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold border transition ${
                     isDark 
                       ? 'border-white text-black bg-white hover:bg-gray-200' 
                       : 'border-black text-white bg-black hover:bg-gray-800 shadow-sm'
                   }`}
                 >
-                  <MessageSquarePlus className="w-3.5 h-3.5" />
-                  <span>Log Ask</span>
+                  <MessageSquarePlus className="w-4 h-4" />
+                  <span>Ask Question</span>
                 </button>
               </div>
             </div>

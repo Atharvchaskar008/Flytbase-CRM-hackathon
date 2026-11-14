@@ -73,6 +73,15 @@ export default function DashboardPage() {
     return () => clearInterval(pollTimer);
   }, []);
 
+  // Sync dark class with document element
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
   const handleCitationClick = (citationId: string) => {
     setHighlightedFile(citationId);
     setActiveTab('paperwork');
@@ -167,98 +176,98 @@ export default function DashboardPage() {
           </Link>
         </div>
 
-        {/* Tab Navigation Bar */}
-        <div className={`flex border-b overflow-x-auto gap-2 text-sm font-medium ${
-          isDark ? 'border-gray-800' : 'border-gray-200'
+        {/* Tab Navigation Bar in Spoken English */}
+        <div className={`flex border-b overflow-x-auto gap-2 text-sm font-semibold ${
+          isDark ? 'border-gray-800' : 'border-gray-300'
         }`}>
           <button
             onClick={() => setActiveTab('actions')}
             className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
               activeTab === 'actions'
-                ? isDark ? 'border-white text-white font-semibold' : 'border-black text-black font-semibold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
+                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
             }`}
           >
-            1. Actions (Q3)
+            1. Monday To-Do List
           </button>
 
           <button
             onClick={() => setActiveTab('book')}
             className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
               activeTab === 'book'
-                ? isDark ? 'border-white text-white font-semibold' : 'border-black text-black font-semibold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
+                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
             }`}
           >
-            2. Receipts (Q1)
+            2. Signed Contracts & Money
           </button>
 
           <button
             onClick={() => setActiveTab('power')}
             className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
               activeTab === 'power'
-                ? isDark ? 'border-white text-white font-semibold' : 'border-black text-black font-semibold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
+                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
             }`}
           >
-            3. Power Map (Q2)
+            3. Who Makes Decisions
           </button>
 
           <button
             onClick={() => setActiveTab('risks')}
             className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
               activeTab === 'risks'
-                ? isDark ? 'border-white text-white font-semibold' : 'border-black text-black font-semibold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
+                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
             }`}
           >
-            4. Risk Radar (Q4)
+            4. Urgent Problems & Deadlines
           </button>
 
           <button
             onClick={() => setActiveTab('blindspots')}
             className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
               activeTab === 'blindspots'
-                ? isDark ? 'border-white text-white font-semibold' : 'border-black text-black font-semibold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
+                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
             }`}
           >
-            5. Blind Spots (Q5)
+            5. Questions to Ask
           </button>
 
           <button
             onClick={() => setActiveTab('agents')}
             className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap flex items-center gap-1.5 ${
               activeTab === 'agents'
-                ? isDark ? 'border-white text-white font-semibold' : 'border-black text-black font-semibold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
+                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
             }`}
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>AI Agents</span>
+            <span>AI Helpers (Calls & WhatsApp)</span>
           </button>
 
           <button
             onClick={() => setActiveTab('infographics')}
             className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap flex items-center gap-1.5 ${
               activeTab === 'infographics'
-                ? isDark ? 'border-white text-white font-semibold' : 'border-black text-black font-semibold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
+                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
             }`}
           >
-            <BarChart3 className="w-4 h-4 text-blue-500" />
-            <span>Infographics & Charts</span>
+            <BarChart3 className="w-4 h-4 text-blue-600" />
+            <span>Visual Charts</span>
           </button>
 
           <button
             onClick={() => setActiveTab('paperwork')}
             className={`py-2.5 px-4 border-b-2 transition whitespace-nowrap ${
               activeTab === 'paperwork'
-                ? isDark ? 'border-white text-white font-semibold' : 'border-black text-black font-semibold'
-                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+                ? isDark ? 'border-white text-white font-bold' : 'border-black text-black font-bold'
+                : isDark ? 'border-transparent text-gray-400 hover:text-white' : 'border-transparent text-gray-600 hover:text-black'
             }`}
           >
-            Data Room
+            Official Contract Papers
           </button>
         </div>
 
