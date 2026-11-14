@@ -13,16 +13,19 @@ import { PaperworkRoom } from '@/components/PaperworkRoom';
 import { LiveSignalsPanel } from '@/components/LiveSignalsPanel';
 import { NoteModal } from '@/components/NoteModal';
 import { MondayBriefModal } from '@/components/MondayBriefModal';
+import { AutonomousAgentsView } from '@/components/AutonomousAgentsView';
 import { initialCRMData } from '@/lib/mockData';
+import { AutonomousCSMAgentNetwork, AgentInsight } from '@/lib/agents';
 
 export default function DashboardPage() {
   const [data, setData] = useState<CRMStoreData>(initialCRMData);
   const [selectedAccount, setSelectedAccount] = useState<AccountId | 'ALL'>('ALL');
-  const [activeTab, setActiveTab] = useState<'actions' | 'book' | 'power' | 'risks' | 'blindspots' | 'paperwork'>('actions');
+  const [activeTab, setActiveTab] = useState<'actions' | 'book' | 'power' | 'risks' | 'blindspots' | 'agents' | 'paperwork'>('actions');
   const [theme, setTheme] = useState<'light' | 'dark'>('light'); // White background default!
   const [isSyncing, setIsSyncing] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string>('');
   const [highlightedFile, setHighlightedFile] = useState<string | null>(null);
+  const [agentInsights, setAgentInsights] = useState<AgentInsight[]>([]);
 
   // Modals
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
@@ -38,6 +41,8 @@ export default function DashboardPage() {
       const json = await res.json();
       if (json.data) {
         setData(json.data);
+        const insights = AutonomousCSMAgentNetwork.executeAll(json.data.accounts, json.data.signals);
+        setAgentInsights(insights);
       }
       if (json.message) {
         setSyncMessage(json.message);
@@ -61,6 +66,24 @@ export default function DashboardPage() {
   const handleDraftQuestion = (spot: BlindSpot) => {
     setNoteDefaultText(`Blind Spot Action: ${spot.question} -> Ask: ${spot.whoCouldAnswer}`);
     setIsNoteModalOpen(true);
+  };
+
+  const handleDeployAgentAction = async (insight: AgentInsight) => {
+    try {
+      await fetch('/api/notes', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          account: insight.accountId,
+          kind: 'next_step',
+          title: `[AGENT DEPLOYED] ${insight.autonomousProposal.actionTitle}`,
+          text: `Target: ${insight.autonomousProposal.targetStakeholder} | Proposal: ${insight.autonomousProposal.draftContent}`,
+        }),
+      });
+      fetchData(false);
+    } catch (e) {
+      console.error('Failed to deploy agent action:', e);
+    }
   };
 
   const toggleTheme = () => {
@@ -88,7 +111,7 @@ export default function DashboardPage() {
         onToggleTheme={toggleTheme}
       />
 
-      {/* Main Dashboard (No landing page) */}
+      {/* Main Dashboard */}
       <main className="flex-1 max-w-[1400px] w-full mx-auto p-3 md:p-5 space-y-4">
         
         {/* Executive Metric Cards */}
@@ -158,6 +181,18 @@ export default function DashboardPage() {
           </button>
 
           <button
+            onClick={() => setActiveTab('agents')}
+            className={`py-2 px-3 border-b-2 transition whitespace-nowrap flex items-center gap-1.5 ${
+              activeTab === 'agents'
+                ? isDark ? 'border-white text-white font-bold bg-[#0c0d10]' : 'border-black text-black font-bold bg-gray-100'
+                : isDark ? 'border-transparent text-[#777] hover:text-white' : 'border-transparent text-gray-500 hover:text-black'
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>AI Agents</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab('paperwork')}
             className={`py-2 px-3 border-b-2 transition whitespace-nowrap ${
               activeTab === 'paperwork'
@@ -211,6 +246,15 @@ export default function DashboardPage() {
                 accounts={data.accounts}
                 selectedAccount={selectedAccount}
                 onDraftQuestion={handleDraftQuestion}
+                isDark={isDark}
+              />
+            )}
+
+            {activeTab === 'agents' && (
+              <AutonomousAgentsView
+                insights={agentInsights}
+                selectedAccount={selectedAccount}
+                onDeployAction={handleDeployAgentAction}
                 isDark={isDark}
               />
             )}
