@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { CRMStoreData } from '../types/crm';
+import { CRMStoreData, AccountDetail, Character, Deal } from '../types/crm';
 import { initialCRMData } from './mockData';
 import { callTool, fetchExport } from './mcp';
 
@@ -46,6 +46,139 @@ export function saveLocalStore(data: CRMStoreData) {
 }
 
 /**
+ * Merge upstream raw export into structured CRM account details.
+ * Ensures dynamically dropped accounts (e.g. Account K, Account H) appear without code changes.
+ */
+function mergeUpstreamAccounts(currentStore: CRMStoreData, exportPayload: any) {
+  if (!exportPayload?.accounts || !Array.isArray(exportPayload.accounts)) return;
+
+  exportPayload.accounts.forEach((rawAcc: any) => {
+    const accId = rawAcc.id;
+    if (!currentStore.accounts[accId]) {
+      // Dynamic new account drop detected!
+      const newPeople: Character[] = (rawAcc.stakeholders || []).map((s: any) => ({
+        id: s.id,
+        name: s.name,
+        role: s.role || 'Key Stakeholder',
+        account: accId,
+        band: (s.relationship || 'neutral') as any,
+        trustScore: 40,
+        about: s.about || 'Newly dropped account stakeholder.',
+        isDecisionMaker: true,
+      }));
+
+      const newDeals: Deal[] = (rawAcc.opportunities || []).map((o: any) => ({
+        id: o.id,
+        title: o.title || `Account ${accId} Opportunity`,
+        account: accId,
+        stage: o.stage || 'identified',
+        value: o.worth_up_to || 150000,
+        verifiedValue: 0,
+        isVerified: false,
+        confidenceScore: 40,
+        citations: o.evidence || [],
+        blockerReason: o.blocker || 'Pending discovery and operational model.',
+      }));
+
+      const newAccountDetail: AccountDetail = {
+        id: accId,
+        name: rawAcc.name || `Account ${accId}`,
+        badge: 'New Account Drop',
+        business: rawAcc.official_story || 'Mid-build scenario drop.',
+        sold: `${rawAcc.docks || 10} FlytBase DiaB Units`,
+        whyItMatters: 'Newly released strategic account during live build phase.',
+        handoverNote: 'Ingested dynamically from live API without code modification.',
+        contractValue: 150000,
+        expansionPotential: 300000,
+        healthScore: 50,
+        people: newPeople,
+        deals: newDeals,
+        actions: [
+          {
+            id: `act_${accId}_1`,
+            rank: 1,
+            title: `Initiate Discovery with ${newPeople[0]?.name || 'Stakeholder'}`,
+            account: accId,
+            owner: 'CSM Lead',
+            deadline: 'Within 24 Hours',
+            businessReason: 'Newly assigned account requires immediate stakeholder introduction.',
+            expectedOutcome: 'Baseline operational scope established.',
+            evidenceNeeded: (rawAcc.facts || []).map((f: any) => f.id),
+            status: 'pending',
+          }
+        ],
+        risks: [
+          {
+            id: `risk_${accId}_1`,
+            title: 'Unvetted Deployment Assumptions',
+            account: accId,
+            severity: 'high',
+            category: 'stakeholder_cold',
+            deadlineDate: 'Day 20',
+            daysRemaining: 10,
+            consequence: 'Lack of verified contact burns tender window.',
+            mitigationPlan: 'Deliver FlytBase enterprise reference architecture.',
+            owner: 'CSM',
+          }
+        ],
+        blindSpots: [
+          {
+            id: `blind_${accId}_1`,
+            account: accId,
+            question: 'What is the decision hierarchy for this new account?',
+            whyItMatters: 'Unknown economic buyer.',
+            whoCouldAnswer: newPeople[0]?.name || 'Alliance Lead',
+            potentialImpact: 'Stalls expansion proposal.',
+            suggestedAsk: 'Request procurement framework.',
+          }
+        ],
+        paperwork: [],
+      };
+
+      currentStore.accounts[accId] = newAccountDetail;
+    } else {
+      // Existing account: merge newly uncovered stakeholders & opportunities
+      const existing = currentStore.accounts[accId];
+      if (rawAcc.stakeholders && Array.isArray(rawAcc.stakeholders)) {
+        rawAcc.stakeholders.forEach((s: any) => {
+          if (!existing.people.some(p => p.id === s.id || p.name.toLowerCase() === s.name.toLowerCase())) {
+            existing.people.push({
+              id: s.id,
+              name: s.name,
+              role: s.role || 'Stakeholder',
+              account: accId,
+              band: (s.relationship || 'neutral') as any,
+              trustScore: 40,
+              about: s.about || 'Newly uncovered stakeholder.',
+              isDecisionMaker: false,
+            });
+          }
+        });
+      }
+
+      if (rawAcc.opportunities && Array.isArray(rawAcc.opportunities)) {
+        rawAcc.opportunities.forEach((o: any) => {
+          if (!existing.deals.some(d => d.id === o.id)) {
+            existing.deals.push({
+              id: o.id,
+              title: o.title || `Opportunity ${o.id}`,
+              account: accId,
+              stage: o.stage || 'identified',
+              value: o.worth_up_to || 100000,
+              verifiedValue: 0,
+              isVerified: false,
+              confidenceScore: 35,
+              citations: o.evidence || [],
+              blockerReason: o.blocker || 'Pending verification.',
+            });
+          }
+        });
+      }
+    }
+  });
+}
+
+/**
  * Sync with Questathon upstream respecting the 1 request / minute rule.
  */
 export async function syncWithUpstream(force = false): Promise<{ synced: boolean; store: CRMStoreData; message?: string }> {
@@ -74,22 +207,33 @@ export async function syncWithUpstream(force = false): Promise<{ synced: boolean
 
   try {
     lastSyncTimestamp = now;
-    // Attempt export or get_my_accounts
-    let upstreamAccounts: any = null;
+    let exportPayload: any = null;
     try {
-      upstreamAccounts = await fetchExport();
+      exportPayload = await fetchExport();
     } catch {
-      upstreamAccounts = await callTool('get_my_accounts');
+      exportPayload = await callTool('get_my_accounts');
     }
 
-    if (upstreamAccounts) {
-      // Ingest live export
+    if (exportPayload) {
       currentStore.lastUpstreamSync = new Date().toISOString();
+      mergeUpstreamAccounts(currentStore, exportPayload);
 
-      // If signals are available, update signals
+      // Fetch live signals
       try {
-        const liveSignals = await callTool('get_signals');
-        if (Array.isArray(liveSignals)) {
+        let liveSignals: any = null;
+        try {
+          const res = await fetch(`${process.env.API_URL || 'https://questathon.aihackerscollective.com/api/public/v1'}/signals`, {
+            headers: { authorization: `Bearer ${token}` }
+          });
+          if (res.ok) {
+            const data = await res.json();
+            liveSignals = data.signals;
+          }
+        } catch {
+          liveSignals = await callTool('get_signals');
+        }
+
+        if (Array.isArray(liveSignals) && liveSignals.length > 0) {
           currentStore.signals = liveSignals;
         }
       } catch (err) {
@@ -100,7 +244,7 @@ export async function syncWithUpstream(force = false): Promise<{ synced: boolean
       return {
         synced: true,
         store: currentStore,
-        message: 'Successfully synchronized latest upstream account data from Questathon API.',
+        message: 'Successfully pulled and merged latest upstream accounts and live signals.',
       };
     }
   } catch (err: any) {
@@ -108,7 +252,7 @@ export async function syncWithUpstream(force = false): Promise<{ synced: boolean
     return {
       synced: false,
       store: currentStore,
-      message: `Sync attempted but encountered: ${err.message}. Showing cached data.`,
+      message: `Sync attempted: ${err.message}. Showing cached data.`,
     };
   }
 

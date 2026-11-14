@@ -54,8 +54,16 @@ export default function DashboardPage() {
     }
   };
 
+  // Initial load + 60s automated polling interval (1 call / min compliant)
   useEffect(() => {
     fetchData(false);
+
+    // Background interval: poll for live signals and dynamic drops every 60s
+    const pollTimer = setInterval(() => {
+      fetchData(true);
+    }, 60000);
+
+    return () => clearInterval(pollTimer);
   }, []);
 
   const handleCitationClick = (citationId: string) => {
