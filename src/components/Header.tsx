@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AccountId } from '../types/crm';
-import { RefreshCw, Plus, FileText, CheckCircle2, Sun, Moon, BookOpen, Radio, Zap } from 'lucide-react';
+import { RefreshCw, Plus, FileText, CheckCircle2, Sun, Moon, BookOpen, Radio, Zap, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   selectedAccount: AccountId | 'ALL';
@@ -16,6 +16,8 @@ interface HeaderProps {
   signalsCount: number;
   theme: 'light' | 'dark';
   onToggleTheme: () => void;
+  isSidebarOpen: boolean;
+  onToggleSidebar: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -29,6 +31,8 @@ export const Header: React.FC<HeaderProps> = ({
   signalsCount,
   theme,
   onToggleTheme,
+  isSidebarOpen,
+  onToggleSidebar,
 }) => {
   const isDark = theme === 'dark';
   const [countdown, setCountdown] = useState(60);
@@ -47,27 +51,43 @@ export const Header: React.FC<HeaderProps> = ({
   }, [isSyncing]);
 
   return (
-    <header className={`border-b sticky top-0 z-40 px-4 py-3 transition-colors ${
+    <header className={`border-b sticky top-0 z-40 px-4 py-2.5 transition-colors ${
       isDark ? 'border-[#1a1e24] bg-black text-white' : 'border-gray-200 bg-white text-gray-900 shadow-sm'
     }`}>
-      <div className="max-w-[1400px] mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div className="max-w-[1550px] mx-auto flex flex-wrap items-center justify-between gap-3">
         
-        {/* Brand & Guide Link */}
+        {/* Hamburger Menu (Three Lines) + Brand */}
         <div className="flex items-center gap-3">
+          <button
+            onClick={onToggleSidebar}
+            title={isSidebarOpen ? "Close navigation menu" : "Open navigation menu (Three lines)"}
+            className={`flex items-center justify-center p-2 rounded-xl border transition ${
+              isDark 
+                ? 'border-gray-800 bg-[#0e1014] text-gray-300 hover:text-white hover:border-gray-700' 
+                : 'border-gray-200 bg-gray-50 text-gray-700 hover:bg-gray-100 shadow-sm'
+            }`}
+          >
+            {isSidebarOpen ? (
+              <X className="w-4 h-4 text-rose-500" />
+            ) : (
+              <Menu className="w-4 h-4 text-blue-600" />
+            )}
+          </button>
+
           <div className="flex items-center gap-2">
             <span className={`w-2.5 h-2.5 rounded-full animate-pulse ${isDark ? 'bg-white' : 'bg-black'}`} />
             <span className="font-bold text-sm tracking-tight font-sans uppercase">
               FlytBase // CSM
             </span>
           </div>
-          <span className={`text-xs border-l pl-3 uppercase ${isDark ? 'text-gray-400 border-gray-800' : 'text-gray-400 border-gray-200'}`}>
+          <span className={`hidden sm:inline text-xs border-l pl-3 uppercase ${isDark ? 'text-gray-400 border-gray-800' : 'text-gray-400 border-gray-200'}`}>
             Fleet Intelligence
           </span>
 
           {/* Direct Platform Guide Link */}
           <Link
             href="/guide"
-            className={`flex items-center gap-1.5 ml-2 px-2.5 py-1 rounded text-xs font-medium border transition ${
+            className={`hidden md:flex items-center gap-1.5 ml-2 px-2.5 py-1 rounded-lg text-xs font-medium border transition ${
               isDark 
                 ? 'border-gray-800 bg-[#0e1014] text-gray-300 hover:text-white hover:border-gray-700' 
                 : 'border-gray-200 bg-gray-50 text-gray-700 hover:bg-gray-100 shadow-sm'
@@ -78,50 +98,61 @@ export const Header: React.FC<HeaderProps> = ({
           </Link>
         </div>
 
-        {/* Account Segment Switcher */}
-        <div className={`flex items-center border rounded-lg p-0.5 text-xs font-sans ${
+        {/* Account Segment Switcher (All 4 Accounts) */}
+        <div className={`flex items-center border rounded-lg p-0.5 text-xs font-sans overflow-x-auto max-w-full ${
           isDark ? 'border-gray-800 bg-[#07080a]' : 'border-gray-200 bg-gray-100'
         }`}>
           <button
             onClick={() => onSelectAccount('ALL')}
-            className={`px-3 py-1 rounded-md transition text-xs font-medium ${
+            className={`px-2.5 py-1 rounded-md transition text-xs font-medium whitespace-nowrap ${
               selectedAccount === 'ALL'
                 ? isDark ? 'bg-white text-black font-semibold' : 'bg-white text-black font-semibold shadow-sm'
                 : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
             }`}
           >
-            Portfolio
+            Portfolio (All 4)
           </button>
           <button
             onClick={() => onSelectAccount('A')}
-            className={`px-3 py-1 rounded-md transition text-xs font-medium ${
+            className={`px-2.5 py-1 rounded-md transition text-xs font-medium whitespace-nowrap ${
               selectedAccount === 'A'
                 ? isDark ? 'bg-white text-black font-semibold' : 'bg-white text-black font-semibold shadow-sm'
                 : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
             }`}
           >
-            Eastern Police (35 Docks)
+            A: Eastern (35)
           </button>
           <button
             onClick={() => onSelectAccount('B')}
-            className={`px-3 py-1 rounded-md transition text-xs font-medium ${
+            className={`px-2.5 py-1 rounded-md transition text-xs font-medium whitespace-nowrap ${
               selectedAccount === 'B'
                 ? isDark ? 'bg-white text-black font-semibold' : 'bg-white text-black font-semibold shadow-sm'
                 : isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
             }`}
           >
-            Aldermoor (14 Docks)
+            B: Aldermoor (14)
           </button>
           <button
             onClick={() => onSelectAccount('K')}
-            className={`px-3 py-1 rounded-md transition text-xs font-medium flex items-center gap-1.5 ${
+            className={`px-2.5 py-1 rounded-md transition text-xs font-medium whitespace-nowrap flex items-center gap-1 ${
               selectedAccount === 'K'
                 ? isDark ? 'bg-white text-black font-semibold' : 'bg-white text-black font-semibold shadow-sm'
                 : isDark ? 'text-amber-400 hover:text-white' : 'text-amber-800 hover:text-black'
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
-            <span className="font-bold">Kestrel Estates (Live Drop!)</span>
+            <span>K: Kestrel (1)</span>
+          </button>
+          <button
+            onClick={() => onSelectAccount('H')}
+            className={`px-2.5 py-1 rounded-md transition text-xs font-medium whitespace-nowrap flex items-center gap-1 ${
+              selectedAccount === 'H'
+                ? isDark ? 'bg-white text-black font-semibold' : 'bg-white text-black font-semibold shadow-sm'
+                : isDark ? 'text-emerald-400 hover:text-white' : 'text-emerald-800 hover:text-black'
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>H: Brindle (6)</span>
           </button>
         </div>
 

@@ -20,17 +20,18 @@
 
 ---
 
-### **[0:35 - 1:15] The Cockpit & All Accounts at a Glance**
-*(Show the top of the dashboard: point to the 3-Card Grid and Master Tally)*
+### **[0:35 - 1:15] The Cockpit & All 4 Accounts at a Glance**
+*(Show Portfolio Overview: point to the 4-Account Grid and Master Tally)*
 
-> "Look at our top screen: **all 3 accounts are permanently visible** in our Master Executive Tally:  
-> - **Eastern Counties Police Alliance:** 35 docks, $420,000 ARR.  
-> - **Aldermoor Industrial Group:** 14 docks, $168,000 ARR.  
-> - And our surprise live drop, **Kestrel Estates:** 1 dock, $14,000 ARR.  
+> "Look at our dashboard: **all 4 accounts are instantly accessible** in our Master Executive Tally:  
+> - **Eastern Counties Police Alliance (Account A):** 35 docks, $420,000 ARR, 239 sorties/wk.  
+> - **Aldermoor Industrial Group (Account B):** 14 docks, $168,000 ARR, 94 sorties/wk.  
+> - **Kestrel Estates (Account K - Drop):** 1 dock, $14,000 ARR (installer vanished, undeclared insurance).  
+> - **Brindle Harbour Authority (Account H - Live Drop):** 6 docks, $96,000 ARR (saves $400k/yr replacing patrol boats; container yard dock blocked by data protection).  
 > 
-> Across the portfolio, we manage **50 docks, $602,000 in signed ARR, and 333 weekly sorties**.  
+> Across the entire portfolio, we manage **56 docks, $698,000 in ARR, and 373 weekly sorties**.  
 > 
-> Notice our top right indicator: the system is in **Live Auto-Sync mode**, continuously polling the upstream MCP backend and streaming updates without refreshing the page."
+> Notice the top bar: we have a **3-lines hamburger menu** that collapses the navigation sidebar so our main screen is 100% minimal and uncluttered. And the **Sync** button connects directly to the live MCP endpoint to ingest new dropped accounts and signals in real-time."
 
 ---
 
@@ -41,8 +42,8 @@
 > Look at our **Pre-Meeting 60-Second Brief** for Inspector Karen Mbeki:  
 > Her temperature is *Guarded (74%)*, her last complaint was *Dock 4 satellite lock delay*, our win was *finding a missing person in 12 minutes*, and the **one phrase to avoid** is *'Don't mention Rhys's resignation'*. I click 'Copy Opening Line', and I know exactly how to lead the call.  
 > 
-> Next, look at **Drone Usage & Velocity**:  
-> Here is Plant 7 at Stallingborough: missions dropped by **35.7%** over 7 days. Our **Silent Drop Radar** instantly triggers a Yellow Churn Warning, identifies that it's a battery thermal lock, and alerts the Solution Engineer to fix the hardware while giving the CSM the exact words to reassure the plant manager."
+> Next, look at **Drone Usage Analytics**:  
+> Here in our **Vertical Column Bar Graph**, we see the exact sortie velocity across all operational facilities—from Westmere flying 142 sorties down to our grounded docks. Look at Plant 7: missions dropped by **35.7%** over 7 days. Our **Silent Drop Radar** instantly triggers a Yellow Churn Warning, identifies that it's a battery thermal lock, and alerts the Solution Engineer to fix the hardware while giving the CSM the exact words to reassure the plant manager. At Brindle Harbour, Quays 1 & 2 fly 36 nightly sorties replacing manned boats, while the container yard dock is flagged red because data protection has halted flights pending a DPIA."
 
 ---
 

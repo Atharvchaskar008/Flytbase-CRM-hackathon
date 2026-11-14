@@ -25,7 +25,7 @@ interface DroneUsageAnalyticsChartProps {
 interface FacilityUsage {
   id: string;
   name: string;
-  account: 'A' | 'B' | 'K';
+  account: 'A' | 'B' | 'K' | 'H';
   accountName: string;
   docks: number;
   weeklySorties: number;
@@ -85,6 +85,21 @@ const USAGE_DATA: FacilityUsage[] = [
     note: 'Automated 24/7 nighttime perimeter patrol. Zero security breaches.',
   },
   {
+    id: 'brindle_quays',
+    name: 'Brindle Harbour (Quays 1 & 2)',
+    account: 'H',
+    accountName: 'Brindle Harbour (Live Drop)',
+    docks: 4,
+    weeklySorties: 36,
+    prevWeeklySorties: 34,
+    velocityPct: 5.9,
+    nightPatrolPct: 88,
+    avgDurationMins: 45,
+    hoursSaved: 27.0,
+    status: 'nominal',
+    note: 'Nightly autonomous water patrol replacing manned patrol boats.',
+  },
+  {
     id: 'saltend',
     name: 'Saltend Petrochemicals Facility',
     account: 'B',
@@ -130,6 +145,36 @@ const USAGE_DATA: FacilityUsage[] = [
     note: 'Only flies training sorties; 0 live operational missions.',
   },
   {
+    id: 'brindle_quay3',
+    name: 'Brindle Harbour (Quay 3 Cargo)',
+    account: 'H',
+    accountName: 'Brindle Harbour (Live Drop)',
+    docks: 1,
+    weeklySorties: 4,
+    prevWeeklySorties: 6,
+    velocityPct: -33.3,
+    nightPatrolPct: 25,
+    avgDurationMins: 20,
+    hoursSaved: 1.3,
+    status: 'warning',
+    note: 'Irregular daytime surveillance; needs automated scheduling setup.',
+  },
+  {
+    id: 'brindle_container_yard',
+    name: 'Brindle Harbour (Container Yard)',
+    account: 'H',
+    accountName: 'Brindle Harbour (Live Drop)',
+    docks: 1,
+    weeklySorties: 0,
+    prevWeeklySorties: 0,
+    velocityPct: -100.0,
+    nightPatrolPct: 0,
+    avgDurationMins: 0,
+    hoursSaved: 0,
+    status: 'halt',
+    note: 'Grounded awaiting Elena Varga privacy assessment & DPIA signoff.',
+  },
+  {
     id: 'tarn_valley',
     name: 'Tarn Valley Force Command',
     account: 'A',
@@ -165,8 +210,8 @@ export const DroneUsageAnalyticsChart: React.FC<DroneUsageAnalyticsChartProps> =
   selectedAccount,
   isDark = false,
 }) => {
-  const [filterAccount, setFilterAccount] = useState<'ALL' | 'A' | 'B' | 'K'>(
-    selectedAccount === 'A' ? 'A' : selectedAccount === 'B' ? 'B' : selectedAccount === 'K' ? 'K' : 'ALL'
+  const [filterAccount, setFilterAccount] = useState<'ALL' | 'A' | 'B' | 'K' | 'H'>(
+    selectedAccount === 'A' ? 'A' : selectedAccount === 'B' ? 'B' : selectedAccount === 'K' ? 'K' : selectedAccount === 'H' ? 'H' : 'ALL'
   );
 
   const filteredFacilities = filterAccount === 'ALL'
@@ -178,7 +223,7 @@ export const DroneUsageAnalyticsChart: React.FC<DroneUsageAnalyticsChartProps> =
   const totalSorties = filteredFacilities.reduce((sum, f) => sum + f.weeklySorties, 0);
   const totalDocks = filteredFacilities.reduce((sum, f) => sum + f.docks, 0);
   const totalHoursSaved = filteredFacilities.reduce((sum, f) => sum + f.hoursSaved, 0);
-  const avgCostPerSortie = 8.20; // $8.20 per automated mission vs $1,250 manned
+  const avgCostPerSortie = totalSorties > 0 ? (totalDocks * 1000) / totalSorties : 0;
 
   return (
     <div className="space-y-6 font-sans">
@@ -202,46 +247,56 @@ export const DroneUsageAnalyticsChart: React.FC<DroneUsageAnalyticsChartProps> =
           </div>
 
           {/* Account Quick Filter */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 flex-wrap">
             <button
               onClick={() => setFilterAccount('ALL')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+              className={`px-2.5 py-1.5 rounded-xl text-xs font-bold border transition ${
                 filterAccount === 'ALL'
                   ? isDark ? 'bg-white text-black shadow-md' : 'bg-black text-white shadow-md'
                   : 'border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-300'
               }`}
             >
-              All (333 Sorties)
+              All (373 Sorties)
             </button>
             <button
               onClick={() => setFilterAccount('A')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+              className={`px-2.5 py-1.5 rounded-xl text-xs font-bold border transition ${
                 filterAccount === 'A'
                   ? isDark ? 'bg-white text-black shadow-md' : 'bg-black text-white shadow-md'
                   : 'border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-300'
               }`}
             >
-              Account A (Police)
+              A: Police
             </button>
             <button
               onClick={() => setFilterAccount('B')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+              className={`px-2.5 py-1.5 rounded-xl text-xs font-bold border transition ${
                 filterAccount === 'B'
                   ? isDark ? 'bg-white text-black shadow-md' : 'bg-black text-white shadow-md'
                   : 'border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-300'
               }`}
             >
-              Account B (Industrial)
+              B: Industrial
             </button>
             <button
               onClick={() => setFilterAccount('K')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+              className={`px-2.5 py-1.5 rounded-xl text-xs font-bold border transition ${
                 filterAccount === 'K'
                   ? isDark ? 'bg-white text-black shadow-md' : 'bg-black text-white shadow-md'
                   : 'border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-300'
               }`}
             >
-              Account K (Kestrel)
+              K: Kestrel
+            </button>
+            <button
+              onClick={() => setFilterAccount('H')}
+              className={`px-2.5 py-1.5 rounded-xl text-xs font-bold border transition ${
+                filterAccount === 'H'
+                  ? isDark ? 'bg-white text-black shadow-md' : 'bg-black text-white shadow-md'
+                  : 'border-gray-300 dark:border-gray-800 text-gray-700 dark:text-gray-300'
+              }`}
+            >
+              H: Brindle
             </button>
           </div>
         </div>
@@ -274,6 +329,67 @@ export const DroneUsageAnalyticsChart: React.FC<DroneUsageAnalyticsChartProps> =
             <span className="text-2xl font-bold font-mono text-emerald-700 dark:text-emerald-300">
               ${avgCostPerSortie.toFixed(2)} <span className="text-xs font-sans text-gray-500">vs $1,250</span>
             </span>
+          </div>
+        </div>
+
+        {/* Visual Vertical Column Bar Graph */}
+        <div className={`mt-6 p-5 rounded-2xl border space-y-4 ${
+          isDark ? 'border-gray-800 bg-[#0e1014]' : 'border-gray-200 bg-gray-50/70'
+        }`}>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-blue-600" />
+              <h4 className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+                Visual Sortie Volume by Facility (Vertical Column Graph)
+              </h4>
+            </div>
+            <div className="flex items-center gap-3 text-[10px] font-semibold text-gray-500 flex-wrap">
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-blue-600 inline-block"/> Nominal (&gt;20 sorties)</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-amber-500 inline-block"/> Caution (&lt;20 sorties)</span>
+              <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-rose-500 inline-block"/> Grounded / 0 Sorties</span>
+            </div>
+          </div>
+
+          {/* Bar Chart Canvas */}
+          <div className="h-52 pt-8 pb-3 px-2 flex items-end justify-between gap-2 sm:gap-4 border-b border-gray-300 dark:border-gray-800 overflow-x-auto">
+            {filteredFacilities.map((fac) => {
+              const heightPct = Math.max(6, Math.round((fac.weeklySorties / maxSorties) * 100));
+              const isHalt = fac.status === 'halt';
+              const isWarning = fac.status === 'warning';
+
+              return (
+                <div key={fac.id} className="flex-1 min-w-[40px] flex flex-col items-center h-full justify-end group relative">
+                  {/* Tooltip on hover */}
+                  <div className="absolute -top-10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 px-2 py-1 rounded bg-black text-white text-[10px] whitespace-nowrap shadow-lg">
+                    {fac.name}: {fac.weeklySorties} sorties ({fac.nightPatrolPct}% night)
+                  </div>
+
+                  {/* Value on top of bar */}
+                  <span className={`text-[11px] font-mono font-bold mb-1 ${
+                    isHalt ? 'text-rose-600' : isWarning ? 'text-amber-600' : 'text-blue-600 dark:text-blue-400'
+                  }`}>
+                    {fac.weeklySorties}
+                  </span>
+
+                  {/* Column Bar */}
+                  <div 
+                    style={{ height: `${heightPct}%` }}
+                    className={`w-full max-w-[42px] rounded-t-lg transition-all duration-500 shadow-sm ${
+                      isHalt 
+                        ? 'bg-gradient-to-t from-rose-600 to-rose-400' 
+                        : isWarning 
+                        ? 'bg-gradient-to-t from-amber-600 to-amber-400' 
+                        : 'bg-gradient-to-t from-blue-700 to-blue-500'
+                    }`}
+                  />
+
+                  {/* Facility label under bar */}
+                  <span className="text-[10px] font-medium text-gray-500 truncate max-w-[55px] mt-2 text-center" title={fac.name}>
+                    {fac.name.split(' ')[0]}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -613,9 +613,240 @@ export const initialCRMData: CRMStoreData = {
           keyTakeaways: ['Mandatory aerial equipment rider requirement', 'Dock is currently undeclared', 'Failure to declare voids third-party liability coverage']
         }
       ]
+    },
+    H: {
+      id: 'H',
+      name: 'Brindle Harbour Authority (Account H - Live Drop)',
+      badge: 'Maritime & Port Infrastructure',
+      business: 'Commercial maritime authority operating 6 docks across three quays and a container yard. Saves about $400,000 a year. Ready to expand to two more harbours.',
+      sold: '6 FlytBase DiaB Units installed across quays and container yard.',
+      whyItMatters: 'Anchor maritime logistics account ($96k ARR). Quays 1 & 2 fly nightly, but container yard dock is blocked by data protection. Rollout contractor Tom Reyes leaves next month with all operational knowledge in his head!',
+      handoverNote: 'Marcus Hale is a strong champion claiming $400k savings. However, Finance Director Priya Nair will not renew without seeing audited line-item savings in the accounts. Elena Varga (Data Protection) is blocking the container yard dock because the vendor never replied to her data retention inquiry.',
+      contractValue: 96000,
+      expansionPotential: 200000,
+      healthScore: 60,
+      people: [
+        {
+          id: 'h_marcus_tbw',
+          name: 'Marcus Hale',
+          role: 'Head of Port Operations (Champion)',
+          account: 'H',
+          band: 'ally',
+          trustScore: 85,
+          about: 'Operational champion. Estimates the drone docks save $400k/yr by replacing manned security patrol boats and vehicles.',
+          isChampion: true,
+          isUser: true,
+          keyConcerns: 'Wants to expand to two more harbours; needs written SOPs before contractor Tom Reyes departs.'
+        },
+        {
+          id: 'h_priya_tbw',
+          name: 'Priya Nair',
+          role: 'Finance Director (Economic Buyer / Gatekeeper)',
+          account: 'H',
+          band: 'guarded',
+          trustScore: 40,
+          about: 'Priya signs the renewal check. She has not seen the workings behind Marcus\'s $400k savings claim and warns she will NOT renew on unverified savings.',
+          isPayer: true,
+          isDecisionMaker: true,
+          isBlocker: true,
+          keyConcerns: 'Demands hard audit reconciliation of dock fees against reduced patrol boat contractor invoices.'
+        },
+        {
+          id: 'h_elena_tbw',
+          name: 'Elena Varga',
+          role: 'Data Protection Lead (Compliance Blocker)',
+          account: 'H',
+          band: 'neutral',
+          trustScore: 50,
+          about: 'Refuses to sign the privacy assessment for the container yard dock until vendor provides video data retention and storage terms.',
+          isBlocker: true,
+          keyConcerns: 'Vendor went silent in the spring; yard dock remains grounded pending GDPR/privacy compliance.'
+        },
+        {
+          id: 'h_tom_tbw',
+          name: 'Tom Reyes',
+          role: 'Rollout Contractor (Operational Knowledge Holder)',
+          account: 'H',
+          band: 'warm',
+          trustScore: 75,
+          about: 'Contract ends next month. Launch steps, patrol routes, and alert rotas are in his head; nothing is written down.',
+          isUser: true,
+          keyConcerns: 'Severe single-point-of-failure risk if knowledge is not documented in a formal SOP before he leaves.'
+        },
+        {
+          id: 'h_sam_tbw',
+          name: 'Sam Okoye',
+          role: 'IT Infrastructure Manager',
+          account: 'H',
+          band: 'neutral',
+          trustScore: 52,
+          about: 'IT was not involved in installs. All yard devices move to a segmented network in the autumn.',
+          keyConcerns: 'Drone dock network requirements must be mapped before autumn network segmentation.'
+        }
+      ],
+      deals: [
+        {
+          id: 'h_renewal_tbw',
+          title: 'Annual Port DiaB Platform License (6 Docks)',
+          account: 'H',
+          stage: 'qualified',
+          value: 96000,
+          verifiedValue: 96000,
+          isVerified: true,
+          confidenceScore: 75,
+          citations: ['h_flight_log_tbw', 'h_saving_claim_tbw'],
+          deciderId: 'h_priya_tbw',
+          payerId: 'h_priya_tbw',
+          blockerId: 'h_priya_tbw',
+          blockerReason: 'Finance director Priya Nair cannot see the savings Marcus claims in official accounts.',
+          unlockCondition: 'Deliver reconciled contractor patrol reduction audit to Priya Nair.',
+          targetDate: 'Day 25',
+          renewalWindowEnd: 'Minute 216000'
+        },
+        {
+          id: 'h_yard_tbw',
+          title: 'Container Yard Dock Go-Live & Privacy Clearance',
+          account: 'H',
+          stage: 'qualified',
+          value: 30000,
+          verifiedValue: 0,
+          isVerified: false,
+          confidenceScore: 50,
+          citations: ['h_dp_request_tbw', 'h_yard_blocked_tbw'],
+          deciderId: 'h_elena_tbw',
+          payerId: 'h_priya_tbw',
+          blockerId: 'h_elena_tbw',
+          blockerReason: 'Privacy assessment blocked awaiting vendor data retention and storage documentation.',
+          unlockCondition: 'Deliver FlytBase GDPR Data Privacy Impact Assessment (DPIA) to Elena Varga.',
+          targetDate: 'Day 10'
+        },
+        {
+          id: 'h_rollout_pack_tbw',
+          title: 'Port Operations Playbook & Knowledge Transfer Package',
+          account: 'H',
+          stage: 'identified',
+          value: 12000,
+          verifiedValue: 12000,
+          isVerified: true,
+          confidenceScore: 85,
+          citations: ['h_contractor_leaving_tbw'],
+          deciderId: 'h_marcus_tbw',
+          payerId: 'h_priya_tbw',
+          blockerReason: 'Contractor Tom Reyes departs next month.',
+          unlockCondition: 'Codify flight routes and alert rota into FlytBase Cloud SOP.',
+          targetDate: 'Before Tom Reyes Exit'
+        }
+      ],
+      actions: [
+        {
+          id: 'act_h_1',
+          rank: 1,
+          title: 'Deliver GDPR Data Retention Package to Elena Varga for Container Yard Clearance',
+          account: 'H',
+          dealId: 'h_yard_tbw',
+          owner: 'CSM (You) + Compliance Lead',
+          deadline: 'Immediate (Within 48 Hours)',
+          businessReason: 'Elena asked for data retention details in the spring and was ignored. Providing this document unblocks the idle container yard dock.',
+          expectedOutcome: 'Privacy assessment approved, unblocking flights at the container yard.',
+          evidenceNeeded: ['h_dp_request_tbw', 'h_vendor_silent_tbw'],
+          status: 'pending'
+        },
+        {
+          id: 'act_h_2',
+          rank: 2,
+          title: 'Conduct Knowledge Transfer Sprint with Tom Reyes Before Contract Ends',
+          account: 'H',
+          dealId: 'h_rollout_pack_tbw',
+          owner: 'CSM (You) + Solutions Engineer',
+          deadline: 'Next Week',
+          businessReason: 'Tom leaves next month. All patrol routes and alert rotas are solely in his head.',
+          expectedOutcome: 'Operational playbook fully documented in FlytBase Cloud.',
+          evidenceNeeded: ['h_contractor_leaving_tbw'],
+          status: 'pending'
+        },
+        {
+          id: 'act_h_3',
+          rank: 3,
+          title: 'Submit Reconciled Patrol Boat Cost Substitution Audit to Priya Nair',
+          account: 'H',
+          dealId: 'h_renewal_tbw',
+          owner: 'CSM (You)',
+          deadline: 'Prior to Renewal Decision',
+          businessReason: 'Priya signs the renewal check and will not renew on unverified savings claims.',
+          expectedOutcome: 'Priya signs off on $96,000 contract renewal.',
+          evidenceNeeded: ['h_finance_renewal_tbw', 'h_flight_log_tbw'],
+          status: 'pending'
+        }
+      ],
+      risks: [
+        {
+          id: 'risk_h_1',
+          title: 'Finance Rejection of $96k Renewal on Unsubstantiated Savings',
+          account: 'H',
+          severity: 'critical',
+          category: 'contract_stalemate',
+          deadlineDate: 'Renewal Decision',
+          daysRemaining: 15,
+          consequence: 'Priya Nair cancels the 6-dock platform contract due to lack of verifiable financial ROI.',
+          mitigationPlan: 'Deliver line-item audit proving dock fixed costs replaced $400,000 in manned security boats.',
+          owner: 'CSM'
+        },
+        {
+          id: 'risk_h_2',
+          title: 'Operational Brain Drain: Rollout Contractor Tom Reyes Exits Next Month',
+          account: 'H',
+          severity: 'high',
+          category: 'stakeholder_cold',
+          deadlineDate: 'End of Month',
+          daysRemaining: 20,
+          consequence: 'No documented flight routes or alert procedures; operations collapse after Tom leaves.',
+          mitigationPlan: 'Execute 3-day knowledge capture workshop and publish cloud flight SOP.',
+          owner: 'CSM + SE'
+        }
+      ],
+      blindSpots: [
+        {
+          id: 'blind_h_1',
+          account: 'H',
+          question: 'What specific network ports and bandwidth does the dock require before Sam Okoye migrates to the segmented yard network?',
+          whyItMatters: 'If IT segments the network without dock firewall rules, all 6 docks will lose connectivity in the autumn.',
+          whoCouldAnswer: 'Sam Okoye (IT Manager) or FlytBase Network Spec',
+          potentialImpact: 'Total fleet communication blackout across the port.',
+          suggestedAsk: 'Provide FlytBase IoT firewall specification to Sam Okoye.'
+        }
+      ],
+      paperwork: [
+        {
+          id: 'h_flight_log_tbw',
+          account: 'H',
+          title: 'Brindle Harbour Authority 3-Month Quay Flight Log',
+          path: 'drops/H/files/h_flight_log_tbw',
+          type: 'Telemetry Log',
+          summary: 'Confirms Quays 1 & 2 fly nightly. Quay 3 flies weekly. Container yard dock has 0 flights.',
+          keyTakeaways: ['Quays 1 & 2 high utilization', 'Quay 3 weekly inspection', 'Container yard 0 flights']
+        },
+        {
+          id: 'h_dp_request_tbw',
+          account: 'H',
+          title: 'Elena Varga Data Protection Request (Spring Archive)',
+          path: 'drops/H/files/h_dp_request_tbw',
+          type: 'Compliance Request',
+          summary: 'Data protection inquiry regarding video footage storage and retention. Vendor failed to respond.',
+          keyTakeaways: ['Formal DPIA blocker', 'Vendor silence damaged trust']
+        }
+      ]
     }
   },
   signals: [
+    {
+      id: 'brindle_drop',
+      account: 'H',
+      dated: '2026-11-14',
+      title: 'Brindle Harbour Authority: Account Drop - 6 Docks, $96k ARR, Container Yard Blocked',
+      summary: 'Port maritime authority assigned! 6 docks installed ($96k ARR), saving $400,000/yr. Quays 1 & 2 fly nightly, but container yard dock is blocked by data protection (Elena Varga). Rollout contractor Tom Reyes leaves next month, and Finance Director Priya Nair demands audited proof of savings to renew.',
+      impactLevel: 'high',
+      read: false
+    },
     {
       id: 'kestrel_drop',
       account: 'K',

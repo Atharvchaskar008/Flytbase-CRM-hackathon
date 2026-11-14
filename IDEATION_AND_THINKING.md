@@ -34,7 +34,7 @@ In traditional enterprise SaaS (like Salesforce or HubSpot), customer success is
 
 ### Principle 3: "Book with Receipts" (Zero Fake Numbers)
 - In hackathons and real business, people love to throw around inflated numbers ("$2M pipeline").
-- We strictly enforce **Zero Mock Hallucinations**. Every single dollar in our $602,000 signed ARR cites an audit-grade Purchase Order number (`PO-ECPA-2024-001`, `AIG-ENT-2023-88`) and links directly to the verified Data Room.
+- We strictly enforce **Zero Mock Hallucinations**. Every single dollar in our **$698,000 portfolio ARR** cites an audit-grade Purchase Order number (`PO-ECPA-2024-001`, `AIG-ENT-2023-88`, `BHA-PORT-2024-06`) and links directly to the verified Data Room.
 
 ### Principle 4: Turn Financial Audits into Automated Customer Value
 - On the **28th of every month**, the platform automatically compiles a verified 1-page **CFO Proof of Value Packet**.
@@ -42,9 +42,11 @@ In traditional enterprise SaaS (like Salesforce or HubSpot), customer success is
   $$\text{\$1,000 dock cost vs. \$3,500/hr traditional helicopter cost = \$42,000 net monthly taxpayer savings}$$
 - With one click, the client's finance controller receives a board-ready PDF that makes contract renewal automatic.
 
-### Principle 5: Resilience Under Chaos (The Surprise Drop)
-- When the game world dropped **Account K (Kestrel Estates)** into the system—1 dock paid ($14,000), 0 flying, vanished installer, unnotified property insurance, and a residents' board meeting on Monday—our architecture didn't crash.
-- It dynamically ingested the data, created an aerial insurance rider for Lucy Pratt, reserved 2 seats for staff in pilot training, and prepared an entrance patrol presentation for Graham Okafor.
+### Principle 5: Resilience Under Chaos (Live Drops: Account K & Account H)
+- When the game world dropped **Account K (Kestrel Estates)** and **Account H (Brindle Harbour Authority)** into the system:
+  - **Account K:** 1 dock paid ($14,000), 0 flying, vanished installer, unnotified property insurance, and a residents' board meeting on Monday.
+  - **Account H:** 6 docks ($96,000 ARR, saving $400k/yr replacing patrol boats). Quays 1 & 2 fly nightly, but container yard dock is blocked by data protection (Elena Varga), contractor Tom Reyes departs next month, and Finance Director Priya Nair demands audited proof of savings to renew.
+- Our architecture dynamically ingested the data via MCP, created the DPIA compliance package for Elena Varga, prepared the patrol cost audit for Priya Nair, and maintained uninterrupted service across all **56 docks**.
 
 ---
 

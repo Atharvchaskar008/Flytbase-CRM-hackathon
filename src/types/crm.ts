@@ -1,4 +1,4 @@
-export type AccountId = 'A' | 'B' | 'K' | string;
+export type AccountId = 'A' | 'B' | 'K' | 'H' | string;
 
 export interface Character {
   id: string;
